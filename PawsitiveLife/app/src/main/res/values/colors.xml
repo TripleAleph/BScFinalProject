@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- palette -->
+    <color name="malibu_50">#f0f9ff</color>
+    <color name="malibu_100">#dff2ff</color>
+    <color name="malibu_200">#b9e6fe</color>
+    <color name="malibu_300">#7bd5fe</color>
+    <color name="malibu_400">#43c4fc</color>
+    <color name="malibu_500">#0aa8ed</color>
+    <color name="malibu_600">#0086cb</color>
+    <color name="malibu_700">#006ba4</color>
+    <color name="malibu_800">#055b87</color>
+    <color name="malibu_900">#0a4b70</color>
+    <color name="malibu_950">#072f4a</color>
+
+    <color name="sunglow_50">#fefae8</color>
+    <color name="sunglow_100">#fdf3c4</color>
+    <color name="sunglow_200">#fce58c</color>
+    <color name="sunglow_300">#faca39</color>
+    <color name="sunglow_400">#f7b618</color>
+    <color name="sunglow_500">#e79d0b</color>
+    <color name="sunglow_600">#c77807</color>
+    <color name="sunglow_700">#9f5509</color>
+    <color name="sunglow_800">#834310</color>
+    <color name="sunglow_900">#703713</color>
+    <color name="sunglow_950">#411b07</color>
+
+
+    <color name="french_rose_50">#fff1f3</color>
+    <color name="french_rose_100">#ffe4e9</color>
+    <color name="french_rose_200">#fecdd8</color>
+    <color name="french_rose_300">#fda4b8</color>
+    <color name="french_rose_400">#fb7193</color>
+    <color name="french_rose_500">#f54e7c</color>
+    <color name="french_rose_600">#e11d5c</color>
+    <color name="french_rose_700">#be124e</color>
+    <color name="french_rose_800">#9f1248</color>
+    <color name="french_rose_900">#881343</color>
+    <color name="french_rose_950">#4c0520</color>
+
+
+    <color name="alto_50">#f7f7f7</color>
+    <color name="alto_100">#ededed</color>
+    <color name="alto_200">#d6d6d6</color>
+    <color name="alto_300">#c8c8c8</color>
+    <color name="alto_400">#adadad</color>
+    <color name="alto_500">#999999</color>
+    <color name="alto_600">#888888</color>
+    <color name="alto_700">#7b7b7b</color>
+    <color name="alto_800">#676767</color>
+    <color name="alto_900">#545454</color>
+    <color name="alto_950">#363636</color>
+
+
+</resources>

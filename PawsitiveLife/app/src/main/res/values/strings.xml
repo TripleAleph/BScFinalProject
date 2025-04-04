@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">PawsitiveLife</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- fragment_my_dogs -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hi_noa">Hi Noa,</string>
+    <string name="your_pack_is_happy_to_see_you">Your pack is happy to see you!</string>
+    <string name="your_pack">Your pack</string>
+    <string name="chubbie">Chubbie</string>
+    <string name="_1_year">1 year</string>
+    <string name="upcoming_events">Upcoming Events</string>
+    <string name="see_all">See all</string>
+</resources>
