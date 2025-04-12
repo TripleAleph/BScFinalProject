@@ -5,10 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
-    android:paddingTop="4dp">
+    android:padding="16dp">
 
     <!-- Greeting section at the top: "Hi Noa", profile image -->
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -225,5 +222,7 @@
         android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
   />
+
+
 
 </RelativeLayout>
