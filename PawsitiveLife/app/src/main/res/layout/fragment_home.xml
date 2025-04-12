@@ -1,22 +1,377 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    android:fillViewport="true"
+    tools:context=".ui.home.HomeFragment"
+    android:background="@drawable/gradient_bg">
 
-    <TextView
-        android:id="@+id/text_home"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:padding="16dp">
+
+        <!-- Greeting section at the top: "Hi Noa", profile image -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/home_LAYOUT_topGreeting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Greeting texts: name and message -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Main greeting: name-->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/home_LBL_nameGreeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hi_noa"
+                    android:textColor="@color/black"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+                <!-- Sub-message below the name -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/greeting_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text="@string/your_pack_is_happy_to_see_you"
+                    android:textColor="@color/black"
+
+                    android:textSize="18sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <!-- Profile image (owner) with outer stroke -->
+            <FrameLayout
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_margin="4dp"
+                android:elevation="8dp">
+
+                <!-- Outer border circle -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circular_border" />
+
+                <!-- Actual profile image -->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/owner_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_profile"
+                    app:shapeAppearanceOverlay="@style/Circular" />
+            </FrameLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Label: Your pack -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/home_LBL_packtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/home_LAYOUT_topGreeting"
+            android:layout_alignParentStart="true"
+            android:paddingStart="16dp"
+            android:text="@string/your_pack"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:ignore="RtlSymmetry" />
+
+        <!-- Horizontal scroll of dog cards (the pack) -->
+        <HorizontalScrollView
+            android:id="@+id/home_SCROLL_packScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/home_LBL_packtext">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Card 1: Dog info -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/home_CARD_dogCard"
+                    android:layout_width="150dp"
+                    android:layout_height="190dp"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Dog image -->
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="140dp"
+                            android:layout_gravity="center_horizontal"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/img_chubbie"
+                            app:shapeAppearanceOverlay="@style/NormalCorners" />
+
+                        <!-- Dog name and age -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingRight="34dp">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="16dp"
+                                    android:paddingTop="3dp"
+                                    android:text="@string/chubbie"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="16dp"
+                                    android:paddingBottom="4dp"
+                                    android:text="@string/_1_year"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <!-- Icon: gender -->
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:paddingTop="12dp"
+                                android:src="@drawable/ic_male" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Card 2: Add new dog -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/home_CARD_addDog"
+                    android:layout_width="150dp"
+                    android:layout_height="190dp"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp">
+
+                    <!-- Plus icon to add dog -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:padding="16dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_add_circle" />
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Map section title -->
+        <TextView
+            android:id="@+id/home_LBL_mapTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/home_SCROLL_packScrollView"
+            android:layout_marginTop="16dp"
+            android:paddingStart="16dp"
+            android:text="Nearby Dog Parks"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <!-- CardView container for placeholder map image (will be replaced with real map later) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/home_MAP_container"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/home_LBL_mapTitle"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:shapeAppearanceOverlay="@style/NormalCorners">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/map_placeholder" />
+
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- calender -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/home_LBL_calHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/home_MAP_container"
+            android:text="What’s Coming Up?"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:padding="16dp"/>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/home_CARD_calendarContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_below="@id/home_LBL_calHeader"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp"
+            android:layout_centerHorizontal="true">
+
+            <CalendarView
+                android:id="@+id/home_CAL_calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.cardview.widget.CardView>
+
+
+<!-- Tips Section: header("Healthy Dog, Happy Life") -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/home_LBL_tipsHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/home_CARD_calendarContainer"
+            android:padding="16dp"
+            android:text="Healthy Dog, Happy Life"
+            android:textSize="18sp"
+            android:textColor="@color/black" />
+
+        <!-- Tips scroll view -->
+        <HorizontalScrollView
+            android:id="@+id/home_SCROLL_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/home_LBL_tipsHeader">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Card 1 -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Dog image -->
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="140dp"
+                            android:layout_gravity="center_horizontal"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/img_chubbie"
+                            app:shapeAppearanceOverlay="@style/NormalCorners" />
+
+                        <!-- Dog name and age -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingRight="34dp">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="16dp"
+                                    android:paddingTop="2dp"
+                                    android:text="@string/chubbie"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="16dp"
+                                    android:paddingBottom="4dp"
+                                    android:text="@string/_1_year"
+
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <!-- Icon: gender -->
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:paddingTop="12dp"
+                                android:src="@drawable/ic_male" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Card 2: Add new dog -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp">
+
+                    <!-- Plus icon to add dog -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:padding="16dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_add_circle" />
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+
+
+
+
+
+    </RelativeLayout> <!-- END: Don't write below -->
+</ScrollView>

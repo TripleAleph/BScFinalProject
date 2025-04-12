@@ -40,4 +40,13 @@
         <item name="cornerSize">0dp</item>
     </style>
 
+    <!-- Buttons -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- ... -->
+    </style>
+
+
+
+
+
 </resources>
