@@ -1,0 +1,313 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/lima_100"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+
+        <!-- Medication Name Title -->
+        <TextView
+            android:id="@+id/meds_LBL_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Medication Name"
+            android:textColor="#3b6f1c"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Medication Name Box -->
+        <LinearLayout
+            android:id="@+id/meds_BOX_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/info_box_round_corners"
+            android:backgroundTint="@color/lima_100"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_LBL_name">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_medicine"
+                app:tint="@color/lima_800" />
+
+            <EditText
+                android:id="@+id/meds_EDT_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Enter medication name"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+        <!-- Reason Title -->
+        <TextView
+            android:id="@+id/meds_LBL_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Reason"
+            android:textColor="#3b6f1c"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_BOX_name" />
+
+        <!-- Reason Box -->
+        <LinearLayout
+            android:id="@+id/meds_BOX_reason"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/info_box_round_corners"
+            android:backgroundTint="@color/lima_100"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_LBL_reason">
+
+            <EditText
+                android:id="@+id/meds_EDT_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Reason for medication"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+        <!-- Upload Photo Box -->
+        <LinearLayout
+            android:id="@+id/meds_BOX_upload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_BOX_reason">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/meds_IMG_photo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/info_box_round_corners"
+                android:backgroundTint="@color/light_gray_background"
+                android:padding="12dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/add_image"
+                app:tint="@color/alto_300"
+                android:elevation="4dp"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/meds_BTN_addPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/lima_300"
+                android:text="Add photo"
+                android:textAllCaps="false"
+                android:textColor="@color/lima_800"
+                app:cornerRadius="16dp" />
+        </LinearLayout>
+
+        <!-- Amount and Dose Titles + Boxes -->
+        <TextView
+            android:id="@+id/meds_LBL_amount_dose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Amount and Dose"
+            android:textColor="#3b6f1c"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_BOX_upload" />
+
+        <LinearLayout
+            android:id="@+id/meds_BOX_amount_dose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_LBL_amount_dose">
+
+            <!-- Amount -->
+            <LinearLayout
+                android:id="@+id/meds_BOX_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/info_box_round_corners"
+                android:backgroundTint="@color/lima_100"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_pill_amount"
+                    app:tint="@color/lima_800" />
+
+                <Spinner
+                    android:id="@+id/meds_SPN_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+
+            <!-- Dose -->
+            <LinearLayout
+                android:id="@+id/meds_BOX_dose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/info_box_round_corners"
+                android:backgroundTint="@color/lima_100"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_pill_dose"
+                    app:tint="@color/lima_800" />
+
+                <Spinner
+                    android:id="@+id/meds_SPN_dose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Frequency Title -->
+        <TextView
+            android:id="@+id/meds_LBL_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Frequency"
+            android:textColor="#3b6f1c"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_BOX_amount_dose" />
+
+        <!-- Frequency Box -->
+        <LinearLayout
+            android:id="@+id/meds_BOX_frequency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/info_box_round_corners"
+            android:backgroundTint="@color/lima_100"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_LBL_frequency">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_cal"
+                app:tint="@color/lima_800" />
+
+            <Spinner
+                android:id="@+id/meds_SPN_frequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+
+
+        <!-- Notes Box -->
+
+        <TextView
+            android:id="@+id/meds_LBL_notesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Frequency"
+            android:textColor="#3b6f1c"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_BOX_frequency" />
+
+        <LinearLayout
+            android:id="@+id/meds_BOX_notes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/info_box_round_corners"
+            android:backgroundTint="@color/lima_100"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_LBL_notesTitle">
+
+            <EditText
+                android:id="@+id/meds_EDT_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="top|start"
+                android:hint="Write any additional notes..."
+                android:minLines="3"
+                android:textColor="@color/sunglow_700" />
+        </LinearLayout>
+
+        <!-- Save Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/meds_BTN_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/lima_300"
+            android:text="Save Medication"
+            android:textAllCaps="false"
+            android:textColor="@color/lima_800"
+            app:cornerRadius="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/meds_BOX_notes" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

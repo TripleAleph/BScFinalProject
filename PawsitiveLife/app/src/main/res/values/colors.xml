@@ -59,5 +59,56 @@
     <color name="alto_900">#545454</color>
     <color name="alto_950">#363636</color>
 
+    <color name="light_gray_background">#F0F2F5</color>
+    <color name="light_gray_">#141414</color>
+
+    <color name="lima_50">#f3fbea</color>
+    <color name="lima_100">#e3f6d1</color>
+    <color name="lima_200">#c9eea8</color>
+    <color name="lima_300">#a5e175</color>
+    <color name="lima_400">#85d14a</color>
+    <color name="lima_500">#71cb31</color>
+    <color name="lima_600">#4c911f</color>
+    <color name="lima_700">#3b6f1c</color>
+    <color name="lima_800">#33581c</color>
+    <color name="lima_900">#2c4b1c</color>
+    <color name="lima_950">#14290a</color>
+
+
+    <color name="buttercup_50">#fffaeb</color>
+    <color name="buttercup_100">#fdf0c8</color>
+    <color name="buttercup_200">#fbe18c</color>
+    <color name="buttercup_300">#f9cb50</color>
+    <color name="buttercup_400">#f7b526</color>
+    <color name="buttercup_500">#f1950f</color>
+    <color name="buttercup_600">#d5700a</color>
+    <color name="buttercup_700">#b14d0c</color>
+    <color name="buttercup_800">#903c10</color>
+    <color name="buttercup_900">#763211</color>
+    <color name="buttercup_950">#441804</color>
+
+    <color name="atomic_tangerine_50">#fff5ed</color>
+    <color name="atomic_tangerine_100">#ffe9d4</color>
+    <color name="atomic_tangerine_200">#ffcea8</color>
+    <color name="atomic_tangerine_300">#ffac71</color>
+    <color name="atomic_tangerine_400">#ff8b4d</color>
+    <color name="atomic_tangerine_500">#fe5a11</color>
+    <color name="atomic_tangerine_600">#ef3f07</color>
+    <color name="atomic_tangerine_700">#c62c08</color>
+    <color name="atomic_tangerine_800">#9d250f</color>
+    <color name="atomic_tangerine_900">#7e2110</color>
+    <color name="atomic_tangerine_950">#440d06</color>
+
+    <color name="spindle_50">#eff7ff</color>
+    <color name="spindle_100">#dbecfe</color>
+    <color name="spindle_200">#bfdffe</color>
+    <color name="spindle_300">#a9d6fd</color>
+    <color name="spindle_400">#61aff9</color>
+    <color name="spindle_500">#3c8ef5</color>
+    <color name="spindle_600">#2670ea</color>
+    <color name="spindle_700">#1e5ad7</color>
+    <color name="spindle_800">#1f49ae</color>
+    <color name="spindle_900">#1f4189</color>
+    <color name="spindle_950">#172954</color>
 
 </resources>

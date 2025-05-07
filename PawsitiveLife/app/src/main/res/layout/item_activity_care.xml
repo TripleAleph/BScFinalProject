@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:paddingEnd="8dp"
+    android:paddingStart="8dp"
+    android:paddingBottom="8dp">
+
+    <LinearLayout
+        android:id="@+id/item_CONTAINER_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/info_box_round_corners"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_IMG_icon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:padding="10dp"
+            android:src="@drawable/dog_walking"
+            android:scaleType="centerInside"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/item_LBL_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Walk"
+        android:textColor="@color/malibu_800"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+</LinearLayout>

@@ -14,5 +14,16 @@
         <!-- Customize your theme here. -->
         <item name="android:windowFullscreen">true</item>
 
+        <item name="android:windowBackground">@color/white</item>
+        <item name="fontFamily">@font/varela_round_regular</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.PawsitiveLife" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 </resources>

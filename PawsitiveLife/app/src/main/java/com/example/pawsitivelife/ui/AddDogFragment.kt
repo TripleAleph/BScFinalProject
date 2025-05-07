@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.example.pawsitivelife.databinding.FragmentAddDogBinding
 import com.example.pawsitivelife.R
-class AddDogFragment : Fragment() {
+import com.example.pawsitivelife.databinding.FragmentAddDogBinding
+
+class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
 
     private var _binding: FragmentAddDogBinding? = null
     private val binding get() = _binding!!
@@ -25,12 +25,8 @@ class AddDogFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // כפתור חזרה
-        binding.addDogBTNBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
 
-        // כפתורי מגדר
+        // gender buttons
         binding.maleButton.setOnClickListener {
             selectGender("Male")
         }

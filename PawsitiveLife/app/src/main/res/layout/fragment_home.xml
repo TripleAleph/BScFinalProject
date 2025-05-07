@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.home.HomeFragment"
-    android:background="@drawable/gradient_bg">
+    tools:context=".ui.home.HomeFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:layout_gravity="top"
                 android:padding="16dp">
 
                 <!-- Main greeting: name-->
@@ -47,35 +47,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
-                    android:text="@string/your_pack_is_happy_to_see_you"
+                    android:text="Happy to see you!"
                     android:textColor="@color/black"
 
                     android:textSize="18sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!-- Profile image (owner) with outer stroke -->
-            <FrameLayout
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_margin="4dp"
-                android:elevation="8dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_margin="4dp">
 
-                <!-- Outer border circle -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/circular_border" />
+                <FrameLayout
+                    android:id="@+id/home_FRAME_profile"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:elevation="8dp">
 
-                <!-- Actual profile image -->
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/owner_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_profile"
-                    app:shapeAppearanceOverlay="@style/Circular" />
-            </FrameLayout>
+                    <!-- Outer border circle -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/circular_border" />
+
+                    <!-- Actual profile image -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/owner_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_profile"
+                        app:shapeAppearanceOverlay="@style/Circular" />
+                </FrameLayout>
+
+                <!-- Username label -->
+                <TextView
+                    android:id="@+id/home_LBL_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="\@username"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+            </LinearLayout>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <!-- Label: Your pack -->
@@ -113,6 +133,7 @@
                     app:cardElevation="10dp">
 
                     <LinearLayout
+                        android:id="@+id/home_CARD_Dog1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -259,7 +280,7 @@
         </androidx.cardview.widget.CardView>
 
 
-<!-- Tips Section: header("Healthy Dog, Happy Life") -->
+        <!-- Tips Section: header("Healthy Dog, Happy Life") -->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/home_LBL_tipsHeader"
             android:layout_width="match_parent"

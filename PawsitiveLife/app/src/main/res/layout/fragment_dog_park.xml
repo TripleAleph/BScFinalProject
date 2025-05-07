@@ -1,0 +1,136 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header (delete) -->
+        <TextView
+            android:id="@+id/dogPark_TXT_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dog park"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#141414"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Default Park Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your favorite dog park"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#141414" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Marina Park"
+                    android:textSize="14sp"
+                    android:textColor="#3E4D5B"
+                    android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/dogPark_BTN_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/alto_100"
+                    android:text="Change"
+                    android:textAllCaps="false"
+                    android:elevation="2dp"
+                    android:layout_margin="2dp"
+                    android:textColor="@color/alto_800"
+                    app:cornerRadius="16dp" />
+
+            </LinearLayout>
+
+            <!-- Image of selected park with rounded corners -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="120dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/dogPark_IMG_park"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/map_placeholder"
+                    app:shapeAppearanceOverlay="@style/NormalCorners" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Map -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="20dp"
+            android:layout_margin="12dp"
+            app:cardElevation="4dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/dogPark_IMG_map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/map_placeholder"
+                app:shapeAppearanceOverlay="@style/NormalCorners"
+                />
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dogPark_BTN_findNearby"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/malibu_200"
+            android:text="I'm coming!"
+            android:textAllCaps="false"
+            android:textColor="@color/malibu_900"
+            android:layout_margin="12dp"
+            app:cornerRadius="16dp" />
+
+
+        <!-- Section title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Who else is coming today?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#141414"
+            android:layout_marginBottom="12dp" />
+
+        <!-- RecyclerView of dogs -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/dogPark_RECYCLER_arrivals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:nestedScrollingEnabled="false" />
+    </LinearLayout>
+</ScrollView>

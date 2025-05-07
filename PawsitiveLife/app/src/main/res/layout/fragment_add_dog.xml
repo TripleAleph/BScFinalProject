@@ -9,105 +9,235 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
 
-        <!-- Back Button -->
-        <ImageButton
-            android:id="@+id/addDog_BTN_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="Back"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="@color/black" />
 
         <!-- Title Text -->
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/addDog_BTN_back"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:padding="16dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Yay!  Time to meet your furry friend!"
-            android:textColor="@color/french_rose_600"
-            android:textSize="32sp"
+            android:padding="16dp"
+            android:text="Time to meet your furry friend!"
+            android:textColor="@color/spindle_950"
+            android:textSize="22sp"
             android:textStyle="bold" />
+
+        <FrameLayout
+            android:id="@+id/dog_profile_image_container"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center">
+
+            <!-- Profile image -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/dog_profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_image_border"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_add_photo_alternate_24"
+                app:tint="@color/alto_200" />
+
+            <!-- Upload icon -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/dog_profile_upload_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="4dp"
+                android:contentDescription="Upload image"
+                app:backgroundTint="@color/white"
+                app:fabSize="mini"
+                app:icon="@drawable/baseline_arrow_circle_up_24"
+                app:iconSize="10dp"
+                app:tint="@color/french_rose_600" />
+        </FrameLayout>
 
 
         <!-- Dog Name Field -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dogNameInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/addDog_LBL_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/titleTextView"
-            android:layout_marginTop="32dp"
-            android:hint="Dog's Name"
-            app:boxStrokeColor="@color/french_rose_600"
+            android:paddingStart="8dp"
+            android:paddingBottom="6dp"
+            android:paddingTop="16dp"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_input_background"
+            android:hint=""
+            android:inputType="text"
+            android:padding="16dp"
+            android:textColor="#141414"
+            android:textColorHint="#3E4D5B"
+            android:textSize="16sp" />
+
+
+        <!-- Breed -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/breed_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:text="@string/breed"
+            android:textColor="#141414"
+            android:paddingStart="8dp"
+            android:paddingTop="16dp"
+            android:textStyle="bold" />
+
+        <!-- Breed Dropdown Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addDog_SPN_breedField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="select a breed"
+            android:paddingBottom="16dp"
+            app:boxStrokeColor="@color/light_gray_background"
             app:hintTextColor="@color/french_rose_600">
 
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/dogNameInput"
+            <AutoCompleteTextView
+                android:id="@+id/addDog_autoComp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:inputType="textPersonName"
-                android:textColor="@color/black" />
+                android:inputType="none"
+                android:labelFor="@+id/breed_input_layout" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/addDog_LBL_gender"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dogNameInputLayout"
-            android:layout_margin="16dp"
-            android:text="Gender"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/genderLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/maleButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            <!-- Gender Label -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/addDog_LBL_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:text="Male"
+                android:paddingEnd="16dp"
+                android:text="@string/gender"
                 android:textColor="@color/black"
-                app:cornerRadius="50dp"
-                app:strokeColor="@color/french_rose_600"
-                app:strokeWidth="1dp" />
+                android:textStyle="bold"
+                android:paddingStart="8dp"/>
 
+            <!-- Buttons Container -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/femaleButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/maleButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:text="Male"
+                    android:textColor="@color/black"
+                    app:cornerRadius="50dp"
+                    app:strokeColor="@color/french_rose_600"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/femaleButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/female"
+                    android:textColor="@color/black"
+                    app:cornerRadius="50dp"
+                    app:strokeColor="@color/french_rose_600"
+                    app:strokeWidth="1dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Age -->
+        <LinearLayout
+            android:id="@+id/age_selector_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Label: Age -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/addDog_LBL_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:text="Female"
+                android:layout_marginEnd="8dp"
+                android:text="@string/age_lbl"
                 android:textColor="@color/black"
-                app:cornerRadius="50dp"
-                app:strokeColor="@color/french_rose_600"
-                app:strokeWidth="1dp" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:textStyle="bold" />
 
+            <!-- Container for +/- and value -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- Plus button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addDog_BTN_AgeIncrease"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="48dp"
+                    android:layout_height="60dp"
+                    android:text="+"
+                    android:textColor="@color/french_rose_600"
+                    android:textSize="20sp"
+                    app:backgroundTint="@color/french_rose_100"
+                    app:cornerRadius="24dp"
+                    app:strokeColor="@color/french_rose_600" />
+
+                <!-- Age value -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/dog_age_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+                <!-- Minus button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addDog_BTN_AgeDecrease"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="48dp"
+                    android:layout_height="60dp"
+                    android:text="-"
+                    android:textColor="@color/french_rose_600"
+                    android:textSize="20sp"
+                    app:backgroundTint="@color/french_rose_100"
+                    app:cornerRadius="24dp"
+                    app:strokeColor="@color/french_rose_600" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- sterilization -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,19 +246,33 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sterilization"
+                android:layout_weight="1"
+                android:text="@string/sterilization"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                android:paddingTop="16dp"
-                android:layout_weight="1"/>
+                android:textStyle="bold"/>
 
-        <com.google.android.material.chip.Chip
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/add_dog_SWT_sterilization"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:thumbTint="@color/french_rose_500"
+                app:trackTint="@color/french_rose_100" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Save Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addDog_BTN_save"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:elevation="2dp"
+            android:text="@string/save"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/french_rose_500"
+            app:cornerRadius="50dp" />
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>
