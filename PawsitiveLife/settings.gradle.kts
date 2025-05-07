@@ -19,5 +19,14 @@ dependencyResolutionManagement {
     }
 }
 
+// I add
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+//
+
 rootProject.name = "PawsitiveLife"
 include(":app")

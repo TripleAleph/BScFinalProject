@@ -1,60 +1,109 @@
-package com.example.pawsitivelife.ui
+package com.example.pawsitivelife.ui.mydogs
 
+import ActivityCareAdapter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawsitivelife.R
+import com.example.pawsitivelife.databinding.FragmentDogProfileBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DogProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DogProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var _binding: FragmentDogProfileBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var dog: Dog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        // Example dog  (after, needs to accept a parameters)
+        dog = Dog(
+            name = "Chubbie",
+            breed = "Great Pyrenees Mix",
+            dateOfBirth = "September 14 2021",
+            color = "Golden",
+            neutered = true,
+            microchipped = true,
+            imageResId = R.drawable.img_chubbie
+        )
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dog_profile, container, false)
+    ): View {
+        _binding = FragmentDogProfileBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DogProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DogProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        populateDogData()
+        setupActivityCareTracker()
+
+        // Navigate to Edit Notes screen on Care Notes title click
+        binding.profileLBLEditNotesClick.setOnClickListener {
+            findNavController().navigate(R.id.action_dogProfileFragment_to_editNotesFragment)
+        }
+
+    }
+
+    private fun populateDogData() {
+        // Set dog image and name at the top
+        binding.profileIMGDog.setImageResource(dog.imageResId)
+        binding.profileLBLName.text = dog.name
+
+        // Prepare list of information items
+        val dogInfoItems = listOf(
+            DogInfoItem("Breed", dog.breed),
+            DogInfoItem("Date of Birth", dog.dateOfBirth),
+            DogInfoItem("Color", dog.color),
+            DogInfoItem("Neutered", if (dog.neutered) "Yes" else "No"),
+            DogInfoItem("Microchipped", if (dog.microchipped) "Yes" else "No")
+        )
+
+        // Setup RecyclerView
+        val adapter = DogInfoAdapter(dogInfoItems)
+        binding.profileLSTInfo.layoutManager = LinearLayoutManager(requireContext())
+        binding.profileLSTInfo.adapter = adapter
+    }
+
+    private fun setupActivityCareTracker() {
+        val activityCareItems = listOf(
+            ActivityCareItem(R.drawable.dog_walking, "Walk"),
+            ActivityCareItem(R.drawable.ic_food, "Feed"),
+            ActivityCareItem(R.drawable.ic_pills, "Medicine"),
+            ActivityCareItem(R.drawable.ic_training, "Training"),
+            ActivityCareItem(R.drawable.ic_weight, "Weight")
+        )
+
+        val activityCareAdapter = ActivityCareAdapter(activityCareItems) { item ->
+            when (item.title) {
+                "Walk" -> findNavController().navigate(R.id.action_dogProfileFragment_to_walksFragment)
+                "Medicine" -> findNavController().navigate(R.id.action_dogProfileFragment_to_medicationFragment)
+                "Feed" -> findNavController().navigate(R.id.action_dogProfileFragment_to_feedingFragment)
+                "Training" -> findNavController().navigate(R.id.action_dogProfileFragment_to_trainingFragment)
+                "Weight" -> findNavController().navigate(R.id.action_dogProfileFragment_to_weightFragment)
             }
+        }
+
+        binding.profileLSTQuickActions.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = activityCareAdapter
+        }
+    }
+
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

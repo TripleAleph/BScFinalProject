@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.pawsitivelife.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_addDogFragment"
+            app:destination="@id/addDogFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_dogProfileFragment"
+            app:destination="@id/dogProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.pawsitivelife.ui.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_appointments"
+        android:name="com.example.pawsitivelife.ui.notifications.AppointmentsFragment"
+        android:label="Appointments"
+        tools:layout="@layout/fragment_appointments">
+        <action
+            android:id="@+id/action_appointmentsFragment_to_addAppointmentFragment"
+            app:destination="@id/addAppointmentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addAppointmentFragment"
+        android:name="com.example.pawsitivelife.ui.notifications.AddAppointmentFragment"
+        android:label="Add Appointment"
+        tools:layout="@layout/fragment_add_appointment" />
+
+    <fragment
+        android:id="@+id/navigation_my_dogs"
+        android:name="com.example.pawsitivelife.ui.mydogs.MyDogsFragment"
+        android:label="My Dogs"
+        tools:layout="@layout/fragment_my_dogs" />
+
+    <fragment
+        android:id="@+id/dogProfileFragment"
+        android:name="com.example.pawsitivelife.ui.mydogs.DogProfileFragment"
+        android:label="Dog Profile"
+        tools:layout="@layout/fragment_dog_profile">
+        <action
+            android:id="@+id/action_dogProfileFragment_to_editNotesFragment"
+            app:destination="@id/editNotesFragment" />
+        <action
+            android:id="@+id/action_dogProfileFragment_to_walksFragment"
+            app:destination="@id/walksFragment" />
+        <action
+            android:id="@+id/action_dogProfileFragment_to_medicationFragment"
+            app:destination="@id/medicationFragment" />
+        <action
+            android:id="@+id/action_dogProfileFragment_to_feedingFragment"
+            app:destination="@id/feedingFragment" />
+        <action
+            android:id="@+id/action_dogProfileFragment_to_trainingFragment"
+            app:destination="@id/trainingFragment" />
+        <action
+            android:id="@+id/action_dogProfileFragment_to_weightFragment"
+            app:destination="@id/weightFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editNotesFragment"
+        android:name="com.example.pawsitivelife.ui.mydogs.EditNotesFragment"
+        android:label="Edit Notes"
+        tools:layout="@layout/fragment_edit_notes" />
+
+    <fragment
+        android:id="@+id/walksFragment"
+        android:name="com.example.pawsitivelife.ui.WalksFragment"
+        android:label="Walks"
+        tools:layout="@layout/fragment_walks" />
+
+    <fragment
+        android:id="@+id/medicationFragment"
+        android:name="com.example.pawsitivelife.ui.MedicationFragment"
+        android:label="Medication"
+        tools:layout="@layout/fragment_medication" />
+
+    <fragment
+        android:id="@+id/feedingFragment"
+        android:name="com.example.pawsitivelife.ui.FeedingFragment"
+        android:label="Feeding"
+        tools:layout="@layout/fragment_feeding" />
+
+    <fragment
+        android:id="@+id/trainingFragment"
+        android:name="com.example.pawsitivelife.ui.TrainingFragment"
+        android:label="Training"
+        tools:layout="@layout/fragment_training" />
+
+    <fragment
+        android:id="@+id/weightFragment"
+        android:name="com.example.pawsitivelife.ui.WeightFragment"
+        android:label="Weight"
+        tools:layout="@layout/fragment_weight" />
+
+    <fragment
+        android:id="@+id/addDogFragment"
+        android:name="com.example.pawsitivelife.ui.AddDogFragment"
+        android:label="Add Dog"
+        tools:layout="@layout/fragment_add_dog" />
+
+
+</navigation>

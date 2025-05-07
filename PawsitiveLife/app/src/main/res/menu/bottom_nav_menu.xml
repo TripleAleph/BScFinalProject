@@ -8,11 +8,12 @@
         android:icon="@drawable/ic_person"
         android:title=""/>
     <item
-        android:id="@+id/navigation_reminders"
+        android:id="@+id/navigation_appointments"
         android:icon="@drawable/ic_cal"
         android:title="" />
     <item
         android:id="@+id/navigation_my_dogs"
-        android:icon="@drawable/ic_dog"
+        android:icon="@drawable/location"
         android:title="" />
 </menu>
+

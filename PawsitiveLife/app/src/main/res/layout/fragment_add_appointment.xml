@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:text="Schedule an appointment"
+            android:textColor="#141414"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <!-- Dropdown Field -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_a_dog_title"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dog_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/select_a_dog"
+            android:paddingBottom="16dp"
+            app:boxStrokeColor="@color/light_gray_background"
+            app:hintTextColor="@color/french_rose_600">
+
+            <AutoCompleteTextView
+                android:id="@+id/addDog_autoComp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:labelFor="@+id/breed_input_layout" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Appointment title -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:text="@string/appointment_title"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/appointment_title_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_input_background"
+            android:hint=""
+            android:inputType="text"
+            android:padding="16dp"
+            android:textColor="#141414"
+            android:textColorHint="#3E4D5B"
+            android:textSize="16sp" />
+
+
+        <!-- Date and time -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="6dp"
+            android:text="@string/date"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/date_picker_field"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/rounded_input_background"
+            android:drawableStart="@drawable/baseline_calendar_month_24"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/alto_500"
+            android:gravity="center_vertical|start"
+            android:layoutDirection="ltr"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/select_a_date"
+            android:textAlignment="viewStart"
+            android:textColor="#3E4D5B"
+            android:textDirection="ltr"
+            android:textSize="16sp" />
+
+        <!-- Vet name -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="6dp"
+            android:text="@string/veterinarian_name"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/vet_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_input_background"
+            android:hint="@string/check_up_with_dr_jones"
+            android:inputType="text"
+            android:padding="16dp"
+            android:textColor="#141414"
+            android:textColorHint="#3E4D5B"
+            android:textSize="16sp" />
+
+
+        <!-- Clinic address -->
+        <!-- Vet name -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="6dp"
+            android:text="@string/clinic_adress"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_input_background"
+            android:hint="@string/_124_conch_street_bikini_bottom"
+            android:inputType="text"
+            android:padding="16dp"
+            android:textColor="#141414"
+            android:textColorHint="#3E4D5B"
+            android:textSize="16sp" />
+
+        <!-- Reminder settings -->
+
+        <!-- Dropdown Field -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="@string/reminder"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/set_reminder_date"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/_5_minutes_before"
+            android:paddingBottom="16dp"
+            app:boxStrokeColor="@color/light_gray_background"
+            app:hintTextColor="@color/french_rose_600">
+
+            <AutoCompleteTextView
+                android:id="@+id/set_reminder_date_autoComp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:labelFor="@+id/breed_input_layout" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- File upload (icon only) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Upload files"
+                android:textColor="#141414"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_pick_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/light_gray_background"
+                android:text="@string/select_a_file"
+                android:textAllCaps="false"
+                android:textColor="@color/alto_500"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/baseline_attach_file_24"
+                app:iconGravity="textEnd"
+                app:iconPadding="12dp"
+                app:iconTint="@color/alto_500" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:text="@string/additional_notes"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/rounded_input_background"
+            android:gravity="top"
+            android:hint="@string/add_additional_notes"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:minLines="3"
+            android:overScrollMode="always"
+            android:padding="16dp"
+            android:textColor="#141414"
+            android:textColorHint="#3E4D5B"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Cancel Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:backgroundTint="@color/light_gray_background"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="#141414"
+                android:textStyle="bold"
+                app:cornerRadius="24dp" />
+
+            <!-- Space pushes the buttons apart -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Save Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:backgroundTint="#359EFF"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:cornerRadius="24dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>
