@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/sunglow_50"
+    android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/entry_IMG_logo"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:src="@drawable/paw_logo"
+        android:contentDescription="App Logo" />
+
+    <TextView
+        android:id="@+id/entry_TXT_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading..."
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/sunglow_800"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

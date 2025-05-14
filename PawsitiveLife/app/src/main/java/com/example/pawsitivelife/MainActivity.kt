@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home,
                 R.id.navigation_dashboard,
                 R.id.navigation_notifications,
-                R.id.navigation_my_dogs,
-                R.id.navigation_settings            )
+                R.id.navigation_my_dogs
+            )
         )
 
         // Setup action bar for back navigation logic only (we hide the view later)

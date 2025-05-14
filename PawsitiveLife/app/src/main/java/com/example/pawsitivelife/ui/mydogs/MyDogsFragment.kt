@@ -5,20 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pawsitivelife.adapter.ReminderAdapter
 import com.example.pawsitivelife.databinding.FragmentMyDogsBinding
+import com.example.pawsitivelife.ui.viewmodel.AppointmentsViewModel
+import java.time.LocalDateTime
 
 class MyDogsFragment : Fragment() {
+
+    private val appointmentsViewModel: AppointmentsViewModel by activityViewModels()
 
     private var _binding: FragmentMyDogsBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var reminderAdapter: ReminderAdapter
-    private val reminders = listOf(
-        Reminder("Vet Appointment", "April 15, 2025"),
-        Reminder("Grooming", "April 18, 2025"),
-        Reminder("Walk with trainer", "April 20, 2025")
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,10 +32,15 @@ class MyDogsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        reminderAdapter = ReminderAdapter(reminders)
+        reminderAdapter = ReminderAdapter()
         binding.myDogsLSTReminders.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = reminderAdapter
+        }
+
+        appointmentsViewModel.reminders.observe(viewLifecycleOwner) { allReminders ->
+            val upcoming = allReminders.filter { it.date.isAfter(LocalDateTime.now()) }
+            reminderAdapter.submitList(upcoming)
         }
     }
 

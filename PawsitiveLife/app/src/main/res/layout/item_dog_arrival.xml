@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@android:color/white"
+    android:gravity="center_vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/item_IMG_dog"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="12dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_chubbie"
+        app:shapeAppearanceOverlay="@style/Circular" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_TXT_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chubbie"
+            android:textColor="#141414"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_TXT_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arriving at 17:30"
+            android:textColor="#3E4D5B"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

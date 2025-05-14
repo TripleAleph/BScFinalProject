@@ -4,19 +4,17 @@
         android:icon="@drawable/ic_home"
         android:title=""/>
     <item
-        android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_person"
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings"
         android:title=""/>
     <item
-        android:id="@+id/navigation_reminders"
+        android:id="@+id/navigation_appointments"
         android:icon="@drawable/ic_cal"
         android:title="" />
     <item
         android:id="@+id/navigation_my_dogs"
-        android:icon="@drawable/ic_dog"
+        android:icon="@drawable/location"
         android:title="" />
-    <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_settings"
-        android:title=""/>
+
 </menu>
+
