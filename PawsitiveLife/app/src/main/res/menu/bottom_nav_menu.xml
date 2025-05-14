@@ -15,4 +15,8 @@
         android:id="@+id/navigation_my_dogs"
         android:icon="@drawable/ic_dog"
         android:title="" />
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings"
+        android:title=""/>
 </menu>

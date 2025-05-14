@@ -29,6 +29,12 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.pawsitivelife.ui.settings.SettingsFragment"
+        android:label="@string/settings_dashbord"
+        tools:layout="@layout/fragment_settings"/>
+
+    <fragment
         android:id="@+id/navigation_my_dogs"
         android:name="com.example.pawsitivelife.ui.mydogs.MyDogsFragment"
         android:label="My Dogs"
@@ -39,5 +45,62 @@
         android:name="com.example.pawsitivelife.ui.AddDogFragment"
         android:label="Add Dog"
         tools:layout="@layout/fragment_add_dog" />
+
+    <fragment
+      android:id="@+id/Article1Fragment"
+        android:name="com.example.pawsitivelife.ui.articles.Article1Fragment"
+        android:label="Article 1"
+        tools:layout="@layout/fragment_article1"/>
+
+
+    <fragment
+        android:id="@+id/Article2Fragment"
+        android:name="com.example.pawsitivelife.ui.articles.Article2Fragment"
+        android:label="Article 2"
+        tools:layout="@layout/fragment_article2" />
+
+
+    <fragment
+        android:id="@+id/Article3Fragment"
+        android:name="com.example.pawsitivelife.ui.articles.Article3Fragment"
+        android:label="Article 3"
+        tools:layout="@layout/fragment_article3"/>
+
+    <fragment
+        android:id="@+id/Article4Fragment"
+        android:name="com.example.pawsitivelife.ui.articles.Article4Fragment"
+        android:label="Article 4"
+        tools:layout="@layout/fragment_article4"/>
+
+    <fragment
+        android:id="@+id/Article5Fragment"
+        android:name="com.example.pawsitivelife.ui.articles.Article5Fragment"
+        android:label="Article 5"
+        tools:layout="@layout/fragment_article5"/>
+
+    <fragment
+        android:id="@+id/Article6Fragment"
+        android:name="com.example.pawsitivelife.ui.articles.Article6Fragment"
+        android:label="Article 6"
+        tools:layout="@layout/fragment_article6"/>
+
+    <fragment
+        android:id="@+id/Article7Fragment"
+        android:name="com.example.pawsitivelife.ui.articles.Article7Fragment"
+        android:label="Article 7"
+        tools:layout="@layout/fragment_article7"/>
+
+    <fragment
+        android:id="@+id/Article8Fragment"
+        android:name="com.example.pawsitivelife.ui.articles.Article8Fragment"
+        android:label="Article 8"
+        tools:layout="@layout/fragment_article8"/>
+
+    <fragment
+        android:id="@+id/FeedbackFragment"
+        android:name="com.example.pawsitivelife.ui.settings.FeedbackFragment"
+        android:label="Feedback"
+        tools:layout="@layout/fragment_feedback"/>
+
 
 </navigation>
