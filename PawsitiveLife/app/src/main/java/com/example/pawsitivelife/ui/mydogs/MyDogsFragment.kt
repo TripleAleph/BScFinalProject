@@ -9,12 +9,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawsitivelife.adapter.ReminderAdapter
 import com.example.pawsitivelife.databinding.FragmentMyDogsBinding
-import com.example.pawsitivelife.ui.viewmodel.AppointmentsViewModel
+import com.example.pawsitivelife.ui.viewmodel.ReminderViewModel
 import java.time.LocalDateTime
 
 class MyDogsFragment : Fragment() {
 
-    private val appointmentsViewModel: AppointmentsViewModel by activityViewModels()
+    private val reminderViewModel: ReminderViewModel by activityViewModels()
 
     private var _binding: FragmentMyDogsBinding? = null
     private val binding get() = _binding!!
@@ -38,7 +38,7 @@ class MyDogsFragment : Fragment() {
             adapter = reminderAdapter
         }
 
-        appointmentsViewModel.reminders.observe(viewLifecycleOwner) { allReminders ->
+        reminderViewModel.reminders.observe(viewLifecycleOwner) { allReminders ->
             val upcoming = allReminders.filter { it.date.isAfter(LocalDateTime.now()) }
             reminderAdapter.submitList(upcoming)
         }

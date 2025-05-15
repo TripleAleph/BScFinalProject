@@ -1,85 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:orientation="vertical"
+    android:background="@color/light_gray_background">
 
-    <LinearLayout
+    <!-- Calendar Card -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="6dp"
+        android:backgroundTint="@color/white">
 
-        <!-- title + arrow -->
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/title_calendar"
-                android:layout_width="wrap_content"
+            <!-- Month pill with toggle button -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="May, 2025"
-                android:textSize="24sp"
-                android:textColor="#141414"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="8dp">
 
-            <ImageView
-                android:id="@+id/calendar_toggle_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_expand_less"
-                android:contentDescription="Toggle calendar" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/title_calendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_month_pill"
+                    android:text="January 2021"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
 
-        <!-- Calendar Container with adjustable height -->
-        <FrameLayout
-            android:id="@+id/calendar_container"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="8dp">
+                <ImageButton
+                    android:id="@+id/calendarToggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_expand_less"
+                    android:contentDescription="Toggle calendar view"/>
+            </LinearLayout>
 
-            <!-- Month Calendar -->
+            <!-- CalendarViews -->
             <com.kizitonwose.calendar.view.CalendarView
                 android:id="@+id/monthCalendarView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cv_orientation="horizontal"
-                app:cv_dayViewResource="@layout/calendar_day_layout" />
+                android:layout_height="wrap_content"
+                app:cv_dayViewResource="@layout/calendar_day_layout"
+                app:cv_orientation="horizontal"/>
 
-            <!-- Week Calendar -->
             <com.kizitonwose.calendar.view.WeekCalendarView
                 android:id="@+id/weekCalendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:cv_orientation="horizontal"
-                app:cv_dayViewResource="@layout/calendar_day_layout" />
-        </FrameLayout>
+                app:cv_dayViewResource="@layout/calendar_day_layout"
+                app:cv_orientation="horizontal" />
 
-        <!-- RecyclerView -->
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Schedule/Reminders List -->
+    <TextView
+        android:id="@+id/todayLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today, 02 Jan"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemReminders"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="16dp" />
+            android:layout_height="match_parent"
+            android:paddingHorizontal="16dp"
+            android:clipToPadding="false"/>
 
-        <!-- Explanation Text -->
         <TextView
-            android:id="@+id/empty_message"
-            android:layout_width="match_parent"
+            android:id="@+id/emptyMessage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Click + to create a new task.\nPlan your day on the calendar view clearly!"
-            android:textAlignment="center"
-            android:textColor="#A0A0A0"
-            android:textSize="14sp" />
-
-    </LinearLayout>
+            android:layout_gravity="center"
+            android:text="No reminders for this date"
+            android:textSize="16sp"
+            android:textColor="@color/alto_700"
+            android:visibility="gone"/>
+    </FrameLayout>
 
     <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -89,6 +115,12 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
         android:src="@drawable/ic_add"
-        app:backgroundTint="@color/malibu_400"
-        app:tint="@android:color/white" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        app:backgroundTint="@color/malibu_500"
+        app:tint="@color/white"
+        app:elevation="8dp"
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        app:maxImageSize="24dp"
+        app:rippleColor="@color/french_rose_200" />
+
+</LinearLayout>

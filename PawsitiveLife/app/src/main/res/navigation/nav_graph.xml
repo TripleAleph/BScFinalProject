@@ -19,7 +19,24 @@
             app:destination="@id/dogProfileFragment" />
     </fragment>
 
-    <!-- My Dogs -->
+
+    <fragment
+        android:id="@+id/navigation_appointments"
+        android:name="com.example.pawsitivelife.ui.reminder.ReminderFragment"
+        android:label="Appointments"
+        tools:layout="@layout/fragment_appointments">
+        <action
+            android:id="@+id/action_appointmentsFragment_to_addAppointmentFragment"
+            app:destination="@id/addAppointmentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addAppointmentFragment"
+        android:name="com.example.pawsitivelife.ui.reminder.AddReminderBottomSheet"
+        android:label="Add Appointment"
+        tools:layout="@layout/fragment_add_appointment" />
+
+
     <fragment
         android:id="@+id/navigation_my_dogs"
         android:name="com.example.pawsitivelife.ui.mydogs.MyDogsFragment"

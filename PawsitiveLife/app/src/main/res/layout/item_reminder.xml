@@ -1,59 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="12dp"
     app:cardCornerRadius="16dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    android:backgroundTint="@color/white">
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
         android:gravity="center_vertical">
 
-        <!-- Left: Text info -->
+        <!-- Reminder Time -->
+        <TextView
+            android:id="@+id/reminder_time"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text="09:00"
+            android:textColor="@color/malibu_500"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Reminder text info -->
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:paddingEnd="8dp">
+            android:layout_weight="1"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
             <TextView
                 android:id="@+id/reminder_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Maggie's Annual Checkup"
-                android:textColor="@color/black"
+                android:text="Vaccination"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/reminder_date"
+                android:id="@+id/reminder_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="April 15, 2025, 16:45"
-                android:textColor="@color/black"
+                android:text="Dr. Smith, Happy Paws Clinic"
                 android:textSize="14sp"
+                android:textColor="@color/alto_700"
                 android:paddingTop="4dp" />
-
-            <TextView
-                android:id="@+id/reminder_vet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dr. Mary, Happy Paws Clinic"
-                android:textColor="@color/black"
-                android:textSize="13sp"
-                android:paddingTop="2dp" />
         </LinearLayout>
 
-        <!-- Right: Image preview (optional) -->
+        <!-- Dog Image replaces icon -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/reminder_image"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:scaleType="centerCrop"
             android:src="@drawable/img_chubbie"
             app:shapeAppearanceOverlay="@style/NormalCorners" />
