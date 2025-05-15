@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.pawsitivelife.R
 
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -51,10 +52,10 @@ class SettingsFragment : Fragment() {
         val versionTextView = view.findViewById<TextView>(R.id.appVersionText)
         versionTextView.text = "App version: $versionName"
 
-        val feedbackRow = view.findViewById<View>(R.id.feedbackRow)
+/*        val feedbackRow = view.findViewById<View>(R.id.feedbackRow)
         feedbackRow.setOnClickListener {
             findNavController().navigate(R.id.FeedbackFragment)
-        }
+        }*/
 
     }
 

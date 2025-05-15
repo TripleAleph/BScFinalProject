@@ -221,7 +221,7 @@
             android:id="@+id/home_LBL_articlesHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/home_CARD_calendarContainer"
+            android:layout_below="@id/home_CARD_remindersContainer"
             android:layout_alignParentStart="true"
             android:padding="16dp"
             android:text="@string/recommended_articles"
@@ -281,7 +281,7 @@
                         android:paddingTop="4dp"
                         android:paddingStart="6dp"
                         android:paddingBottom="4dp"
-                        android:text="@string/article1_name"
+                        android:text="article1_name"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="14.5sp" />
@@ -291,7 +291,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
                         android:paddingBottom="4dp"
-                        android:text="@string/article1_reading_time"
+                        android:text="article1_reading_time"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -341,7 +341,7 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article2_name"
+                            android:text="article2_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:textSize="14.5sp" />
@@ -351,7 +351,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article2_reading_time"
+                            android:text="article2_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -403,7 +403,7 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article3_name"
+                            android:text="article3_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:textSize="14.5sp" />
@@ -413,7 +413,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article3_reading_time"
+                            android:text="article3_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -465,7 +465,7 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article4_name"
+                            android:text="article4_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:textSize="14.5sp" />
@@ -475,7 +475,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article4_reading_time"
+                            android:text="article4_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -527,7 +527,7 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article5_name"
+                            android:text="article5_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:textSize="13.9sp" />
@@ -537,7 +537,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article5_reading_time"
+                            android:text="article5_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -588,7 +588,7 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article6_name"
+                            android:text="article6_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:textSize="14.5sp" />
@@ -598,7 +598,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article6_reading_time"
+                            android:text="article6_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -648,7 +648,7 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article7_name"
+                            android:text="article7_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:textSize="14.5sp" />
@@ -658,7 +658,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article7_reading_time"
+                            android:text="article7_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -709,7 +709,7 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article8_name"
+                            android:text="article8_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:textSize="14.5sp" />
@@ -719,7 +719,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="@string/article8_reading_time"
+                            android:text="article8_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 

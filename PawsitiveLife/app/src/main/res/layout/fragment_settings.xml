@@ -148,6 +148,7 @@
 
             <TextView
                 android:text="Give feedback"
+                android:clickable="true"
                 android:textSize="20sp"
                 android:layout_width="0dp"
                 android:layout_weight="1"

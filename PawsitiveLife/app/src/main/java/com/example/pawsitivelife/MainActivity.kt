@@ -1,8 +1,10 @@
 package com.example.pawsitivelife
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -12,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,15 +26,19 @@ class MainActivity : AppCompatActivity() {
 
         // Setup bottom navigation
         val navView: BottomNavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+
+        // Get the NavHostFragment and NavController correctly
+        val navHostFragment = supportFragmentManager.findFragmentById(
+            R.id.nav_host_fragment_activity_main
+        ) as NavHostFragment
+        navController = navHostFragment.navController
 
         // Define top-level destinations (no back button shown here)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
-               // R.id.navigation_dashboard,
+                // R.id.navigation_dashboard,
                 R.id.navigation_appointments,
-
                 R.id.navigation_my_dogs
             )
         )
@@ -47,7 +54,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

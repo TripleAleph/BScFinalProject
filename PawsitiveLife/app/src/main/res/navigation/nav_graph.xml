@@ -21,7 +21,7 @@
 
 
     <fragment
-        android:id="@+id/navigation_appointments"
+        android:id="@+id/navigation_reminder"
         android:name="com.example.pawsitivelife.ui.reminder.ReminderFragment"
         android:label="Appointments"
         tools:layout="@layout/fragment_appointments">
@@ -31,7 +31,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/addAppointmentFragment"
+        android:id="@+id/addReminderFragment"
         android:name="com.example.pawsitivelife.ui.reminder.AddReminderBottomSheet"
         android:label="Add Appointment"
         tools:layout="@layout/fragment_add_appointment" />
@@ -116,7 +116,7 @@
     <!-- Appointments -->
     <fragment
         android:id="@+id/navigation_appointments"
-        android:name="com.example.pawsitivelife.ui.notifications.AppointmentsFragment"
+        android:name="com.example.pawsitivelife.ui.reminder.ReminderFragment"
         android:label="Appointments"
         tools:layout="@layout/fragment_appointments">
         <action
@@ -126,7 +126,7 @@
 
     <fragment
         android:id="@+id/addAppointmentFragment"
-        android:name="com.example.pawsitivelife.ui.notifications.AddAppointmentFragment"
+        android:name="com.example.pawsitivelife.ui.reminder.AddReminderFragment"
         android:label="Add Appointment"
         tools:layout="@layout/fragment_add_appointment" />
 

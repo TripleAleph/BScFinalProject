@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:contentDescription="@string/edit_image"
+            android:contentDescription="edit_image"
             android:src="@drawable/edit_24px"
             app:backgroundTint="@color/white"
             app:fabSize="mini"
@@ -281,7 +281,7 @@
                 android:id="@+id/dogProfile_LBL_editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/edit_profile"
+                android:text="edit_profile"
                 android:textColor="#e7740f"
                 android:textSize="20sp"
                 android:textStyle="bold" />

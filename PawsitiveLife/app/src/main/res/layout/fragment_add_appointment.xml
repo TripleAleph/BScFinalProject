@@ -26,7 +26,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/select_a_dog_title"
+            android:text="select_a_dog_title"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -35,7 +35,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/select_a_dog"
+            android:hint="select_a_dog"
             android:paddingBottom="16dp"
             app:boxStrokeColor="@color/light_gray_background"
             app:hintTextColor="@color/french_rose_600">
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="6dp"
-            android:text="@string/appointment_title"
+            android:text="appointment_title"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="6dp"
-            android:text="@string/date"
+            android:text="date"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -93,7 +93,7 @@
             android:layoutDirection="ltr"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/select_a_date"
+            android:text="select_a_date"
             android:textAlignment="viewStart"
             android:textColor="#3E4D5B"
             android:textDirection="ltr"
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="6dp"
-            android:text="@string/veterinarian_name"
+            android:text="veterinarian_name"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -114,7 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_input_background"
-            android:hint="@string/check_up_with_dr_jones"
+            android:hint="check_up_with_dr_jones"
             android:inputType="text"
             android:padding="16dp"
             android:textColor="#141414"
@@ -129,7 +129,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="6dp"
-            android:text="@string/clinic_adress"
+            android:text="clinic_adress"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -137,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_input_background"
-            android:hint="@string/_124_conch_street_bikini_bottom"
+            android:hint="_124_conch_street_bikini_bottom"
             android:inputType="text"
             android:padding="16dp"
             android:textColor="#141414"
@@ -151,7 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:text="@string/reminder"
+            android:text="reminder"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -160,7 +160,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/_5_minutes_before"
+            android:hint="_5_minutes_before"
             android:paddingBottom="16dp"
             app:boxStrokeColor="@color/light_gray_background"
             app:hintTextColor="@color/french_rose_600">
@@ -195,7 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/light_gray_background"
-                android:text="@string/select_a_file"
+                android:text="select_a_file"
                 android:textAllCaps="false"
                 android:textColor="@color/alto_500"
                 app:cornerRadius="16dp"
@@ -210,7 +210,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="6dp"
-            android:text="@string/additional_notes"
+            android:text="additional_notes"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -220,7 +220,7 @@
             android:layout_height="80dp"
             android:background="@drawable/rounded_input_background"
             android:gravity="top"
-            android:hint="@string/add_additional_notes"
+            android:hint="add_additional_notes"
             android:inputType="textMultiLine"
             android:maxLines="5"
             android:minLines="3"
@@ -244,7 +244,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:backgroundTint="@color/light_gray_background"
-                android:text="@string/cancel"
+                android:text="cancel"
                 android:textAllCaps="false"
                 android:textColor="#141414"
                 android:textStyle="bold"

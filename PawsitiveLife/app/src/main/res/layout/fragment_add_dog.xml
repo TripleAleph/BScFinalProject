@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="6dp"
-            android:text="@string/breed"
+            android:text="breed"
             android:textColor="#141414"
             android:paddingStart="8dp"
             android:paddingTop="16dp"
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:paddingEnd="16dp"
-                android:text="@string/gender"
+                android:text="gender"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:paddingStart="8dp"/>
@@ -163,7 +163,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/female"
+                    android:text="female"
                     android:textColor="@color/black"
                     app:cornerRadius="50dp"
                     app:strokeColor="@color/french_rose_600"
@@ -186,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="@string/age_lbl"
+                android:text="age_lbl"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -248,7 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/sterilization"
+                android:text="sterilization"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
 
@@ -269,7 +269,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="18dp"
             android:elevation="2dp"
-            android:text="@string/save"
+            android:text="save"
             android:textColor="@color/white"
             app:backgroundTint="@color/french_rose_500"
             app:cornerRadius="50dp" />
