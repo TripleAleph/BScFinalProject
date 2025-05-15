@@ -1,11 +1,12 @@
 package com.example.pawsitivelife.ui.mydogs
 
 data class Dog(
-    val name: String,
-    val breed: String,
-    val dateOfBirth: String,
-    val color: String,
-    val neutered: Boolean,
-    val microchipped: Boolean,
-    val imageResId: Int
+    val name: String = "",
+    val breed: String = "",
+    val gender: String = "",
+    val dateOfBirth: String = "",
+    val color: String = "",
+    val neutered: Boolean = false,
+    val microchipped: Boolean = false,
+    val imageResId: Int = 0
 )

@@ -67,6 +67,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore-ktx")
 
+//Glide
+    implementation (libs.glide)
 
 
     // TODO: Add the dependencies for Firebase products you want to use

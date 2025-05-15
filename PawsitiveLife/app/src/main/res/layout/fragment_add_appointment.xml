@@ -215,6 +215,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/notes_input"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@drawable/rounded_input_background"

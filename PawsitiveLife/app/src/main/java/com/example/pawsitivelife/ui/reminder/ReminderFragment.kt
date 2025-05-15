@@ -1,4 +1,4 @@
-package com.example.pawsitivelife.ui.notifications
+package com.example.pawsitivelife.ui.reminder
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,15 +8,14 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawsitivelife.R
 import com.example.pawsitivelife.adapter.ReminderAdapter
 import com.example.pawsitivelife.databinding.FragmentAppointmentsBinding
-import com.example.pawsitivelife.ui.viewmodel.AppointmentsViewModel
+import com.example.pawsitivelife.ui.viewmodel.ReminderViewModel
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.WeekDay
-import com.kizitonwose.calendar.core.yearMonth
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.ViewContainer
 import com.kizitonwose.calendar.view.WeekDayBinder
@@ -25,18 +24,16 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class AppointmentsFragment : Fragment() {
-    private val isCalendarExpanded = true
-
-    private val today = LocalDate.now()
-    private var selectedDate: LocalDate? = null
+class ReminderFragment : Fragment() {
 
     private var _binding: FragmentAppointmentsBinding? = null
     private val binding get() = _binding!!
 
-    private val appointmentsViewModel: AppointmentsViewModel by activityViewModels()
+    private val reminderViewModel: ReminderViewModel by activityViewModels()
     private lateinit var reminderAdapter: ReminderAdapter
 
+    private val today = LocalDate.now()
+    private var selectedDate: LocalDate? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,46 +48,52 @@ class AppointmentsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         reminderAdapter = ReminderAdapter()
-        binding.itemReminders.adapter = reminderAdapter
+        binding.itemReminders.apply {
+            adapter = reminderAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
 
         selectedDate = today
-        updateRemindersForDate(today)
+        reminderViewModel.setSelectedDate(today)
 
         setupMonthCalendar()
         setupWeekCalendar()
-
         syncCalendarsWithState()
 
         binding.calendarToggleButton.setOnClickListener {
-            appointmentsViewModel.isCalendarExpanded = !appointmentsViewModel.isCalendarExpanded
+            reminderViewModel.isCalendarExpanded = !reminderViewModel.isCalendarExpanded
             syncCalendarsWithState()
         }
 
-        appointmentsViewModel.reminders.observe(viewLifecycleOwner) {
-            updateRemindersForDate(selectedDate ?: today)
+        reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders ->
+            reminderAdapter.submitList(reminders)
+            binding.emptyMessage.visibility = if (reminders.isEmpty()) View.VISIBLE else View.GONE
+            
+            if (reminders.isNotEmpty()) {
+                binding.itemReminders.post {
+                    binding.itemReminders.smoothScrollToPosition(reminders.size - 1)
+                }
+            }
         }
 
         binding.fabAddTask.setOnClickListener {
-            val action = AppointmentsFragmentDirections.actionAppointmentsFragmentToAddAppointmentFragment()
-            findNavController().navigate(action)
+            val bottomSheet = AddReminderBottomSheet.newInstance(selectedDate ?: today)
+            bottomSheet.show(childFragmentManager, "AddReminderBottomSheet")
         }
     }
 
-
     private fun syncCalendarsWithState() {
-        if (appointmentsViewModel.isCalendarExpanded) {
+        if (reminderViewModel.isCalendarExpanded) {
             binding.monthCalendarView.visibility = View.VISIBLE
             binding.weekCalendarView.visibility = View.GONE
             binding.calendarToggleButton.setImageResource(R.drawable.ic_expand_less)
-
             selectedDate?.let {
-                binding.monthCalendarView.scrollToMonth(it.yearMonth)
+                binding.monthCalendarView.scrollToMonth(YearMonth.from(it))
             }
         } else {
             binding.monthCalendarView.visibility = View.GONE
             binding.weekCalendarView.visibility = View.VISIBLE
             binding.calendarToggleButton.setImageResource(R.drawable.ic_expand_more)
-
             selectedDate?.let {
                 binding.weekCalendarView.scrollToDate(it)
             }
@@ -100,21 +103,13 @@ class AppointmentsFragment : Fragment() {
         binding.weekCalendarView.notifyCalendarChanged()
     }
 
-
     private fun updateRemindersForDate(date: LocalDate) {
-        val allReminders = appointmentsViewModel.reminders.value.orEmpty()
-        val remindersForDate = allReminders.filter { it.date == date }
-
-        reminderAdapter.submitList(remindersForDate)
-        binding.emptyMessage.visibility = if (remindersForDate.isEmpty()) View.VISIBLE else View.GONE
+        reminderViewModel.setSelectedDate(date)
     }
 
     private fun setupMonthCalendar() {
-        binding.monthCalendarView.monthScrollListener = { month ->
-            updateMonthTitle(month.yearMonth)
-        }
-
         val currentMonth = YearMonth.now()
+
         binding.monthCalendarView.setup(
             currentMonth.minusMonths(12),
             currentMonth.plusMonths(12),
@@ -123,30 +118,33 @@ class AppointmentsFragment : Fragment() {
         binding.monthCalendarView.scrollToMonth(currentMonth)
         updateMonthTitle(currentMonth)
 
-        binding.monthCalendarView.dayBinder = object : MonthDayBinder<DayViewContainer> {
-            override fun create(view: View): DayViewContainer = DayViewContainer(view)
+        binding.monthCalendarView.monthScrollListener = { month ->
+            updateMonthTitle(month.yearMonth)
+        }
 
-            override fun bind(container: DayViewContainer, data: CalendarDay) {
+        val monthDayBinder = object : MonthDayBinder<DayViewContainer> {
+            override fun create(view: View) = DayViewContainer(view)
+            override fun bind(container: DayViewContainer, day: CalendarDay) {
                 val textView = container.textView
-                textView.text = data.date.dayOfMonth.toString()
+                textView.text = day.date.dayOfMonth.toString()
 
                 textView.setTextColor(
-                    if (data.position == DayPosition.MonthDate)
+                    if (day.position == DayPosition.MonthDate)
                         ContextCompat.getColor(requireContext(), R.color.black)
                     else
                         ContextCompat.getColor(requireContext(), R.color.alto_400)
                 )
 
                 when {
-                    data.date == today && selectedDate == today -> {
+                    day.date == today && selectedDate == today -> {
                         textView.setBackgroundResource(R.drawable.bg_today_day)
                         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                     }
-                    data.date == today -> {
+                    day.date == today -> {
                         textView.background = null
                         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.french_rose_600))
                     }
-                    data.date == selectedDate -> {
+                    day.date == selectedDate -> {
                         textView.setBackgroundResource(R.drawable.bg_selected_day)
                     }
                     else -> {
@@ -155,19 +153,21 @@ class AppointmentsFragment : Fragment() {
                 }
 
                 container.view.setOnClickListener {
-                    if (data.position == DayPosition.MonthDate) {
-                        selectedDate = if (selectedDate == data.date) null else data.date
+                    if (day.position == DayPosition.MonthDate) {
+                        selectedDate = if (selectedDate == day.date) null else day.date
                         binding.monthCalendarView.notifyCalendarChanged()
                         binding.weekCalendarView.notifyCalendarChanged()
-                        updateRemindersForDate(data.date)
+                        updateRemindersForDate(day.date)
                     }
                 }
             }
         }
+        binding.monthCalendarView.dayBinder = monthDayBinder
     }
 
     private fun setupWeekCalendar() {
         val currentDate = LocalDate.now()
+
         binding.weekCalendarView.setup(
             currentDate.minusDays(365),
             currentDate.plusDays(365),
@@ -175,32 +175,23 @@ class AppointmentsFragment : Fragment() {
         )
         binding.weekCalendarView.scrollToDate(currentDate)
 
-        binding.weekCalendarView.weekScrollListener = { week ->
-            val days = week.days
-            val middleDate = days[days.size / 2].date
-            updateMonthTitle(YearMonth.from(middleDate))
-        }
-
-
-        binding.weekCalendarView.dayBinder = object : WeekDayBinder<DayViewContainer> {
-            override fun create(view: View): DayViewContainer = DayViewContainer(view)
-
-            override fun bind(container: DayViewContainer, data: WeekDay) {
+        val weekDayBinder = object : WeekDayBinder<DayViewContainer> {
+            override fun create(view: View) = DayViewContainer(view)
+            override fun bind(container: DayViewContainer, day: WeekDay) {
                 val textView = container.textView
-                textView.text = data.date.dayOfMonth.toString()
-
+                textView.text = day.date.dayOfMonth.toString()
                 textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
 
                 when {
-                    data.date == today && selectedDate == today -> {
+                    day.date == today && selectedDate == today -> {
                         textView.setBackgroundResource(R.drawable.bg_today_day)
                         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                     }
-                    data.date == today -> {
+                    day.date == today -> {
                         textView.background = null
                         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.french_rose_600))
                     }
-                    data.date == selectedDate -> {
+                    day.date == selectedDate -> {
                         textView.setBackgroundResource(R.drawable.bg_selected_day)
                     }
                     else -> {
@@ -209,15 +200,16 @@ class AppointmentsFragment : Fragment() {
                 }
 
                 container.view.setOnClickListener {
-                    selectedDate = if (selectedDate == data.date) null else data.date
+                    selectedDate = if (selectedDate == day.date) null else day.date
                     binding.weekCalendarView.notifyCalendarChanged()
                     binding.monthCalendarView.notifyCalendarChanged()
-                    updateRemindersForDate(data.date)
+                    updateRemindersForDate(day.date)
+                    updateMonthTitle(YearMonth.from(day.date))
                 }
             }
         }
+        binding.weekCalendarView.dayBinder = weekDayBinder
     }
-
 
     inner class DayViewContainer(view: View) : ViewContainer(view) {
         val textView: TextView = view.findViewById(R.id.calendarDayText)

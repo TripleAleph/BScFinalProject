@@ -18,15 +18,11 @@
             app:destination="@id/dogProfileFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.pawsitivelife.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+
 
     <fragment
         android:id="@+id/navigation_appointments"
-        android:name="com.example.pawsitivelife.ui.notifications.AppointmentsFragment"
+        android:name="com.example.pawsitivelife.ui.reminder.ReminderFragment"
         android:label="Appointments"
         tools:layout="@layout/fragment_appointments">
         <action
@@ -36,7 +32,7 @@
 
     <fragment
         android:id="@+id/addAppointmentFragment"
-        android:name="com.example.pawsitivelife.ui.notifications.AddAppointmentFragment"
+        android:name="com.example.pawsitivelife.ui.reminder.AddReminderBottomSheet"
         android:label="Add Appointment"
         tools:layout="@layout/fragment_add_appointment" />
 
