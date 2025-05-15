@@ -5,6 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@+id/navigation_home">
 
+    <!-- Home -->
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.pawsitivelife.ui.home.HomeFragment"
@@ -17,7 +18,6 @@
             android:id="@+id/action_navigation_home_to_dogProfileFragment"
             app:destination="@id/dogProfileFragment" />
     </fragment>
-
 
 
     <fragment
@@ -36,12 +36,21 @@
         android:label="Add Appointment"
         tools:layout="@layout/fragment_add_appointment" />
 
+
     <fragment
         android:id="@+id/navigation_my_dogs"
         android:name="com.example.pawsitivelife.ui.mydogs.MyDogsFragment"
         android:label="My Dogs"
         tools:layout="@layout/fragment_my_dogs" />
 
+    <!-- Add Dog -->
+    <fragment
+        android:id="@+id/addDogFragment"
+        android:name="com.example.pawsitivelife.ui.AddDogFragment"
+        android:label="Add Dog"
+        tools:layout="@layout/fragment_add_dog" />
+
+    <!-- Dog Profile -->
     <fragment
         android:id="@+id/dogProfileFragment"
         android:name="com.example.pawsitivelife.ui.mydogs.DogProfileFragment"
@@ -67,6 +76,7 @@
             app:destination="@id/weightFragment" />
     </fragment>
 
+    <!-- Dog Profile - Sub Screens -->
     <fragment
         android:id="@+id/editNotesFragment"
         android:name="com.example.pawsitivelife.ui.mydogs.EditNotesFragment"
@@ -103,11 +113,28 @@
         android:label="Weight"
         tools:layout="@layout/fragment_weight" />
 
+    <!-- Appointments -->
     <fragment
-        android:id="@+id/addDogFragment"
-        android:name="com.example.pawsitivelife.ui.AddDogFragment"
-        android:label="Add Dog"
-        tools:layout="@layout/fragment_add_dog" />
+        android:id="@+id/navigation_appointments"
+        android:name="com.example.pawsitivelife.ui.notifications.AppointmentsFragment"
+        android:label="Appointments"
+        tools:layout="@layout/fragment_appointments">
+        <action
+            android:id="@+id/action_appointmentsFragment_to_addAppointmentFragment"
+            app:destination="@id/addAppointmentFragment" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/addAppointmentFragment"
+        android:name="com.example.pawsitivelife.ui.notifications.AddAppointmentFragment"
+        android:label="Add Appointment"
+        tools:layout="@layout/fragment_add_appointment" />
+
+    <!-- Settings -->
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.pawsitivelife.ui.settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
 
 </navigation>

@@ -1,5 +1,6 @@
 package com.example.pawsitivelife.ui.home
 
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,15 +8,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawsitivelife.R
+
 import com.example.pawsitivelife.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.material.imageview.ShapeableImageView
 import com.example.pawsitivelife.ui.mydogs.Dog
+
 
 class HomeFragment : Fragment() {
 
@@ -37,6 +42,7 @@ class HomeFragment : Fragment() {
         loadUsername()
         loadDogsFromFirestore()
     }
+
 
     // Load and display the current user's username
     private fun loadUsername() {
@@ -86,10 +92,12 @@ class HomeFragment : Fragment() {
             .addOnFailureListener {
                 // handle error if needed
             }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }
