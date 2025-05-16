@@ -70,6 +70,11 @@ dependencies {
 //Glide
     implementation (libs.glide)
 
+    //Dogs breeds
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
+
 
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies

@@ -53,7 +53,7 @@
     <!-- Dog Profile -->
     <fragment
         android:id="@+id/dogProfileFragment"
-        android:name="com.example.pawsitivelife.ui.mydogs.DogProfileFragment"
+        android:name="com.example.pawsitivelife.ui.DogProfileFragment"
         android:label="Dog Profile"
         tools:layout="@layout/fragment_dog_profile">
         <action

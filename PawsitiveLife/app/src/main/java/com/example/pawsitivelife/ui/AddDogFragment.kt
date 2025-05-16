@@ -4,13 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.pawsitivelife.R
+import com.example.pawsitivelife.data.remote.DogApi
 import com.example.pawsitivelife.databinding.FragmentAddDogBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
+
 
 class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
 
@@ -29,13 +34,40 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Handle gender selection buttons
+        fetchBreedsFromApi()
+
         binding.maleButton.setOnClickListener { selectGender("Male") }
         binding.femaleButton.setOnClickListener { selectGender("Female") }
 
-        // Save dog data when clicking the save button
         binding.addDogBTNSave.setOnClickListener { saveDogToFirestore() }
     }
+
+    // Fetch breed list from Dog API and set it to the dropdown
+    private fun fetchBreedsFromApi() {
+        lifecycleScope.launch {
+            try {
+                val response = DogApi.retrofitService.getBreeds()
+                if (response.isSuccessful) {
+                    val breedsMap = response.body()?.message ?: emptyMap()
+                    val breedList = breedsMap.keys
+                        .map { it.replaceFirstChar { c -> c.uppercaseChar() } }
+                        .sorted()
+
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_dropdown_item_1line,
+                        breedList
+                    )
+                    binding.addDogAutoComp.setAdapter(adapter)
+                } else {
+                    Toast.makeText(requireContext(), "Failed to load breeds", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Breed API error: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     // Function to manage UI changes when selecting gender
     private fun selectGender(gender: String) {
@@ -55,7 +87,7 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
         )
     }
 
-    // Saves dog details to Firestore under the current user's document
+    // Save dog details to Firestore
     private fun saveDogToFirestore() {
         val user = FirebaseAuth.getInstance().currentUser ?: return
         val db = FirebaseFirestore.getInstance()
@@ -67,13 +99,11 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
         val neutered = binding.addDogSWTSterilization.isChecked
         val imageResId = R.drawable.img_chubbie // Temporary placeholder image
 
-        // Validate required fields
         if (name.isEmpty() || breed.isEmpty() || gender.isEmpty()) {
             Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Construct a hash map representing the dog's data
         val dog = hashMapOf(
             "name" to name,
             "breed" to breed,
@@ -83,7 +113,6 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
             "imageResId" to imageResId
         )
 
-        // Save the dog under the current user's Firestore document
         db.collection("users")
             .document(user.uid)
             .collection("dogs")
