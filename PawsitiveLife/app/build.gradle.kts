@@ -74,7 +74,7 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
 
-
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
 
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies

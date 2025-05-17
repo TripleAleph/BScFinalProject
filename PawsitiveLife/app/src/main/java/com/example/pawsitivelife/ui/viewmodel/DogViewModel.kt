@@ -13,10 +13,11 @@ class DogViewModel : ViewModel() {
             name = "Chubbie",
             breed = "Great Pyrenees Mix",
             dateOfBirth = "September 14 2021",
+            gender = "Male",
             color = "Golden",
             neutered = true,
             microchipped = true,
-            imageResId = 0 // Using 0 as default image
+            imageUrl = "" // Use a default image URL or empty string
         ))
     }
-} 
+}

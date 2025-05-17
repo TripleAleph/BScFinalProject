@@ -55,9 +55,11 @@ class DogCardAdapter(
             binding.dogAge.text = dog.dateOfBirth
 
             Glide.with(binding.root.context)
-                .load(dog.imageResId)
-                .placeholder(R.drawable.img_chubbie)
+                .load(dog.imageUrl.takeIf { it.isNotEmpty() })
+                .placeholder(R.drawable.missing_img_dog)
+                .centerCrop()
                 .into(binding.dogImage)
+
 
             binding.genderIcon.setImageResource(
                 if (dog.gender == "Male") R.drawable.ic_male else R.drawable.ic_female

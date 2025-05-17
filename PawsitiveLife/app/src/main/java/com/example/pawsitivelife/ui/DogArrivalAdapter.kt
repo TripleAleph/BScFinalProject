@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.pawsitivelife.R
 import com.example.pawsitivelife.ui.mydogs.Dog
 
@@ -21,11 +22,16 @@ class DogArrivalAdapter(
 
         fun bind(dogArrival: DogArrival) {
             val dog = dogArrival.dog
-            imgDog.setImageResource(dog.imageResId)
+            Glide.with(itemView.context)
+                .load(dog.imageUrl)
+                .placeholder(R.drawable.img_chubbie)
+                .into(imgDog)
+
             txtName.text = dog.name
             txtTime.text = "Arriving at ${dogArrival.arrivalTime}"
             itemView.setOnClickListener { onClick(dog) }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {
