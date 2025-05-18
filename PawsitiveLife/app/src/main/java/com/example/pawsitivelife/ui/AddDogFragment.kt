@@ -1,7 +1,11 @@
 package com.example.pawsitivelife.ui
 
+import android.Manifest
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,11 +22,11 @@ import com.example.pawsitivelife.data.remote.DogApi
 import com.example.pawsitivelife.databinding.FragmentAddDogBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
 
@@ -32,13 +37,13 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
     private var selectedImageUri: Uri? = null
     private var selectedBirthDate: String = ""
 
-    // Image picker launcher
-    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let {
-            selectedImageUri = it
-            binding.dogProfileImage.setImageURI(it)
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                selectedImageUri = it
+                binding.dogProfileImage.setImageURI(it)
+            }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -56,7 +61,7 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
         binding.femaleButton.setOnClickListener { selectGender("Female") }
 
         binding.dogProfileUploadIcon.setOnClickListener {
-            pickImageLauncher.launch("image/*")
+            checkAndRequestImagePermission()
         }
 
         binding.addDogTXTBirthdate.setOnClickListener {
@@ -93,7 +98,6 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
         }
     }
 
-    // Opens a date picker and stores the selected date
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
         DatePickerDialog(
@@ -128,45 +132,58 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
         )
     }
 
-    // Saves dog data and uploads image if available
     private fun saveDogToFirestore() {
         val user = FirebaseAuth.getInstance().currentUser ?: return
         val db = FirebaseFirestore.getInstance()
-        val storage = FirebaseStorage.getInstance()
 
         val name = binding.addDogEDTName.text.toString().trim()
         val breed = binding.addDogAutoComp.text.toString().trim()
         val gender = selectedGender ?: ""
+        val color = binding.addDogEDTColor.text.toString().trim()
         val neutered = binding.addDogSWTSterilization.isChecked
+        val microchipped = binding.addDogSWTMicrochipped.isChecked
 
         if (name.isEmpty() || breed.isEmpty() || gender.isEmpty() || selectedBirthDate.isEmpty()) {
             Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()
             return
         }
 
-        if (selectedImageUri != null) {
-            val imageRef = storage.reference.child("dogs/${user.uid}/${System.currentTimeMillis()}.jpg")
-            imageRef.putFile(selectedImageUri!!)
-                .continueWithTask { task ->
-                    if (!task.isSuccessful) throw task.exception ?: Exception("Upload failed")
-                    imageRef.downloadUrl
-                }.addOnSuccessListener { uri ->
-                    saveDogToFirestoreWithImage(uri.toString(), name, breed, selectedBirthDate, gender, neutered, user.uid, db)
-                }.addOnFailureListener {
-                    Toast.makeText(requireContext(), "Image upload failed", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            saveDogToFirestoreWithImage("", name, breed, selectedBirthDate, gender, neutered, user.uid, db)
+        val imagePath = selectedImageUri?.let { saveImageLocally(requireContext(), it) } ?: ""
+
+        saveDogToFirestoreWithImage(
+            imagePath,
+            name, breed, selectedBirthDate,
+            gender, color, neutered, microchipped, user.uid, db
+        )
+    }
+
+    private fun saveImageLocally(context: Context, imageUri: Uri): String? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(imageUri)
+            val fileName = "dog_${System.currentTimeMillis()}.jpg"
+            val file = File(context.filesDir, fileName)
+            val outputStream = FileOutputStream(file)
+
+            inputStream?.copyTo(outputStream)
+            inputStream?.close()
+            outputStream.close()
+
+            file.absolutePath
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
     }
 
     private fun saveDogToFirestoreWithImage(
-        imageUrl: String,
+        imagePath: String,
         name: String,
         breed: String,
         birthDate: String,
         gender: String,
+        color: String,
         neutered: Boolean,
+        microchipped: Boolean,
         userId: String,
         db: FirebaseFirestore
     ) {
@@ -175,10 +192,11 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
             "breed" to breed,
             "dateOfBirth" to birthDate,
             "gender" to gender,
+            "color" to color,
             "neutered" to neutered,
-            "imageUrl" to imageUrl
+            "microchipped" to microchipped,
+            "imageUrl" to imagePath
         )
-
 
         db.collection("users")
             .document(userId)
@@ -193,8 +211,49 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
             }
     }
 
+    private fun checkAndRequestImagePermission() {
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
+        when {
+            ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED -> {
+                pickImageLauncher.launch("image/*")
+            }
+
+            shouldShowRequestPermissionRationale(permission) -> {
+                Toast.makeText(requireContext(), "Permission is needed to select an image", Toast.LENGTH_SHORT).show()
+            }
+
+            else -> {
+                requestPermissions(arrayOf(permission), IMAGE_PERMISSION_REQUEST_CODE)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == IMAGE_PERMISSION_REQUEST_CODE && grantResults.isNotEmpty() &&
+            grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            pickImageLauncher.launch("image/*")
+        } else {
+            Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val IMAGE_PERMISSION_REQUEST_CODE = 101
     }
 }

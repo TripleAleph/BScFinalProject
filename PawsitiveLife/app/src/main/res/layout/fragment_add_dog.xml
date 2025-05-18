@@ -220,6 +220,51 @@
                 app:thumbTint="@color/french_rose_500"
                 app:trackTint="@color/french_rose_100" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Color -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/addDog_LBL_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="6dp"
+            android:text="Color"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/addDog_EDT_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_input_background"
+            android:hint="e.g. Golden, Black, White"
+            android:padding="16dp"
+            android:textColor="#141414"
+            android:textColorHint="#3E4D5B"
+            android:textSize="16sp" />
+
+        <!-- Microchipped -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Microchipped"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/addDog_SWT_microchipped"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:thumbTint="@color/french_rose_500"
+                app:trackTint="@color/french_rose_100" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <!-- Save Button -->
         <com.google.android.material.button.MaterialButton
