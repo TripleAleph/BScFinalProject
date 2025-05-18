@@ -15,6 +15,8 @@ import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import androidx.recyclerview.widget.LinearLayoutManager
+
 
 class DogProfileFragment : Fragment() {
 
@@ -62,7 +64,7 @@ class DogProfileFragment : Fragment() {
             DogInfoItem("Neutered", if (neutered) "Yes" else "No"),
             DogInfoItem("Microchipped", if (microchipped) "Yes" else "No")
         )
-
+        binding.profileLSTInfo.layoutManager = LinearLayoutManager(requireContext())
         binding.profileLSTInfo.adapter = DogInfoAdapter(infoList)
     }
 
