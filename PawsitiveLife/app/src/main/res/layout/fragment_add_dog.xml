@@ -172,70 +172,31 @@
         </LinearLayout>
 
         <!-- Age -->
-        <LinearLayout
-            android:id="@+id/age_selector_layout"
+        <!-- Date of Birth -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/addDog_LBL_birthdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:paddingStart="8dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="6dp"
+            android:text="Date of Birth"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
 
-            <!-- Label: Age -->
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/addDog_LBL_age"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="age_lbl"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <!-- Container for +/- and value -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <!-- Plus button -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/addDog_BTN_AgeIncrease"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="48dp"
-                    android:layout_height="60dp"
-                    android:text="+"
-                    android:textColor="@color/french_rose_600"
-                    android:textSize="20sp"
-                    app:backgroundTint="@color/french_rose_100"
-                    app:cornerRadius="24dp"
-                    app:strokeColor="@color/french_rose_600" />
-
-                <!-- Age value -->
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/dog_age_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textColor="@color/black"
-                    android:textSize="24sp" />
-
-                <!-- Minus button -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/addDog_BTN_AgeDecrease"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="48dp"
-                    android:layout_height="60dp"
-                    android:text="-"
-                    android:textColor="@color/french_rose_600"
-                    android:textSize="20sp"
-                    app:backgroundTint="@color/french_rose_100"
-                    app:cornerRadius="24dp"
-                    app:strokeColor="@color/french_rose_600" />
-            </LinearLayout>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/addDog_TXT_birthdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_input_background"
+            android:padding="16dp"
+            android:text="Select a date"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:drawableEnd="@drawable/ic_cal"
+            android:drawablePadding="8dp"
+            android:clickable="true"
+            android:focusable="true" />
 
 
         <!-- sterilization -->

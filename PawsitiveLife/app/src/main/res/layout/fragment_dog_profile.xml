@@ -18,7 +18,7 @@
             android:layout_marginTop="32dp"
             android:padding="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_chubbie"
+            android:src="@drawable/missing_img_dog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -90,6 +90,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/age_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1 year"
@@ -154,6 +155,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/gender_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Male"

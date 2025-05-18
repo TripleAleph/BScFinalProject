@@ -1,38 +1,25 @@
-package com.example.pawsitivelife.ui.mydogs
+package com.example.pawsitivelife.ui
 
-import ActivityCareAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.pawsitivelife.R
 import com.example.pawsitivelife.databinding.FragmentDogProfileBinding
-
+import com.example.pawsitivelife.ui.mydogs.DogInfoAdapter
+import com.example.pawsitivelife.ui.mydogs.DogInfoItem
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class DogProfileFragment : Fragment() {
 
     private var _binding: FragmentDogProfileBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var dog: Dog
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // Example dog  (after, needs to accept a parameters)
-        dog = Dog(
-            name = "Chubbie",
-            breed = "Great Pyrenees Mix",
-            dateOfBirth = "September 14 2021",
-            color = "Golden",
-            neutered = true,
-            microchipped = true,
-            imageResId = R.drawable.img_chubbie
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,62 +32,70 @@ class DogProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        populateDogData()
-        setupActivityCareTracker()
+        val name = arguments?.getString("name") ?: "Unknown"
+        val birthDate = arguments?.getString("dateOfBirth") ?: "-"
+        val gender = arguments?.getString("gender") ?: "-"
+        val imageUrl = arguments?.getString("imageUrl")
+        val breed = arguments?.getString("breed") ?: "-"
+        val color = arguments?.getString("color") ?: "-"
+        val neutered = arguments?.getBoolean("neutered") ?: false
+        val microchipped = arguments?.getBoolean("microchipped") ?: false
 
-        // Navigate to Edit Notes screen on Care Notes title click
-        binding.profileLBLEditNotesClick.setOnClickListener {
-            findNavController().navigate(R.id.action_dogProfileFragment_to_editNotesFragment)
+        binding.profileLBLName.text = name
+
+        Glide.with(this)
+            .load(imageUrl?.takeIf { it.isNotEmpty() })
+            .placeholder(R.drawable.missing_img_dog)
+            .centerCrop()
+            .into(binding.profileIMGDog)
+
+        val calculatedAge = calculateDogAge(birthDate)
+        val formattedBirthDate = formatBirthDate(birthDate)
+
+        binding.root.findViewById<TextView>(R.id.age_value)?.text = calculatedAge
+        binding.root.findViewById<TextView>(R.id.gender_value)?.text = gender
+
+        val infoList = listOf(
+            DogInfoItem("Date of Birth", formattedBirthDate),
+            DogInfoItem("Breed", breed),
+            DogInfoItem("Color", color),
+            DogInfoItem("Neutered", if (neutered) "Yes" else "No"),
+            DogInfoItem("Microchipped", if (microchipped) "Yes" else "No")
+        )
+
+        binding.profileLSTInfo.adapter = DogInfoAdapter(infoList)
+    }
+
+    private fun formatBirthDate(dateStr: String): String {
+        return try {
+            val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val outputFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy", Locale.getDefault())
+            val date = LocalDate.parse(dateStr, inputFormatter)
+            outputFormatter.format(date)
+        } catch (e: Exception) {
+            "-"
         }
-
     }
 
-    private fun populateDogData() {
-        // Set dog image and name at the top
-        binding.profileIMGDog.setImageResource(dog.imageResId)
-        binding.profileLBLName.text = dog.name
+    private fun calculateDogAge(birthDateString: String): String {
+        return try {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val birthDate = LocalDate.parse(birthDateString, formatter)
+            val today = LocalDate.now()
+            val age = Period.between(birthDate, today)
+            val years = age.years
+            val months = age.months
 
-        // Prepare list of information items
-        val dogInfoItems = listOf(
-            DogInfoItem("Breed", dog.breed),
-            DogInfoItem("Date of Birth", dog.dateOfBirth),
-            DogInfoItem("Color", dog.color),
-            DogInfoItem("Neutered", if (dog.neutered) "Yes" else "No"),
-            DogInfoItem("Microchipped", if (dog.microchipped) "Yes" else "No")
-        )
-
-        // Setup RecyclerView
-        val adapter = DogInfoAdapter(dogInfoItems)
-        binding.profileLSTInfo.layoutManager = LinearLayoutManager(requireContext())
-        binding.profileLSTInfo.adapter = adapter
-    }
-
-    private fun setupActivityCareTracker() {
-        val activityCareItems = listOf(
-            ActivityCareItem(R.drawable.dog_walking, "Walk"),
-            ActivityCareItem(R.drawable.ic_food, "Feed"),
-            ActivityCareItem(R.drawable.ic_pills, "Medicine"),
-            ActivityCareItem(R.drawable.ic_training, "Training"),
-            ActivityCareItem(R.drawable.ic_weight, "Weight")
-        )
-
-        val activityCareAdapter = ActivityCareAdapter(activityCareItems) { item ->
-            when (item.title) {
-                "Walk" -> findNavController().navigate(R.id.action_dogProfileFragment_to_walksFragment)
-                "Medicine" -> findNavController().navigate(R.id.action_dogProfileFragment_to_medicationFragment)
-                "Feed" -> findNavController().navigate(R.id.action_dogProfileFragment_to_feedingFragment)
-                "Training" -> findNavController().navigate(R.id.action_dogProfileFragment_to_trainingFragment)
-                "Weight" -> findNavController().navigate(R.id.action_dogProfileFragment_to_weightFragment)
+            when {
+                years > 0 && months > 0 -> "$years years and $months months"
+                years > 0 -> "$years years"
+                months > 0 -> "$months months"
+                else -> "Less than a month"
             }
-        }
-
-        binding.profileLSTQuickActions.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = activityCareAdapter
+        } catch (e: Exception) {
+            "-"
         }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
