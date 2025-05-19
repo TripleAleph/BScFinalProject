@@ -5,21 +5,13 @@
     android:background="@android:color/white">
 
 
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_gravity="start|top"
-        android:layout_margin="16dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_arrow_back"
-        android:contentDescription="Back" />
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="64dp"
-        android:padding="24dp">
+        android:layout_marginTop="24dp"
+        android:padding="20dp">
 
         <LinearLayout
             android:orientation="vertical"
