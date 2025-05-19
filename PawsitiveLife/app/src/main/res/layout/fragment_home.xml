@@ -278,20 +278,20 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
                         android:paddingStart="6dp"
+                        android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="article1_name"
+                        android:text="@string/article1_name"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:textSize="14.5sp" />
+                        android:textSize="13.8sp"
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
                         android:paddingBottom="4dp"
-                        android:text="article1_reading_time"
+                        android:text="@string/article1_reading_time"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -341,17 +341,17 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="article2_name"
+                            android:text="@string/article2_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
-                            android:textSize="14.5sp" />
+                            android:textSize="13.8sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="article2_reading_time"
+                            android:text="@string/article2_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -403,17 +403,17 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="article3_name"
+                            android:text="@string/article3_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
-                            android:textSize="14.5sp" />
+                            android:textSize="13.8sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="article3_reading_time"
+                            android:text="@string/article3_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -465,17 +465,17 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="article4_name"
+                            android:text="@string/article4_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
-                            android:textSize="14.5sp" />
+                            android:textSize="13.8sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="article4_reading_time"
+                            android:text="@string/article4_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -527,17 +527,17 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="article5_name"
+                            android:text="@string/article5_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
-                            android:textSize="13.9sp" />
+                            android:textSize="13.1sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="article5_reading_time"
+                            android:text="@string/article5_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -588,17 +588,17 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="article6_name"
+                            android:text="@string/article6_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
-                            android:textSize="14.5sp" />
+                            android:textSize="13.8sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="article6_reading_time"
+                            android:text="@string/article6_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -648,17 +648,17 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="article7_name"
+                            android:text="@string/article7_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
-                            android:textSize="14.5sp" />
+                            android:textSize="13.8sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="article7_reading_time"
+                            android:text="@string/article7_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -709,17 +709,17 @@
                             android:paddingTop="4dp"
                             android:paddingStart="6dp"
                             android:paddingBottom="4dp"
-                            android:text="article8_name"
+                            android:text="@string/article8_name"
                             android:textColor="@color/black"
                             android:textStyle="bold"
-                            android:textSize="14.5sp" />
+                            android:textSize="13.8sp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="8dp"
                             android:paddingBottom="4dp"
-                            android:text="article8_reading_time"
+                            android:text="@string/article8_reading_time"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 

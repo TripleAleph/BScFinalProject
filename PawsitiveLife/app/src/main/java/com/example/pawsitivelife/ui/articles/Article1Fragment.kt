@@ -61,10 +61,7 @@ class Article1Fragment : Fragment() {
             settings.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
 //        button back to the main screen
-        val backButton = view.findViewById<ImageButton>(R.id.backButton)
-        backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
 
 
         webView.loadUrl("https://www.purina.com/articles/dog/feeding/guides/how-many-times-a-day-should-a-dog-eat")

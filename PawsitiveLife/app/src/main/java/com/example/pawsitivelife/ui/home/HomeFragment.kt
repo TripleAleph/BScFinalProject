@@ -35,6 +35,44 @@ class HomeFragment : Fragment() {
         loadDogsFromFirestore()
         // Logs all dogs saved under the current user in Firestore for debugging purposes
         logAllDogsOfCurrentUser()
+
+        binding.articleCARD1.setOnClickListener {
+            findNavController().navigate(R.id.Article1Fragment)
+        }
+
+        binding.articleCARD2.setOnClickListener {
+            findNavController().navigate(R.id.Article2Fragment)
+        }
+
+        binding.articleCARD3.setOnClickListener {
+            findNavController().navigate(R.id.Article3Fragment)
+        }
+
+        binding.articleCARD4.setOnClickListener {
+            findNavController().navigate(R.id.Article4Fragment)
+        }
+
+        binding.articleCARD5.setOnClickListener {
+            findNavController().navigate(R.id.Article5Fragment)
+        }
+
+        binding.articleCARD6.setOnClickListener {
+            findNavController().navigate(R.id.Article6Fragment)
+        }
+
+        binding.articleCARD7.setOnClickListener {
+            findNavController().navigate(R.id.Article7Fragment)
+        }
+
+        binding.articleCARD8.setOnClickListener {
+            findNavController().navigate(R.id.Article8Fragment)
+        }
+
+
+
+
+
+
     }
 
     private fun loadUsername() {

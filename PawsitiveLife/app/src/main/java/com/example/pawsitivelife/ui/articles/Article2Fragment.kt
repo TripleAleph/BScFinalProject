@@ -59,10 +59,7 @@ class Article2Fragment : Fragment() {
 
 
         //        button back to the main screen
-        val backButton = view.findViewById<ImageButton>(R.id.backButton)
-        backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
 
         webView.loadUrl("https://www.purina.com/articles/dog/getting-a-dog/giving-a-dog-as-a-gift")
     }

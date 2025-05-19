@@ -30,6 +30,12 @@
     </LinearLayout>
 
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
+
 
         <!-- profile -->
         <LinearLayout
@@ -78,6 +84,11 @@
                 android:src="@drawable/ic_arrow_navigation"
                 android:rotation="90" />
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
 
         <!-- Notifications -->
         <LinearLayout
@@ -112,6 +123,12 @@
                 android:rotation="90" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
+
         <!-- Dark theme -->
         <LinearLayout
             android:id="@+id/darkThemeRow"
@@ -133,6 +150,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
 
         <!-- Give feedback -->
         <LinearLayout
@@ -161,6 +184,12 @@
                 android:rotation="90" />
         </LinearLayout>
 
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
         <!-- Terms of service -->
         <LinearLayout
             android:id="@+id/termsRow"
@@ -186,6 +215,12 @@
                 android:src="@drawable/ic_arrow_navigation"
                 android:rotation="90" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
+
 
         <!-- Log out -->
         <LinearLayout

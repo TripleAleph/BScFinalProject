@@ -5,7 +5,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.text.TextWatcher
 import android.text.Editable
-
+import android.widget.RatingBar
 import android.widget.Toast
 
 
@@ -49,8 +49,7 @@ class FeedbackFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
+        val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
         val commentInput = view.findViewById<EditText>(R.id.commentInput)
         val charCountText = view.findViewById<TextView>(R.id.charCountText)
 
