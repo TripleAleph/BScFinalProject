@@ -24,6 +24,10 @@ class MainActivity : AppCompatActivity() {
         // Setup custom toolbar
         setSupportActionBar(binding.toolbar)
 
+        // Add padding between the navigation (back) button and the screen edge
+            //   binding.toolbar.setContentInsetStartWithNavigation(32)
+
+
         // Setup bottom navigation
         val navView: BottomNavigationView = binding.navView
 
@@ -37,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
-                // R.id.navigation_dashboard,
+                 R.id.navigation_settings,
                 R.id.navigation_appointments,
                 R.id.navigation_my_dogs
             )
@@ -49,8 +53,6 @@ class MainActivity : AppCompatActivity() {
         // Connect bottom nav with navigation controller
         navView.setupWithNavController(navController)
 
-        // Hide the toolbar visually but keep its logic
-        binding.toolbar.visibility = View.GONE
     }
 
     override fun onSupportNavigateUp(): Boolean {
