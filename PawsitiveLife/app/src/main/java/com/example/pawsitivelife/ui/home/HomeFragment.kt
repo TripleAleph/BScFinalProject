@@ -1,29 +1,19 @@
 package com.example.pawsitivelife.ui.home
 
-
-import android.net.Uri
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.cardview.widget.CardView
-
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.pawsitivelife.R
-
 import com.example.pawsitivelife.databinding.FragmentHomeBinding
+import com.example.pawsitivelife.ui.mydogs.Dog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.android.material.imageview.ShapeableImageView
-import com.example.pawsitivelife.ui.mydogs.Dog
-import java.io.File
-
 
 class HomeFragment : Fragment() {
 
@@ -42,82 +32,115 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadUserProfile()
         loadDogsFromFirestore()
+        logAllDogsOfCurrentUser()
     }
 
-
-    private fun loadUserProfile() {
-        val user = auth.currentUser ?: return
-
-        db.collection("users").document(user.uid).get()
-            .addOnSuccessListener { document ->
-                val username = document.getString("username") ?: "user"
-                val imagePath = document.getString("profileImageUrl") ?: ""
-
-                binding.homeLBLNameGreeting.text = "Hi $username,"
-
-                if (imagePath.startsWith("/")) {
-                    val file = File(imagePath)
-                    if (file.exists()) {
-                        binding.ownerImage.setImageURI(Uri.fromFile(file))
-                    } else {
-                        binding.ownerImage.setImageResource(R.drawable.img_profile)
-                    }
-                } else {
-                    Glide.with(this)
-                        .load(imagePath)
-                        .placeholder(R.drawable.img_profile)
-                        .into(binding.ownerImage)
-                }
-            }
-            .addOnFailureListener {
-                binding.homeLBLNameGreeting.text = "Hi user,"
-            }
-    }
-
-
-    // Fetch dog list from Firestore and render each one as a card
     private fun loadDogsFromFirestore() {
-        val user = auth.currentUser ?: return
+        val user = auth.currentUser
+        if (user == null) {
+            Log.e("DogLogger", "No user is currently logged in")
+            startActivity(Intent(requireContext(), SignInActivity::class.java))
+            requireActivity().finish()
+            return
+        }
+        Log.d("DogLogger", "Loading dogs for user: ${user.uid}")
 
         db.collection("users").document(user.uid).collection("dogs")
             .get()
             .addOnSuccessListener { result ->
+                Log.d("DogLogger", "Successfully loaded ${result.size()} dogs from Firestore")
                 val dogList = result.map { document ->
                     Dog(
                         name = document.getString("name") ?: "",
                         breed = document.getString("breed") ?: "",
-                        dateOfBirth = document.getString("age") ?: "",
+                        dateOfBirth = document.getString("dateOfBirth") ?: "-",
+                        gender = document.getString("gender") ?: "",
                         color = document.getString("color") ?: "",
                         neutered = document.getBoolean("neutered") ?: false,
                         microchipped = document.getBoolean("microchipped") ?: false,
                         imageResId = document.getLong("imageResId")?.toInt() ?: R.drawable.img_chubbie
                     )
                 }
-
-                val adapter = DogCardAdapter(
-                    dogs = dogList, // only the dogs, without the add
-                    onDogClick = { dog ->
-                        findNavController().navigate(R.id.action_navigation_home_to_dogProfileFragment)
-                    },
-                    onAddDogClick = {
-                        findNavController().navigate(R.id.action_navigation_home_to_addDogFragment)
-                    }
-                )
-                binding.homeLSTDogCards.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                binding.homeLSTDogCards.adapter = adapter
+                Log.d("DogLogger", "Mapped ${dogList.size} dogs to Dog objects")
+                showDogs(dogList)
             }
             .addOnFailureListener {
-                // handle error if needed
+                Log.e("DogLogger", "Failed to load dogs from Firestore", it)
+                showDogs(emptyList())
             }
+    }
 
+    private fun showDogs(dogList: List<Dog>) {
+        Log.d("DogLogger", "Showing ${dogList.size} dogs in RecyclerView")
+        val adapter = DogCardAdapter(
+            dogs = dogList,
+            onDogClick = { dog ->
+                val bundle = Bundle().apply {
+                    putString("name", dog.name)
+                    putString("dateOfBirth", dog.dateOfBirth)
+                    putString("gender", dog.gender)
+                    putString("breed", dog.breed)
+                    putString("color", dog.color)
+                    putBoolean("neutered", dog.neutered)
+                    putBoolean("microchipped", dog.microchipped)
+                    putInt("imageResId", dog.imageResId)
+                }
+                findNavController().navigate(R.id.action_navigation_home_to_dogProfileFragment, bundle)
+            },
+            onAddDogClick = {
+                findNavController().navigate(R.id.action_navigation_home_to_addDogFragment)
+            }
+        )
+
+        binding.homeLSTDogCards.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.homeLSTDogCards.adapter = adapter
+        Log.d("DogLogger", "Adapter set on RecyclerView")
+    }
+
+    private fun logAllDogsOfCurrentUser() {
+        val user = FirebaseAuth.getInstance().currentUser ?: return
+        db.collection("users").document(user.uid).collection("dogs")
+            .get()
+            .addOnSuccessListener { result ->
+                if (result.isEmpty) {
+                    Log.d("DogLogger", "No dogs found for user ${user.uid}")
+                } else {
+                    Log.d("DogLogger", "Dogs for user ${user.uid}:")
+                    for (document in result) {
+                        val name = document.getString("name") ?: "Unnamed"
+                        val breed = document.getString("breed") ?: "Unknown"
+                        val gender = document.getString("gender") ?: "-"
+                        val birth = document.getString("dateOfBirth") ?: "-"
+                        val color = document.getString("color") ?: "-"
+                        val neutered = document.getBoolean("neutered") ?: false
+                        val microchipped = document.getBoolean("microchipped") ?: false
+                        val imageResId = document.getLong("imageResId")?.toInt() ?: R.drawable.img_chubbie
+
+                        Log.d(
+                            "DogLogger", """
+                                🐶 Dog:
+                                - Name: $name
+                                - Breed: $breed
+                                - Gender: $gender
+                                - Date of Birth: $birth
+                                - Color: $color
+                                - Neutered: $neutered
+                                - Microchipped: $microchipped
+                                - imageResId: $imageResId
+                            """.trimIndent()
+                        )
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Log.e("DogLogger", "Failed to fetch dogs", it)
+            }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

@@ -1,4 +1,4 @@
-package com.example.pawsitivelife.ui.mydogs
+package com.example.pawsitivelife.ui
 
 import ActivityCareAdapter
 import android.os.Bundle
@@ -10,6 +10,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawsitivelife.R
 import com.example.pawsitivelife.databinding.FragmentDogProfileBinding
+import com.example.pawsitivelife.ui.mydogs.ActivityCareItem
+import com.example.pawsitivelife.ui.mydogs.Dog
+import com.example.pawsitivelife.ui.mydogs.DogInfoAdapter
+import com.example.pawsitivelife.ui.mydogs.DogInfoItem
 
 
 class DogProfileFragment : Fragment() {

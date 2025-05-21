@@ -53,7 +53,7 @@
     <!-- Dog Profile -->
     <fragment
         android:id="@+id/dogProfileFragment"
-        android:name="com.example.pawsitivelife.ui.mydogs.DogProfileFragment"
+        android:name="com.example.pawsitivelife.ui.DogProfileFragment"
         android:label="Dog Profile"
         tools:layout="@layout/fragment_dog_profile">
         <action
@@ -137,12 +137,11 @@
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
 
-    <!-- user -->
     <fragment
         android:id="@+id/profileSetupFragment"
         android:name="com.example.pawsitivelife.ui.user.ProfileSetupFragment"
-        android:label="Profile Setup"
-        tools:layout="@layout/fragment_profile_setup">
+        android:label="Profile Setup">
+
         <action
             android:id="@+id/action_profileSetupFragment_to_homeFragment"
             app:destination="@id/navigation_home" />

@@ -69,5 +69,11 @@ class DogCardAdapter(
         }
     }
 
-    inner class AddDogViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class AddDogViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        init {
+            itemView.setOnClickListener {
+                onAddDogClick()
+            }
+        }
+    }
 }
