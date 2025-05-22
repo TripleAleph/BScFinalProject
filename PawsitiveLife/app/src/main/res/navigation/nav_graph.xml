@@ -17,8 +17,16 @@
         <action
             android:id="@+id/action_navigation_home_to_dogProfileFragment"
             app:destination="@id/dogProfileFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_signInActivity"
+            app:destination="@id/signInActivity" />
     </fragment>
 
+    <!-- Sign In Activity -->
+    <activity
+        android:id="@+id/signInActivity"
+        android:name=".SignInActivity"
+        android:label="Sign In" />
 
     <fragment
         android:id="@+id/navigation_reminder"

@@ -85,4 +85,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
+    //Dogs breeds
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.squareup.converter.gson)
+
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+
+
 }

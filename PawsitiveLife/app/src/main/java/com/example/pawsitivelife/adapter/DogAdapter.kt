@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.pawsitivelife.R
 import com.example.pawsitivelife.databinding.ItemDogBinding
 import com.example.pawsitivelife.databinding.ItemAddDogBinding
@@ -70,7 +71,10 @@ class DogAdapter(
             binding.apply {
                 dogName.text = dog.name
                 dogAge.text = dog.dateOfBirth
-                dogImage.setImageResource(dog.imageResId)
+                Glide.with(binding.root.context)
+                    .load(if (dog.imageUrl.isNotEmpty()) dog.imageUrl else R.drawable.missing_img_dog)
+                    .placeholder(R.drawable.missing_img_dog)
+                    .into(dogImage)
                 root.setOnClickListener { onDogClick(dog) }
             }
         }

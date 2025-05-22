@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.example.pawsitivelife.databinding.FragmentHomeBinding
 import com.example.pawsitivelife.ui.mydogs.Dog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.example.pawsitivelife.SignInActivity
 
 class HomeFragment : Fragment() {
 
@@ -40,8 +42,12 @@ class HomeFragment : Fragment() {
         val user = auth.currentUser
         if (user == null) {
             Log.e("DogLogger", "No user is currently logged in")
-            startActivity(Intent(requireContext(), SignInActivity::class.java))
-            requireActivity().finish()
+            Toast.makeText(
+                requireContext(),
+                "Please check your internet connection and try again",
+                Toast.LENGTH_LONG
+            ).show()
+            findNavController().navigate(R.id.action_navigation_home_to_signInActivity)
             return
         }
         Log.d("DogLogger", "Loading dogs for user: ${user.uid}")
@@ -59,14 +65,18 @@ class HomeFragment : Fragment() {
                         color = document.getString("color") ?: "",
                         neutered = document.getBoolean("neutered") ?: false,
                         microchipped = document.getBoolean("microchipped") ?: false,
-                        imageResId = document.getLong("imageResId")?.toInt() ?: R.drawable.img_chubbie
-                    )
+                        imageUrl = document.getString("imageUrl") ?: ""                    )
                 }
                 Log.d("DogLogger", "Mapped ${dogList.size} dogs to Dog objects")
                 showDogs(dogList)
             }
-            .addOnFailureListener {
-                Log.e("DogLogger", "Failed to load dogs from Firestore", it)
+            .addOnFailureListener { e ->
+                Log.e("DogLogger", "Failed to load dogs from Firestore", e)
+                Toast.makeText(
+                    requireContext(),
+                    "Network error: Please check your internet connection and try again",
+                    Toast.LENGTH_LONG
+                ).show()
                 showDogs(emptyList())
             }
     }
@@ -80,11 +90,11 @@ class HomeFragment : Fragment() {
                     putString("name", dog.name)
                     putString("dateOfBirth", dog.dateOfBirth)
                     putString("gender", dog.gender)
+                    putString("imageUrl", dog.imageUrl)
                     putString("breed", dog.breed)
                     putString("color", dog.color)
                     putBoolean("neutered", dog.neutered)
                     putBoolean("microchipped", dog.microchipped)
-                    putInt("imageResId", dog.imageResId)
                 }
                 findNavController().navigate(R.id.action_navigation_home_to_dogProfileFragment, bundle)
             },

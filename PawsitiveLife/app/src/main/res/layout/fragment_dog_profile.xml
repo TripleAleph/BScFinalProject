@@ -18,7 +18,7 @@
             android:layout_marginTop="32dp"
             android:padding="8dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_chubbie"
+            android:src="@drawable/missing_img_dog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -90,11 +90,14 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/age_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1 year"
                     android:textColor="@color/black"
                     android:textSize="14sp"
+                    android:minLines="1"
+                    android:maxLines="2"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -154,6 +157,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/gender_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Male"
@@ -203,7 +207,7 @@
                     android:layout_height="20dp"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/edit_24px"
-                app:tint="@color/sunglow_900" />
+                    app:tint="@color/sunglow_900" />
 
                 <TextView
                     android:id="@+id/profile_LBL_notesTitle"

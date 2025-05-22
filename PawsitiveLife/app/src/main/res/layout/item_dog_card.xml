@@ -19,7 +19,7 @@
             android:layout_height="140dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_chubbie"
+            android:src="@drawable/missing_img_dog"
             app:shapeAppearanceOverlay="@style/NormalCorners" />
 
         <!-- Dog name and age -->
