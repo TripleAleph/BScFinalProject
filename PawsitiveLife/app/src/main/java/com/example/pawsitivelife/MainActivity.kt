@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.pawsitivelife.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,41 +15,47 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set toolbar as the action bar
+        // Setup custom toolbar
         setSupportActionBar(binding.toolbar)
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        // Add padding between the navigation (back) button and the screen edge
+            //   binding.toolbar.setContentInsetStartWithNavigation(32)
+
+
+        // Setup bottom navigation
+        val navView: BottomNavigationView = binding.navView
+
+        // Get the NavHostFragment and NavController correctly
+        val navHostFragment = supportFragmentManager.findFragmentById(
+            R.id.nav_host_fragment_activity_main
+        ) as NavHostFragment
         navController = navHostFragment.navController
 
-        // Top-level destinations (no back arrow)
-        appBarConfiguration = AppBarConfiguration(
+        // Define top-level destinations (no back button shown here)
+        val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
+                 R.id.navigation_settings,
                 R.id.navigation_appointments,
                 R.id.navigation_my_dogs
             )
         )
 
-        // Setup action bar back navigation (with toolbar)
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+        // Setup action bar for back navigation logic only (we hide the view later)
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
-        // Setup bottom navigation with nav controller
-        val navView: BottomNavigationView = binding.navView
+        // Connect bottom nav with navigation controller
         navView.setupWithNavController(navController)
 
-        // OPTIONAL: hide toolbar visuals, but logic stays active
-        // binding.toolbar.visibility = View.GONE
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

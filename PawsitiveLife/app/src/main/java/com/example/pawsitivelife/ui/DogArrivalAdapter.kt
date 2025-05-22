@@ -23,15 +23,14 @@ class DogArrivalAdapter(
         fun bind(dogArrival: DogArrival) {
             val dog = dogArrival.dog
             Glide.with(itemView.context)
-                .load(dog.imageUrl)
-                .placeholder(R.drawable.img_chubbie)
+                .load(if (dog.imageUrl.isNotEmpty()) dog.imageUrl else R.drawable.missing_img_dog)
+                .placeholder(R.drawable.missing_img_dog)
+                .centerCrop()
                 .into(imgDog)
-
             txtName.text = dog.name
             txtTime.text = "Arriving at ${dogArrival.arrivalTime}"
             itemView.setOnClickListener { onClick(dog) }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {

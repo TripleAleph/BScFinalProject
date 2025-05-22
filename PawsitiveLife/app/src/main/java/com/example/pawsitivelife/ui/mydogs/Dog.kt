@@ -8,6 +8,6 @@ data class Dog(
     val color: String = "",
     val neutered: Boolean = false,
     val microchipped: Boolean = false,
-    val imageUrl: String = ""
-
+    val imageUrl: String,
+    val dogId: String = ""
 )

@@ -1,6 +1,5 @@
 package com.example.pawsitivelife.ui.home
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.example.pawsitivelife.R
 import com.example.pawsitivelife.databinding.ItemDogCardBinding
 import com.example.pawsitivelife.ui.mydogs.Dog
-import java.io.File
 
 class DogCardAdapter(
     private val dogs: List<Dog>,
@@ -45,7 +43,8 @@ class DogCardAdapter(
                 onAddDogClick()
             }
         } else if (holder is DogViewHolder) {
-            holder.bind(dogs[position - 1]) // Offset by -1 because first item is the "Add Dog" card
+            // Subtract 1 because the first item is the add card
+            holder.bind(dogs[position - 1])
         }
     }
 
@@ -55,33 +54,28 @@ class DogCardAdapter(
             binding.dogName.text = dog.name
             binding.dogAge.text = dog.dateOfBirth
 
-            // Load dog image from local path or remote URL
-            if (dog.imageUrl.startsWith("/")) {
-                val file = File(dog.imageUrl)
-                if (file.exists()) {
-                    binding.dogImage.setImageURI(Uri.fromFile(file))
-                } else {
-                    binding.dogImage.setImageResource(R.drawable.missing_img_dog)
-                }
-            } else {
-                Glide.with(binding.root.context)
-                    .load(dog.imageUrl)
-                    .placeholder(R.drawable.missing_img_dog)
-                    .centerCrop()
-                    .into(binding.dogImage)
-            }
+            Glide.with(binding.root.context)
+                .load(if (dog.imageUrl.isNotEmpty()) dog.imageUrl else R.drawable.missing_img_dog)
+                .placeholder(R.drawable.missing_img_dog)
+                .centerCrop()
+                .into(binding.dogImage)
 
-            // Set gender icon
+
             binding.genderIcon.setImageResource(
                 if (dog.gender == "Male") R.drawable.ic_male else R.drawable.ic_female
             )
 
-            // Handle dog card click
             binding.root.setOnClickListener {
                 onDogClick(dog)
             }
         }
     }
 
-    inner class AddDogViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class AddDogViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        init {
+            itemView.setOnClickListener {
+                onAddDogClick()
+            }
+        }
+    }
 }

@@ -96,6 +96,8 @@
                     android:text="1 year"
                     android:textColor="@color/black"
                     android:textSize="14sp"
+                    android:minLines="1"
+                    android:maxLines="2"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -205,7 +207,7 @@
                     android:layout_height="20dp"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/edit_24px"
-                app:tint="@color/sunglow_900" />
+                    app:tint="@color/sunglow_900" />
 
                 <TextView
                     android:id="@+id/profile_LBL_notesTitle"
