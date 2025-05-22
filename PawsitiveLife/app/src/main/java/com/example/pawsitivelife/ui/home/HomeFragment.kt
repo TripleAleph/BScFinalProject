@@ -1,6 +1,5 @@
 package com.example.pawsitivelife.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import com.example.pawsitivelife.databinding.FragmentHomeBinding
 import com.example.pawsitivelife.ui.mydogs.Dog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.example.pawsitivelife.SignInActivity
 
 class HomeFragment : Fragment() {
 
@@ -50,12 +48,10 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_home_to_signInActivity)
             return
         }
-        Log.d("DogLogger", "Loading dogs for user: ${user.uid}")
 
         db.collection("users").document(user.uid).collection("dogs")
             .get()
             .addOnSuccessListener { result ->
-                Log.d("DogLogger", "Successfully loaded ${result.size()} dogs from Firestore")
                 val dogList = result.map { document ->
                     Dog(
                         name = document.getString("name") ?: "",
@@ -65,9 +61,10 @@ class HomeFragment : Fragment() {
                         color = document.getString("color") ?: "",
                         neutered = document.getBoolean("neutered") ?: false,
                         microchipped = document.getBoolean("microchipped") ?: false,
-                        imageUrl = document.getString("imageUrl") ?: ""                    )
+                        imageUrl = document.getString("imageUrl") ?: "",
+                        dogId = document.id // ← Add document ID as dogId
+                    )
                 }
-                Log.d("DogLogger", "Mapped ${dogList.size} dogs to Dog objects")
                 showDogs(dogList)
             }
             .addOnFailureListener { e ->
@@ -82,11 +79,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun showDogs(dogList: List<Dog>) {
-        Log.d("DogLogger", "Showing ${dogList.size} dogs in RecyclerView")
         val adapter = DogCardAdapter(
             dogs = dogList,
             onDogClick = { dog ->
                 val bundle = Bundle().apply {
+                    putString("dogId", dog.dogId) // Required for Firestore updates
                     putString("name", dog.name)
                     putString("dateOfBirth", dog.dateOfBirth)
                     putString("gender", dog.gender)
@@ -106,7 +103,6 @@ class HomeFragment : Fragment() {
         binding.homeLSTDogCards.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.homeLSTDogCards.adapter = adapter
-        Log.d("DogLogger", "Adapter set on RecyclerView")
     }
 
     private fun logAllDogsOfCurrentUser() {
@@ -126,11 +122,13 @@ class HomeFragment : Fragment() {
                         val color = document.getString("color") ?: "-"
                         val neutered = document.getBoolean("neutered") ?: false
                         val microchipped = document.getBoolean("microchipped") ?: false
-                        val imageResId = document.getLong("imageResId")?.toInt() ?: R.drawable.img_chubbie
+                        val imageUrl = document.getString("imageUrl") ?: ""
+                        val dogId = document.id
 
                         Log.d(
                             "DogLogger", """
                                 🐶 Dog:
+                                - ID: $dogId
                                 - Name: $name
                                 - Breed: $breed
                                 - Gender: $gender
@@ -138,7 +136,7 @@ class HomeFragment : Fragment() {
                                 - Color: $color
                                 - Neutered: $neutered
                                 - Microchipped: $microchipped
-                                - imageResId: $imageResId
+                                - Image URL: $imageUrl
                             """.trimIndent()
                         )
                     }

@@ -82,6 +82,10 @@
         <action
             android:id="@+id/action_dogProfileFragment_to_weightFragment"
             app:destination="@id/weightFragment" />
+        <action
+            android:id="@+id/action_dogProfileFragment_to_editDogProfileFragment"
+            app:destination="@id/editDogProfileFragment" />
+
     </fragment>
 
     <!-- Dog Profile - Sub Screens -->
@@ -120,6 +124,13 @@
         android:name="com.example.pawsitivelife.ui.WeightFragment"
         android:label="Weight"
         tools:layout="@layout/fragment_weight" />
+
+    <fragment
+        android:id="@+id/editDogProfileFragment"
+        android:name="com.example.pawsitivelife.ui.mydogs.EditDogProfileFragment"
+        android:label="Edit Dog Profile"
+        tools:layout="@layout/fragment_edit_dog_profile" />
+
 
     <!-- Appointments -->
     <fragment
