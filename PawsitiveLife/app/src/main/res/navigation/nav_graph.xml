@@ -166,5 +166,9 @@
             app:destination="@id/navigation_home" />
     </fragment>
 
-
+    <fragment
+        android:id="@+id/dogParkFragment"
+        android:name="com.example.pawsitivelife.ui.DogParkFragment"
+        android:label="MAPuppy"
+        tools:layout="@layout/fragment_dog_park" />
 </navigation>
