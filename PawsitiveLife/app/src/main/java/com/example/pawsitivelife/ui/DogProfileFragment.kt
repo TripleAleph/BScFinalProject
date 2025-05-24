@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.pawsitivelife.R
 import com.example.pawsitivelife.databinding.FragmentDogProfileBinding
+import com.example.pawsitivelife.ui.mydogs.ActivityCareAdapter
+import com.example.pawsitivelife.ui.mydogs.ActivityCareItem
 import com.example.pawsitivelife.ui.mydogs.DogInfoAdapter
 import com.example.pawsitivelife.ui.mydogs.DogInfoItem
 import com.google.firebase.auth.FirebaseAuth
@@ -33,6 +35,8 @@ class DogProfileFragment : Fragment() {
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
+
+    private lateinit var dogId: String
 
     private val pickImageLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -62,7 +66,7 @@ class DogProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dogId = arguments?.getString("dogId") ?: return
+        dogId = arguments?.getString("dogId") ?: return
         val name = arguments?.getString("name") ?: "Unknown"
         val birthDate = arguments?.getString("dateOfBirth") ?: "-"
         val gender = arguments?.getString("gender") ?: "-"
@@ -93,24 +97,34 @@ class DogProfileFragment : Fragment() {
         binding.profileLSTInfo.layoutManager = LinearLayoutManager(requireContext())
         binding.profileLSTInfo.adapter = DogInfoAdapter(infoList)
 
-        // Load notes from Firestore
+        setupActivityCareTracker()
+
         val user = FirebaseAuth.getInstance().currentUser ?: return
-        db.collection("users").document(user.uid).collection("dogs").document(dogId)
+// Load notes and latest weight for the dog
+        db.collection("users").document(user.uid)
+            .collection("dogs").document(dogId)
             .get()
             .addOnSuccessListener { document ->
+                // Load care notes
                 val notes = document.getString("notes") ?: ""
                 binding.profileLBLNotesText.text = notes
+
+                // Load latest weight and display
+                val latestWeight = document.getDouble("latestWeight")
+                val weightText = if (latestWeight != null) "$latestWeight kg" else "-"
+                binding.root.findViewById<TextView>(R.id.weight_value)?.text = weightText
             }
             .addOnFailureListener {
+                // Handle failure
                 binding.profileLBLNotesText.text = "Failed to load notes"
+                binding.root.findViewById<TextView>(R.id.weight_value)?.text = "-"
             }
 
-        // Edit image button
+
         binding.profileBTNEditImage.setOnClickListener {
             pickImageLauncher.launch("image/*")
         }
 
-        // Navigate to edit notes
         binding.profileLBLEditNotesClick.setOnClickListener {
             val bundle = Bundle().apply {
                 putString("dogId", dogId)
@@ -118,7 +132,6 @@ class DogProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_dogProfileFragment_to_editNotesFragment, bundle)
         }
 
-        // Navigate to edit profile
         binding.dogProfileBTNEditProfile.setOnClickListener {
             val bundle = Bundle().apply {
                 putString("dogId", dogId)
@@ -134,10 +147,37 @@ class DogProfileFragment : Fragment() {
         }
     }
 
-    private fun updateDogImageInFirestore(imagePath: String) {
-        val dogId = arguments?.getString("dogId") ?: return
-        val user = auth.currentUser ?: return
+    private fun setupActivityCareTracker() {
+        val activityCareItems = listOf(
+            ActivityCareItem(R.drawable.dog_walking, "Walk"),
+            ActivityCareItem(R.drawable.ic_food, "Feed"),
+            ActivityCareItem(R.drawable.ic_pills, "Medicine"),
+            ActivityCareItem(R.drawable.ic_training, "Training"),
+            ActivityCareItem(R.drawable.ic_weight, "Weight")
+        )
 
+        val activityCareAdapter = ActivityCareAdapter(activityCareItems) { item ->
+            val bundle = Bundle().apply {
+                putString("dogId", dogId)
+            }
+
+            when (item.title) {
+                "Walk" -> findNavController().navigate(R.id.action_dogProfileFragment_to_walksFragment, bundle)
+                "Medicine" -> findNavController().navigate(R.id.action_dogProfileFragment_to_medicationFragment, bundle)
+                "Feed" -> findNavController().navigate(R.id.action_dogProfileFragment_to_feedingFragment, bundle)
+                "Training" -> findNavController().navigate(R.id.action_dogProfileFragment_to_trainingFragment, bundle)
+                "Weight" -> findNavController().navigate(R.id.action_dogProfileFragment_to_weightFragment, bundle)
+            }
+        }
+
+        binding.profileLSTQuickActions.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = activityCareAdapter
+        }
+    }
+
+    private fun updateDogImageInFirestore(imagePath: String) {
+        val user = auth.currentUser ?: return
         db.collection("users").document(user.uid)
             .collection("dogs").document(dogId)
             .update("imageUrl", imagePath)
