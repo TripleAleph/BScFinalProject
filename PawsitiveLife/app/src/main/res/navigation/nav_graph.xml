@@ -25,7 +25,7 @@
     <!-- Sign In Activity -->
     <activity
         android:id="@+id/signInActivity"
-        android:name=".SignInActivity"
+        android:name="com.example.pawsitivelife.SignInActivity"
         android:label="Sign In" />
 
     <fragment
