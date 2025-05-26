@@ -23,6 +23,8 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+
+    private var currentSelectedAges: List<String> = emptyList()
     private var currentSelectedTags: List<String> = emptyList()
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
@@ -48,11 +50,18 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                 return@setOnClickListener
             }
 
+//            val sheet = FilterBottomSheetFragment(
+//                preselectedTags = currentSelectedTags,
+//                preselectedAges = emptyList(),
+//                listener = this
+//            )
+
             val sheet = FilterBottomSheetFragment(
                 preselectedTags = currentSelectedTags,
-                preselectedAges = emptyList(),
+                preselectedAges = currentSelectedAges,
                 listener = this
             )
+
             sheet.show(parentFragmentManager, sheet.tag)
         }
 
@@ -91,15 +100,25 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
         binding.articleCARD8.setOnClickListener { findNavController().navigate(R.id.Article8Fragment) }
     }
 
+//    override fun onFiltersApplied(selectedTags: List<String>, selectedAges: List<String>) {
+//        currentSelectedTags = (selectedTags + selectedAges).map { it.lowercase() }
+//        Log.d("FILTER_TEST", "🎯 Selected tags: $currentSelectedTags")
+//
+//        val filteredArticles = filterArticles(currentSelectedTags)
+//        Log.d("FILTER_TEST", "📰 Filtered articles count: ${filteredArticles.size}")
+//
+//        showFilteredArticles(filteredArticles)
+//    }
+
     override fun onFiltersApplied(selectedTags: List<String>, selectedAges: List<String>) {
-        currentSelectedTags = (selectedTags + selectedAges).map { it.lowercase() }
-        Log.d("FILTER_TEST", "🎯 Selected tags: $currentSelectedTags")
+        currentSelectedTags = selectedTags.map { it.lowercase() }
+        currentSelectedAges = selectedAges.map { it.lowercase() }
 
-        val filteredArticles = filterArticles(currentSelectedTags)
-        Log.d("FILTER_TEST", "📰 Filtered articles count: ${filteredArticles.size}")
-
+        val combined = (currentSelectedTags + currentSelectedAges).distinct()
+        val filteredArticles = filterArticles(combined)
         showFilteredArticles(filteredArticles)
     }
+
 
     private fun showFilteredArticles(articles: List<Article>) {
         val articleMap = mapOf(
@@ -124,13 +143,26 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
         Log.d("ARTICLE_FILTERED", "✅ Showing articles: ${articles.map { it.title }}")
     }
 
+//    private fun filterArticles(selectedTags: List<String>): List<Article> {
+//        if (selectedTags.isEmpty()) return ArticleRepository.articles
+//
+//        return ArticleRepository.articles.filter { article ->
+//            article.tags.any { tag -> selectedTags.contains(tag.lowercase()) }
+//        }
+//    }
+
+
+    //instaed of 5 articles in "seniors" it shows 4
     private fun filterArticles(selectedTags: List<String>): List<Article> {
         if (selectedTags.isEmpty()) return ArticleRepository.articles
 
+        val selectedLower = selectedTags.map { it.lowercase() }
+
         return ArticleRepository.articles.filter { article ->
-            article.tags.any { tag -> selectedTags.contains(tag.lowercase()) }
+            article.tags.any { tag -> selectedLower.contains(tag.lowercase()) }
         }
     }
+
 
     private fun loadUsername() {
         val user = auth.currentUser ?: return

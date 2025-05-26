@@ -35,10 +35,15 @@ class FilterBottomSheetFragment(
         val ageContainer = view.findViewById<LinearLayout>(R.id.filter_ages_container)
         val applyButton = view.findViewById<MaterialButton>(R.id.btn_apply_filters)
 
+
+
+        val lowerPreselectedTags = preselectedTags.map { it.lowercase() }
+        val lowerPreselectedAges = preselectedAges.map { it.lowercase() }
+
         val tagCheckboxes = allTags.map { label ->
             CheckBox(requireContext()).apply {
                 text = label
-                isChecked = preselectedTags.contains(label)
+                isChecked = lowerPreselectedTags.contains(label.lowercase())
                 tagContainer.addView(this)
             }
         }
@@ -46,10 +51,26 @@ class FilterBottomSheetFragment(
         val ageCheckboxes = allAgeGroups.map { age ->
             CheckBox(requireContext()).apply {
                 text = age
-                isChecked = preselectedAges.contains(age)
+                isChecked = lowerPreselectedAges.contains(age.lowercase()) //
                 ageContainer.addView(this)
             }
         }
+
+//        val tagCheckboxes = allTags.map { label ->
+//            CheckBox(requireContext()).apply {
+//                text = label
+//                isChecked = preselectedTags.contains(label)
+//                tagContainer.addView(this)
+//            }
+//        }
+//
+//        val ageCheckboxes = allAgeGroups.map { age ->
+//            CheckBox(requireContext()).apply {
+//                text = age
+//                isChecked = preselectedAges.contains(age)
+//                ageContainer.addView(this)
+//            }
+//        }
 
         applyButton.setOnClickListener {
             val selectedTags = tagCheckboxes.filter { it.isChecked }.map { it.text.toString() }
