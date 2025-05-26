@@ -57,11 +57,6 @@ class Article3Fragment : Fragment() {
             settings.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
 
-        //        button back to the main screen
-        val backButton=view.findViewById<ImageButton>(R.id.backButton)
-        backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
 
 
 

@@ -1,82 +1,84 @@
 package com.example.pawsitivelife.ui.settings
 
-import android.widget.TextView
-import androidx.navigation.fragment.findNavController
-
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.pawsitivelife.R
+import com.example.pawsitivelife.databinding.FragmentSettingsBinding
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SettingsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+    ): View {
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val versionName = requireContext().packageManager
-            .getPackageInfo(requireContext().packageName, 0).versionName
+        // Navigate to profile screen (implement later if needed)
+        binding.profileRow.setOnClickListener {
+            // findNavController().navigate(R.id.action_settings_to_profileFragment)
+        }
 
-        val versionTextView = view.findViewById<TextView>(R.id.appVersionText)
-        versionTextView.text = "App version: $versionName"
+        // Navigate to notifications screen (implement later if needed)
+        binding.notificationsRow.setOnClickListener {
+            // findNavController().navigate(R.id.action_settings_to_notificationsFragment)
+        }
 
-/*        val feedbackRow = view.findViewById<View>(R.id.feedbackRow)
-        feedbackRow.setOnClickListener {
-            findNavController().navigate(R.id.FeedbackFragment)
-        }*/
+        // Handle dark theme switch toggle
+        binding.darkThemeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            // Handle dark mode preference (e.g., using SharedPreferences)
+            // Example:
+            // AppCompatDelegate.setDefaultNightMode(
+            //     if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            // )
+        }
 
+        // Navigate to feedback screen
+        binding.feedbackRow.setOnClickListener {
+            findNavController().navigate(R.id.action_SettingsFragment_to_FeedbackFragment)
+        }
+
+        // Navigate to terms of service screen (implement later if needed)
+        binding.termsRow.setOnClickListener {
+            // findNavController().navigate(R.id.action_settings_to_termsFragment)
+        }
+
+        // Handle logout logic
+        binding.logoutRow.setOnClickListener {
+            // Clear user session, go back to login screen, etc.
+            // Example:
+            // FirebaseAuth.getInstance().signOut()
+            // findNavController().navigate(R.id.action_global_loginFragment)
+        }
+
+        // Show app version dynamically
+        val versionName = getAppVersion()
+        binding.appVersionText.text = "App version: $versionName"
     }
 
+    // Get current app version from package manager
+    private fun getAppVersion(): String {
+        return try {
+            val pInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
+            pInfo.versionName ?: "1.0"
+        } catch (e: Exception) {
+            "1.0"
+        }
+    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

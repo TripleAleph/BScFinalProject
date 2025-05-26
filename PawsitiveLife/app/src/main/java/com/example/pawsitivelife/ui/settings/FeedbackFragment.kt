@@ -5,7 +5,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.text.TextWatcher
 import android.text.Editable
-
+import android.widget.RatingBar
 import android.widget.Toast
 
 
@@ -49,11 +49,7 @@ class FeedbackFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val backButton=view.findViewById<ImageButton>(R.id.backButton)
-        backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
+        val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
         val commentInput = view.findViewById<EditText>(R.id.commentInput)
         val charCountText = view.findViewById<TextView>(R.id.charCountText)
 
@@ -62,7 +58,7 @@ class FeedbackFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val currentLength = s?.length ?: 0
-                charCountText.text = "Chars: $currentLength/500"
+                charCountText.text = "Chars: $currentLength/300"
             }
 
             override fun afterTextChanged(s: Editable?) {}
