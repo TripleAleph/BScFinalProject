@@ -10,6 +10,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.pawsitivelife.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.libraries.places.api.Places
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +20,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // ✅ Initialize Google Places SDK
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, "AIzaSyDw7ADJlUmfTff1hEA0ZYWcJpX22RjSArw", Locale.getDefault())
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -41,10 +49,9 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
-                 R.id.navigation_settings,
+                R.id.navigation_settings,
                 R.id.navigation_appointments,
-                R.id.navigation_my_dogs,
-                R.id.navigation_settings
+                R.id.dogParkFragment
             )
         )
 
@@ -53,6 +60,8 @@ class MainActivity : AppCompatActivity() {
 
         // Connect bottom nav with navigation controller
         navView.setupWithNavController(navController)
+
+        binding.toolbar.navigationIcon?.setTint(getColor(black))
 
     }
 
