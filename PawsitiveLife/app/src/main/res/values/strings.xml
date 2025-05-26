@@ -61,6 +61,34 @@
     <string name="select_dogs_dialog">Select dogs to show in the park</string>
 
 
+    <string name="article1_topic">Feeding Your Dog</string>
+    <string name="article1_name">How Many Times a Day Should a Dog Eat?</string>
+    <string name="article1_reading_time">2-4 minutes</string>
+
+    <string name="article2_topic">Getting a Dog</string>
+    <string name="article2_name">Should You Give a Dog as a Gift?</string>
+    <string name="article2_reading_time">2-4 minutes</string>
+
+    <string name="article3_topic">Dog Health</string>
+    <string name="article3_name">What to Do if Your Dog Has Dry Skin</string>
+    <string name="article3_reading_time">1-2 minutes</string>
+
+    <string name="article4_topic">Feeding Your Dog, Puppies</string>
+    <string name="article4_name">Your Puppy’s Diet &amp; Nutritional Needs</string>
+    <string name="article4_reading_time">2-4 minutes</string>
+
+    <string name="article5_name">What’s Causing My Puppy’s Upset Stomach?</string>
+    <string name="article5_reading_time">2-4 minutes</string>
+
+    <string name="article6_name">Why Do Dogs Have Itchy Ears?</string>
+    <string name="article6_reading_time">1-2 minutes</string>
+
+    <string name="article7_name">Puppy Training: How &amp; When Train a Puppy</string>
+    <string name="article7_reading_time">2-4 minutes</string>
+
+    <string name="article8_name">How Often to Feed a Puppy?</string>
+    <string name="article8_reading_time">2-4 minutes</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus

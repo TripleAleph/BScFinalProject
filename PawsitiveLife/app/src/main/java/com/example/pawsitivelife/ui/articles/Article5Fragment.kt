@@ -57,10 +57,7 @@ class Article5Fragment : Fragment() {
             settings.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
 
-        val backButton=view.findViewById<ImageView>(R.id.backButton)
-        backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
 
         webView.loadUrl("https://www.purina.com/articles/dog/puppy/health/puppy-upset-stomach")
     }
