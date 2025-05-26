@@ -43,6 +43,7 @@ android {
 
 dependencies {
 
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -75,6 +76,10 @@ dependencies {
     implementation (libs.converter.gson)
 
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+
+    // OpenAI API dependencies
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("org.json:json:20230227")
 
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
