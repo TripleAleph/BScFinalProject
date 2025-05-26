@@ -49,8 +49,17 @@
         <action
             android:id="@+id/action_navigation_home_to_Article8Fragment"
             app:destination="@+id/Article8Fragment"/>
+
+        <action
+            android:id="@+id/action_navigation_home_to_signInActivity"
+            app:destination="@id/signInActivity" />
     </fragment>
 
+    <!-- Sign In Activity -->
+    <activity
+        android:id="@+id/signInActivity"
+        android:name="com.example.pawsitivelife.SignInActivity"
+        android:label="Sign In" />
 
     <fragment
         android:id="@+id/Article1Fragment"
@@ -159,6 +168,10 @@
         <action
             android:id="@+id/action_dogProfileFragment_to_weightFragment"
             app:destination="@id/weightFragment" />
+        <action
+            android:id="@+id/action_dogProfileFragment_to_editDogProfileFragment"
+            app:destination="@id/editDogProfileFragment" />
+
     </fragment>
 
     <!-- Dog Profile - Sub Screens -->
@@ -198,6 +211,13 @@
         android:label="Weight"
         tools:layout="@layout/fragment_weight" />
 
+    <fragment
+        android:id="@+id/editDogProfileFragment"
+        android:name="com.example.pawsitivelife.ui.mydogs.EditDogProfileFragment"
+        android:label="Edit Dog Profile"
+        tools:layout="@layout/fragment_edit_dog_profile" />
+
+
     <!-- Appointments -->
     <fragment
         android:id="@+id/navigation_appointments"
@@ -234,5 +254,16 @@
             app:destination="@+id/feedbackFragment"/>
 
     </fragment>
+
+    <fragment
+        android:id="@+id/profileSetupFragment"
+        android:name="com.example.pawsitivelife.ui.user.ProfileSetupFragment"
+        android:label="Profile Setup">
+
+        <action
+            android:id="@+id/action_profileSetupFragment_to_homeFragment"
+            app:destination="@id/navigation_home" />
+    </fragment>
+
 
 </navigation>

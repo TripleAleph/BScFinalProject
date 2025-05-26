@@ -40,7 +40,6 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadUsername()
         loadDogsFromFirestore()
         logAllDogsOfCurrentUser()
 
@@ -164,20 +163,19 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
     }
 
 
-    private fun loadUsername() {
-        val user = auth.currentUser ?: return
-        db.collection("users").document(user.uid).get()
-            .addOnSuccessListener { document ->
-                val username = document.getString("username") ?: "unknown"
-                binding.homeLBLUsername.text = "@$username"
-            }
-            .addOnFailureListener {
-                binding.homeLBLUsername.text = "@error"
-            }
-    }
-
     private fun loadDogsFromFirestore() {
-        val user = auth.currentUser ?: return
+        val user = auth.currentUser
+        if (user == null) {
+            Log.e("DogLogger", "No user is currently logged in")
+            Toast.makeText(
+                requireContext(),
+                "Please check your internet connection and try again",
+                Toast.LENGTH_LONG
+            ).show()
+            findNavController().navigate(R.id.action_navigation_home_to_signInActivity)
+            return
+        }
+
         db.collection("users").document(user.uid).collection("dogs")
             .get()
             .addOnSuccessListener { result ->
@@ -190,12 +188,19 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                         color = document.getString("color") ?: "",
                         neutered = document.getBoolean("neutered") ?: false,
                         microchipped = document.getBoolean("microchipped") ?: false,
-                        imageUrl = document.getString("imageUrl") ?: ""
+                        imageUrl = document.getString("imageUrl") ?: "",
+                        dogId = document.id // ← Add document ID as dogId
                     )
                 }
                 showDogs(dogList)
             }
-            .addOnFailureListener {
+            .addOnFailureListener { e ->
+                Log.e("DogLogger", "Failed to load dogs from Firestore", e)
+                Toast.makeText(
+                    requireContext(),
+                    "Network error: Please check your internet connection and try again",
+                    Toast.LENGTH_LONG
+                ).show()
                 showDogs(emptyList())
             }
     }
@@ -205,6 +210,7 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
             dogs = dogList,
             onDogClick = { dog ->
                 val bundle = Bundle().apply {
+                    putString("dogId", dog.dogId) // Required for Firestore updates
                     putString("name", dog.name)
                     putString("dateOfBirth", dog.dateOfBirth)
                     putString("gender", dog.gender)
@@ -226,18 +232,9 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
         binding.homeLSTDogCards.adapter = adapter
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun logAllDogsOfCurrentUser() {
         val user = FirebaseAuth.getInstance().currentUser ?: return
-        val db = FirebaseFirestore.getInstance()
-
-        db.collection("users")
-            .document(user.uid)
-            .collection("dogs")
+        db.collection("users").document(user.uid).collection("dogs")
             .get()
             .addOnSuccessListener { result ->
                 if (result.isEmpty) {
@@ -252,22 +249,33 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                         val color = document.getString("color") ?: "-"
                         val neutered = document.getBoolean("neutered") ?: false
                         val microchipped = document.getBoolean("microchipped") ?: false
+                        val imageUrl = document.getString("imageUrl") ?: ""
+                        val dogId = document.id
 
-                        Log.d("DogLogger", """
-                            🐶 Dog:
-                            - Name: $name
-                            - Breed: $breed
-                            - Gender: $gender
-                            - Date of Birth: $birth
-                            - Color: $color
-                            - Neutered: $neutered
-                            - Microchipped: $microchipped
-                        """.trimIndent())
+                        Log.d(
+                            "DogLogger", """
+                                🐶 Dog:
+                                - ID: $dogId
+                                - Name: $name
+                                - Breed: $breed
+                                - Gender: $gender
+                                - Date of Birth: $birth
+                                - Color: $color
+                                - Neutered: $neutered
+                                - Microchipped: $microchipped
+                                - Image URL: $imageUrl
+                            """.trimIndent()
+                        )
                     }
                 }
             }
             .addOnFailureListener {
                 Log.e("DogLogger", "Failed to fetch dogs", it)
             }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -71,11 +71,6 @@ dependencies {
 //Glide
     implementation (libs.glide)
 
-    //Dogs breeds
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
-
-    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
 
     // OpenAI API dependencies
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
@@ -84,4 +79,22 @@ dependencies {
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
     // https://firebase.google.com/docs/android/setup#available-libraries
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+// Retrofit with Gson converter
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+// Optional - if using coroutines with Retrofit
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
+    //Dogs breeds
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.squareup.converter.gson)
+
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+
+
 }

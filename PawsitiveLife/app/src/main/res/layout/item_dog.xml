@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="150dp"
     android:layout_height="190dp"
-    android:layout_margin="16dp"
+    android:layout_margin="8dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="10dp">
 
@@ -12,17 +12,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Dog image -->
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/dog_image"
+            android:id="@+id/dogImage"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
-            android:src="@drawable/missing_img_dog"
-            app:shapeAppearanceOverlay="@style/NormalCorners" />
+            app:shapeAppearanceOverlay="@style/NormalCorners"/>
 
-        <!-- Dog name and age -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,38 +32,28 @@
                 android:paddingRight="34dp">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/dog_name"
+                    android:id="@+id/dogName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
-                    android:paddingTop="3dp"
-                    android:text="Dog Name"
-                    android:textColor="@color/black"
+                    android:paddingTop="2dp"
                     android:textSize="16sp"
-                    android:layout_weight="1"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/dog_age"
+                    android:id="@+id/dogAge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
                     android:paddingBottom="4dp"
-                    android:text="1 year"
-                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Gender icon (optional – can be removed if not needed) -->
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/gender_icon"
+                android:id="@+id/dogGender"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="6dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_male" />
-
+                android:paddingTop="12dp" />
         </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView> 
