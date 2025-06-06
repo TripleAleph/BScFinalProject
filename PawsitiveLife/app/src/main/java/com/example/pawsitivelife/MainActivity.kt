@@ -1,5 +1,6 @@
 package com.example.pawsitivelife
 
+import android.R.color.black
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity

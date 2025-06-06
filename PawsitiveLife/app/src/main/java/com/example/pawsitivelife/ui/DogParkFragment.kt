@@ -31,7 +31,6 @@ import android.widget.EditText
 import com.example.pawsitivelife.storage.ParkPreferences
 import androidx.appcompat.app.AlertDialog
 import com.example.pawsitivelife.storage.DogParkRepository
-import com.example.pawsitivelife.storage.FakeDogParkRepository
 
 
 class DogParkFragment : Fragment(), OnMapReadyCallback {
@@ -62,14 +61,10 @@ class DogParkFragment : Fragment(), OnMapReadyCallback {
         mapFragment = childFragmentManager.findFragmentById(R.id.dogPark_MAP_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        dogRepository = FakeDogParkRepository()
 
         dogRepository.getDogsInPark { updatedDogs ->
             showDogsInPark(updatedDogs)
         }
-
-        addDogsToVet()
-        addDogsToStoreShop()
 
     }
 
@@ -212,32 +207,7 @@ class DogParkFragment : Fragment(), OnMapReadyCallback {
         binding.dogParkTXTParkAddress.text = address
     }
 
-    private fun addDogsToVet() {
-        val vetClientsLayout = binding.layoutDogClientsAvatars
-        val dogsAtVet = listOf(
-            Dog("Raichu", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Charlie", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Lola", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Luna", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Rain", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Boaz", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Mila", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Benny", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false)
-        )
-        addDogViewsToLayout(dogsAtVet, vetClientsLayout)
-    }
 
-    private fun addDogsToStoreShop() {
-        val petStoreClientsLayout = binding.layoutDogStoreClientsAvatars
-        val dogsAtPetStore = listOf(
-            Dog("Raichu", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Luna", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Lola", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Mila", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Benny", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false)
-        )
-        addDogViewsToLayout(dogsAtPetStore, petStoreClientsLayout)
-    }
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map

@@ -89,6 +89,9 @@
     <string name="article8_name">How Often to Feed a Puppy?</string>
     <string name="article8_reading_time">2-4 minutes</string>
 
+    <string name="recommended_articles">Recommended Articles</string>
+
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus

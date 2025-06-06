@@ -1,69 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    android:layout_marginTop="12dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:elevation="4dp"
-    android:padding="16dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <!-- walk time -->
         <TextView
-            android:id="@+id/walk_time_text"
+            android:id="@+id/walk_item_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="07:30"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="Date: 06/06/2025"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
 
-        <!-- walk type -->
-        <TextView
-            android:id="@+id/walk_type_text"
+        <CheckBox
+            android:id="@+id/walk_item_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="morning"
-            android:textSize="16sp" />
+            android:text="Walk completed"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black" />
 
-        <!-- notes -->
-        <TextView
-            android:id="@+id/walk_notes_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Walk at the park"
-            android:textSize="14sp"
-            android:textColor="#666666" />
-
-        <!-- edit , delete buttons -->
-        <LinearLayout
+        <EditText
+            android:id="@+id/walk_item_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end"
-            android:layout_marginTop="8dp">
-
-            <ImageButton
-                android:id="@+id/edit_walk_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/edit_24px"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Edit walk" />
-
-            <ImageButton
-                android:id="@+id/delete_walk_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_delete"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Delete walk"
-                android:layout_marginStart="12dp" />
-        </LinearLayout>
-
+            android:hint="Add a note about the walk..."
+            android:inputType="textMultiLine"
+            android:lines="2"
+            android:minLines="2"
+            android:maxLines="4"
+            android:background="@drawable/rounded_edit_text"
+            android:layout_marginTop="8dp"
+            android:padding="8dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
