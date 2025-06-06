@@ -1,61 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:fillViewport="true"
     android:background="@color/white"
-    android:layoutDirection="ltr">
+    android:padding="16dp">
 
-    <!-- Title: Fixed walk times -->
-    <TextView
-        android:id="@+id/walks_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fixed Walk Times"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:paddingBottom="12dp" />
-
-    <!-- Dynamic fixed walk times container -->
-    <LinearLayout
-        android:id="@+id/fixed_walks_container"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="wrap_content">
 
-    <!-- Title: Walk log -->
-    <TextView
-        android:id="@+id/walk_log_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Walk Log"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:paddingBottom="8dp" />
+        <LinearLayout
+            android:id="@+id/walks_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <!-- RecyclerView for daily walk logs -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/walks_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:clipToPadding="false" />
+            <!-- Selected Date Title -->
+            <TextView
+                android:id="@+id/walks_title_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Friday, June 7, 2025"
+                android:textSize="18sp"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textColor="@color/black"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="8dp" />
 
-    <!-- FAB to add new walk -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_walk_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_margin="16dp"
-        android:contentDescription="Add new walk"
-        app:srcCompat="@drawable/ic_add"
-        app:tint="@android:color/white" />
-</LinearLayout>
+
+            <!-- Weekly Calendar -->
+            <com.kizitonwose.calendar.view.WeekCalendarView
+                android:id="@+id/weekCalendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cv_dayViewResource="@layout/walk_item_calendar_day" />
+
+            <!-- Fixed Times Title -->
+            <TextView
+                android:id="@+id/walks_lbl_fixed_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fixed Walk Times"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Fixed Walk Times Container -->
+            <LinearLayout
+                android:id="@+id/fixedWalksContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Walk Log Title -->
+            <TextView
+                android:id="@+id/walks_lbl_log_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daily Walk Log"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Walk Log RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/walksRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="72dp" />
+        </LinearLayout>
+
+        <!-- FAB -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addWalkFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/french_rose_600" />
+    </RelativeLayout>
+
+</ScrollView>
