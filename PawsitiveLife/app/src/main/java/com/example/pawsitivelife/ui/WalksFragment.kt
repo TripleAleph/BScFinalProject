@@ -11,6 +11,8 @@ import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawsitivelife.R
@@ -30,8 +32,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.content.res.ResourcesCompat
 
 class WalksFragment : Fragment() {
 
@@ -48,6 +48,7 @@ class WalksFragment : Fragment() {
         WalkType.EVENING to LocalTime.of(19, 0)
     )
 
+    private val walkTypeOrder = listOf(WalkType.MORNING, WalkType.AFTERNOON, WalkType.EVENING)
     private val today = LocalDate.now()
     private var selectedDate: LocalDate = today
 
@@ -65,8 +66,6 @@ class WalksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupWeekCalendar()
-        binding.addWalkFab.setOnClickListener { showAddWalkTimeDialog() }
-
         ensureDefaultWalkTimes()
     }
 
@@ -80,7 +79,6 @@ class WalksFragment : Fragment() {
         )
 
         binding.weekCalendarView.scrollToDate(currentDate)
-        updateDateTitle(selectedDate)
 
         binding.weekCalendarView.dayBinder = object : WeekDayBinder<DayViewContainer> {
             override fun create(view: View) = DayViewContainer(view)
@@ -89,6 +87,7 @@ class WalksFragment : Fragment() {
                 textView.text = day.date.dayOfMonth.toString()
 
                 textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+
 
                 when {
                     day.date == today && selectedDate == today -> {
@@ -109,30 +108,21 @@ class WalksFragment : Fragment() {
                     }
                 }
 
-
-
                 container.view.setOnClickListener {
                     selectedDate = day.date
                     binding.weekCalendarView.notifyCalendarChanged()
-                    updateDateTitle(selectedDate)
+                    updateHeaderWithSelectedDate()
                     loadWalkLog()
                 }
             }
         }
+
+        updateHeaderWithSelectedDate()
     }
 
-    private fun setRoundedBackground(textView: TextView, colorResId: Int) {
-        val drawable = ResourcesCompat.getDrawable(resources, R.drawable.walk_bg_today_day, null)?.mutate()
-        drawable?.let {
-            DrawableCompat.setTint(it, ContextCompat.getColor(requireContext(), colorResId))
-            textView.background = it
-        }
-    }
-
-    private fun updateDateTitle(date: LocalDate) {
-        val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy", Locale("en", "USA"))
-        val formatted = date.format(formatter)
-        binding.walksTitleDate.text = formatted.replaceFirstChar { it.uppercase() }
+    private fun updateHeaderWithSelectedDate() {
+        val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy", Locale.ENGLISH)
+        binding.walksTitleDate.text = selectedDate.format(formatter)
     }
 
     inner class DayViewContainer(view: View) : ViewContainer(view) {
@@ -169,13 +159,18 @@ class WalksFragment : Fragment() {
                 if (snapshot.isEmpty) {
                     showInitialPrompt()
                 } else {
-                    binding.addWalkFab.visibility = View.VISIBLE
-                    for (doc in snapshot.documents) {
-                        val type = WalkType.valueOf(doc.id.uppercase())
-                        val timeStr = doc.getString("time") ?: continue
+                  //  binding.addWalkFab.visibility = View.VISIBLE
+
+                    val walkTimes = snapshot.documents.mapNotNull { doc ->
+                        val type = WalkType.values().firstOrNull { it.name.equals(doc.id, ignoreCase = true) } ?: return@mapNotNull null
+                        val timeStr = doc.getString("time") ?: return@mapNotNull null
                         val time = LocalTime.parse(timeStr)
-                        addFixedWalkTimeView(FixedWalkTime(type, time))
+                        FixedWalkTime(type, time)
                     }
+
+                    val sortedWalkTimes = walkTimes.sortedBy { walkTypeOrder.indexOf(it.type) }
+                    sortedWalkTimes.forEach { addFixedWalkTimeView(it) }
+
                     loadWalkLog()
                 }
             }
@@ -228,7 +223,6 @@ class WalksFragment : Fragment() {
         }
 
         binding.fixedWalksContainer.addView(message)
-        binding.addWalkFab.visibility = View.VISIBLE
     }
 
     private fun addFixedWalkTimeView(walkTime: FixedWalkTime) {
@@ -258,7 +252,8 @@ class WalksFragment : Fragment() {
             .setPositiveButton("Save") { _, _ ->
                 val hour = timePicker.hour
                 val minute = timePicker.minute
-                val type = spinner.selectedItem as WalkType
+                val selectedItem = spinner.selectedItem
+                val type = if (selectedItem is WalkType) selectedItem else return@setPositiveButton
                 val time = LocalTime.of(hour, minute)
                 saveFixedWalkTime(type, time)
             }
@@ -302,6 +297,15 @@ class WalksFragment : Fragment() {
             .addOnFailureListener {
                 Toast.makeText(requireContext(), "Failed to save.", Toast.LENGTH_SHORT).show()
             }
+    }
+
+
+    private fun setRoundedBackground(textView: TextView, colorResId: Int) {
+        val drawable = ResourcesCompat.getDrawable(resources, R.drawable.walk_bg_today_day, null)?.mutate()
+        drawable?.let {
+            DrawableCompat.setTint(it, ContextCompat.getColor(requireContext(), colorResId))
+            textView.background = it
+        }
     }
 
     override fun onDestroyView() {

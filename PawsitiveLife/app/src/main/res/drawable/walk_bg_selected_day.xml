@@ -1,11 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-
-    <solid android:color="@color/sunglow_500" />
-
-    <size
-        android:width="36dp"
-        android:height="36dp" />
-
+<!-- res/drawable/bg_calendar_selected.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/french_rose_300" />
+    <corners android:radius="50dp" />
 </shape>
