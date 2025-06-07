@@ -46,7 +46,14 @@ class HomeFragment : Fragment() {
 
 
     private fun setupRemindersRecyclerView() {
-        reminderAdapter = ReminderAdapter()
+        reminderAdapter = ReminderAdapter(
+            onReminderClick = { reminder ->
+                val bundle = Bundle().apply {
+                    putString("selectedDate", reminder.date.toLocalDate().toString())
+                }
+                findNavController().navigate(R.id.action_navigation_home_to_navigation_appointments, bundle)
+            }
+        )
         binding.homeLSTReminders.layoutManager = LinearLayoutManager(requireContext())
         binding.homeLSTReminders.adapter = reminderAdapter
     }

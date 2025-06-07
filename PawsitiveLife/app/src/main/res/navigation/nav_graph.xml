@@ -53,6 +53,11 @@
         <action
             android:id="@+id/action_navigation_home_to_signInActivity"
             app:destination="@id/signInActivity" />
+
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_appointments"
+            app:destination="@id/navigation_appointments" />
+
     </fragment>
 
     <!-- Sign In Activity -->

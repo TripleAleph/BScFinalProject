@@ -38,8 +38,6 @@ class ReminderFragment : Fragment() {
     private var selectedDate: LocalDate? = null
 
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,7 +51,13 @@ class ReminderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        val argsDate = arguments?.getString("selectedDate")?.let { LocalDate.parse(it) }
+        val dateToUse = argsDate ?: today
+
+        selectedDate = dateToUse
         reminderViewModel.setSelectedDate(today, userId)
+        updateTodayLabel(dateToUse)
 
         reminderAdapter = ReminderAdapter()
         binding.itemReminders.apply {
@@ -61,9 +65,10 @@ class ReminderFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        selectedDate = today
-        reminderViewModel.setSelectedDate(today, userId)
-        updateTodayLabel(today)
+        selectedDate = dateToUse
+        reminderViewModel.setSelectedDate(dateToUse, userId)
+        updateTodayLabel(dateToUse)
+
 
         setupMonthCalendar()
         setupWeekCalendar()
@@ -77,7 +82,7 @@ class ReminderFragment : Fragment() {
         reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders ->
             reminderAdapter.submitList(reminders)
             binding.emptyMessage.visibility = if (reminders.isEmpty()) View.VISIBLE else View.GONE
-            
+
             if (reminders.isNotEmpty()) {
                 binding.itemReminders.post {
                     binding.itemReminders.smoothScrollToPosition(reminders.size - 1)
@@ -149,15 +154,28 @@ class ReminderFragment : Fragment() {
                 when {
                     day.date == today && selectedDate == today -> {
                         textView.setBackgroundResource(R.drawable.bg_today_day)
-                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.white
+                            )
+                        )
                     }
+
                     day.date == today -> {
                         textView.background = null
-                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.french_rose_600))
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.french_rose_600
+                            )
+                        )
                     }
+
                     day.date == selectedDate -> {
                         textView.setBackgroundResource(R.drawable.bg_selected_day)
                     }
+
                     else -> {
                         textView.background = null
                     }
@@ -197,15 +215,28 @@ class ReminderFragment : Fragment() {
                 when {
                     day.date == today && selectedDate == today -> {
                         textView.setBackgroundResource(R.drawable.bg_today_day)
-                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.white
+                            )
+                        )
                     }
+
                     day.date == today -> {
                         textView.background = null
-                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.french_rose_600))
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.french_rose_600
+                            )
+                        )
                     }
+
                     day.date == selectedDate -> {
                         textView.setBackgroundResource(R.drawable.bg_selected_day)
                     }
+
                     else -> {
                         textView.background = null
                     }

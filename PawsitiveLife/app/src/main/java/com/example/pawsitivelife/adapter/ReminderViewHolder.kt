@@ -11,7 +11,11 @@ import com.example.pawsitivelife.model.Reminder
 import java.io.File
 import java.time.format.DateTimeFormatter
 
-class ReminderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ReminderViewHolder(
+    itemView: View,
+    private val onReminderClick: ((Reminder) -> Unit)?
+) : RecyclerView.ViewHolder(itemView) {
+
     private val title: TextView = itemView.findViewById(R.id.reminder_title)
     private val time: TextView = itemView.findViewById(R.id.reminder_time)
     private val image: ImageView = itemView.findViewById(R.id.reminder_image)
@@ -37,6 +41,10 @@ class ReminderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
 
         notes.text = reminder.notes ?: ""
+
+        itemView.setOnClickListener {
+            onReminderClick?.invoke(reminder)
+        }
     }
 
 

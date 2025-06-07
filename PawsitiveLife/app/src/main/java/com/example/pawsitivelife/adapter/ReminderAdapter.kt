@@ -7,18 +7,20 @@ import com.example.pawsitivelife.R
 import com.example.pawsitivelife.model.Reminder
 
 
-class ReminderAdapter : RecyclerView.Adapter<ReminderViewHolder>() {
-
+class ReminderAdapter(
+    private val onReminderClick: ((Reminder) -> Unit)? = null
+) : RecyclerView.Adapter<ReminderViewHolder>() {
     private var reminders: List<Reminder> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReminderViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_reminder, parent, false)
-        return ReminderViewHolder(view)
+        return ReminderViewHolder(view, onReminderClick)
     }
 
     override fun onBindViewHolder(holder: ReminderViewHolder, position: Int) {
-        holder.bind(reminders[position])
+        val reminder = reminders[position]
+        holder.bind(reminder)
     }
 
     override fun getItemCount(): Int = reminders.size
