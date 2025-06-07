@@ -23,6 +23,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class ReminderFragment : Fragment() {
 
@@ -55,6 +56,7 @@ class ReminderFragment : Fragment() {
 
         selectedDate = today
         reminderViewModel.setSelectedDate(today)
+        updateTodayLabel(today)
 
         setupMonthCalendar()
         setupWeekCalendar()
@@ -157,6 +159,7 @@ class ReminderFragment : Fragment() {
                         selectedDate = if (selectedDate == day.date) null else day.date
                         binding.monthCalendarView.notifyCalendarChanged()
                         binding.weekCalendarView.notifyCalendarChanged()
+                        updateTodayLabel(day.date)
                         updateRemindersForDate(day.date)
                     }
                 }
@@ -204,6 +207,7 @@ class ReminderFragment : Fragment() {
                     binding.weekCalendarView.notifyCalendarChanged()
                     binding.monthCalendarView.notifyCalendarChanged()
                     updateRemindersForDate(day.date)
+                    updateTodayLabel(day.date)
                     updateMonthTitle(YearMonth.from(day.date))
                 }
             }
@@ -218,6 +222,12 @@ class ReminderFragment : Fragment() {
     private fun updateMonthTitle(yearMonth: YearMonth) {
         val formatter = DateTimeFormatter.ofPattern("MMMM, yyyy")
         binding.titleCalendar.text = yearMonth.format(formatter)
+    }
+
+    private fun updateTodayLabel(date: LocalDate) {
+        val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMM", Locale.getDefault())
+        val formattedDate = date.format(formatter)
+        binding.todayLabel.text = formattedDate
     }
 
     override fun onDestroyView() {
