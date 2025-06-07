@@ -8,6 +8,6 @@ data class Reminder(
     val dogId: String = "",
     val dogName: String = "",
     val imagePath: String? = null,
-    val notes: String? = null
-
+    val notes: String? = null,
+    val reminderId: String = ""
 )

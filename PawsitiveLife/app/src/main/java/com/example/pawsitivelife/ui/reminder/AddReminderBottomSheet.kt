@@ -162,7 +162,7 @@ class AddReminderBottomSheet(private val selectedDate: LocalDate) : BottomSheetD
             .collection("dogs").document(dogId)
             .collection("reminders")
             .add(data)
-            .addOnSuccessListener {
+            .addOnSuccessListener { documentRef ->
                 Toast.makeText(requireContext(), "Reminder saved!", Toast.LENGTH_SHORT).show()
 
                 val reminder = Reminder(
@@ -171,14 +171,12 @@ class AddReminderBottomSheet(private val selectedDate: LocalDate) : BottomSheetD
                     dogId = dogId,
                     dogName = selectedDogName,
                     imagePath = finalImageUrl,
-                    notes = notesText
+                    notes = notesText,
+                    reminderId = documentRef.id
                 )
                 viewModel.addReminder(reminder)
 
                 dismiss()
-            }
-            .addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed to save reminder", Toast.LENGTH_SHORT).show()
             }
     }
 override fun onDestroyView() {

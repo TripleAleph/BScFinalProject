@@ -29,4 +29,9 @@ class ReminderAdapter(
         reminders = newList
         notifyDataSetChanged()
     }
+
+    fun getReminderAt(position: Int): Reminder {
+        return reminders[position]
+    }
+
 }

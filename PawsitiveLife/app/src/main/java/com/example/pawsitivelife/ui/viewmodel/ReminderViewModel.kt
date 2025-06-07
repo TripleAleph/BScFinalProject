@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pawsitivelife.model.Reminder
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -89,8 +90,10 @@ class ReminderViewModel : ViewModel() {
                                     dogId = dogId,
                                     dogName = dogNameFromDoc,
                                     imagePath = image,
-                                    notes = notes
+                                    notes = notes,
+                                    reminderId = reminderDoc.id
                                 )
+
 
                                 list.add(reminder)
                             }
@@ -107,4 +110,36 @@ class ReminderViewModel : ViewModel() {
                 }
             }
     }
+
+    fun deleteReminder(dogId: String, reminderId: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val date = selectedDate
+
+        // Step 1: Delete from Firestore
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(userId)
+            .collection("dogs")
+            .document(dogId)
+            .collection("reminders")
+            .document(reminderId)
+            .delete()
+            .addOnSuccessListener {
+                // Step 2: Remove from local cache
+                val list = remindersByDate[date]
+                if (list != null) {
+                    val iterator = list.iterator()
+                    while (iterator.hasNext()) {
+                        val reminder = iterator.next()
+                        if (reminder.reminderId == reminderId) {
+                            iterator.remove()
+                            break
+                        }
+                    }
+                    // Step 3: Update UI
+                    _reminders.value = list.sortedBy { it.date }
+                }
+            }
+    }
+
 }

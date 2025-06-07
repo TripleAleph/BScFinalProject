@@ -1,5 +1,9 @@
 package com.example.pawsitivelife.ui.reminder
 
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +29,9 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+
 
 class ReminderFragment : Fragment() {
 
@@ -64,6 +71,77 @@ class ReminderFragment : Fragment() {
             adapter = reminderAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+
+        val itemTouchHelper =
+            ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean = false
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+                    val reminder = reminderAdapter.getReminderAt(position)
+                    reminderViewModel.deleteReminder(reminder.dogId, reminder.reminderId ?: "")
+                }
+
+                override fun onChildDraw(
+                    c: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
+                ) {
+                    val itemView = viewHolder.itemView
+
+                    // Draw soft red background with rounded corners
+                    val cornerRadius = 32f // ⬅️ Added: roundness of corners
+                    val backgroundColor = Color.parseColor("#FFCDD2")
+                    val backgroundPaint = Paint().apply {
+                        color = backgroundColor
+                        isAntiAlias = true
+                    }
+                    val rectF = RectF(
+                        itemView.right + dX, itemView.top.toFloat(),
+                        itemView.right.toFloat(), itemView.bottom.toFloat()
+                    )
+                    c.drawRoundRect(
+                        rectF,
+                        cornerRadius,
+                        cornerRadius,
+                        backgroundPaint
+                    ) // ⬅️ Changed: use drawRoundRect
+
+                    // Draw delete icon
+                    val icon =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete) ?: return
+                    val iconSize = 64
+                    val iconMargin = 32
+                    val iconTop = itemView.top + (itemView.height - iconSize) / 2
+                    val iconLeft = itemView.right - iconMargin - iconSize
+                    val iconRight = itemView.right - iconMargin
+                    val iconBottom = iconTop + iconSize
+
+                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+                    icon.draw(c)
+
+                    super.onChildDraw(
+                        c,
+                        recyclerView,
+                        viewHolder,
+                        dX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+                }
+            })
+
+        itemTouchHelper.attachToRecyclerView(binding.itemReminders)
+
 
         selectedDate = dateToUse
         reminderViewModel.setSelectedDate(dateToUse, userId)
