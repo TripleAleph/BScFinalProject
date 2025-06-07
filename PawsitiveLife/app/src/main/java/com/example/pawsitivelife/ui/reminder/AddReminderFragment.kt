@@ -103,7 +103,7 @@ class AddReminderFragment : Fragment() {
         val reminder = Reminder(
             title = if (notes.isNotBlank()) "$title\n$notes" else title,
             date = LocalDateTime.of(selectedDate, selectedTime),
-            imageResId = R.drawable.img_chubbie // You should get this from the selected dog
+            imagePath = "android.resource://${requireContext().packageName}/${R.drawable.missing_img_dog}"
         )
 
         reminderViewModel.addReminder(reminder)

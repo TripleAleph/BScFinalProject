@@ -10,10 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawsitivelife.R
+import com.example.pawsitivelife.adapter.ReminderAdapter
 import com.example.pawsitivelife.databinding.FragmentHomeBinding
+import com.example.pawsitivelife.model.Reminder
 import com.example.pawsitivelife.ui.mydogs.Dog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDateTime
 
 class HomeFragment : Fragment() {
 
@@ -22,6 +25,9 @@ class HomeFragment : Fragment() {
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+
+    private lateinit var reminderAdapter: ReminderAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -34,6 +40,15 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loadDogsFromFirestore()
         logAllDogsOfCurrentUser()
+        setupRemindersRecyclerView()
+        loadUpcomingRemindersFromFirestore()
+    }
+
+
+    private fun setupRemindersRecyclerView() {
+        reminderAdapter = ReminderAdapter()
+        binding.homeLSTReminders.layoutManager = LinearLayoutManager(requireContext())
+        binding.homeLSTReminders.adapter = reminderAdapter
     }
 
     private fun loadDogsFromFirestore() {
@@ -147,6 +162,81 @@ class HomeFragment : Fragment() {
                 Log.e("DogLogger", "Failed to fetch dogs", it)
             }
     }
+
+    private fun loadUpcomingRemindersFromFirestore() {
+        val user = auth.currentUser ?: return
+        val start = LocalDateTime.now()
+        val end = start.plusDays(7)
+        val reminders = mutableListOf<Reminder>()
+
+        db.collection("users").document(user.uid).collection("dogs")
+            .get()
+            .addOnSuccessListener { dogs ->
+                val dogIds = dogs.map { it.id }
+                var pending = dogIds.size
+
+                if (pending == 0) {
+                    showNoRemindersMessage()
+                    return@addOnSuccessListener
+                }
+
+                dogIds.forEach { dogId ->
+                    db.collection("users").document(user.uid)
+                        .collection("dogs").document(dogId)
+                        .collection("reminders")
+                        .get()
+                        .addOnSuccessListener { snapshot ->
+                            for (doc in snapshot) {
+                                val title = doc.getString("title") ?: continue
+                                val dateStr = doc.getString("date") ?: continue
+                                val imagePath = doc.getString("imagePath") ?: "android.resource://${requireContext().packageName}/${R.drawable.missing_img_dog}"
+
+                                val dateTime = try {
+                                    LocalDateTime.parse(dateStr)
+                                } catch (e: Exception) {
+                                    continue
+                                }
+
+                                if (dateTime.isAfter(start.minusSeconds(1)) && dateTime.isBefore(end.plusSeconds(1))) {
+                                    reminders.add(Reminder(title, dateTime, imagePath))
+
+                                }
+                            }
+
+                            pending--
+                            if (pending == 0) {
+                                showReminders(reminders)
+                            }
+                        }
+                        .addOnFailureListener {
+                            pending--
+                            if (pending == 0) {
+                                showReminders(reminders)
+                            }
+                        }
+                }
+            }
+    }
+
+    // 🔄 חדש
+    private fun showReminders(reminders: List<Reminder>) {
+        if (reminders.isEmpty()) {
+            showNoRemindersMessage()
+        } else {
+            reminderAdapter.submitList(reminders.sortedBy { it.date })
+
+            binding.homeCARDRemindersContainer.visibility = View.VISIBLE
+            binding.homeLSTReminders.visibility = View.VISIBLE
+            binding.homeLBLEmptyReminders.visibility = View.GONE
+        }
+    }
+
+    private fun showNoRemindersMessage() {
+        binding.homeCARDRemindersContainer.visibility = View.VISIBLE
+        binding.homeLSTReminders.visibility = View.GONE
+        binding.homeLBLEmptyReminders.visibility = View.VISIBLE
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -13,6 +13,8 @@ import com.example.pawsitivelife.databinding.BottomSheetAddAppointmentBinding
 import com.example.pawsitivelife.model.Reminder
 import com.example.pawsitivelife.ui.viewmodel.ReminderViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -26,7 +28,14 @@ class AddReminderBottomSheet(private val selectedDate: LocalDate) : BottomSheetD
     private lateinit var viewModel: ReminderViewModel
     private var selectedTime: LocalTime? = null
     private var selectedAppointmentType: String? = null
-    private var selectedDogImageResId: Int = R.drawable.img_chubbie // default image
+
+    private val auth = FirebaseAuth.getInstance()
+    private val db = FirebaseFirestore.getInstance()
+
+    private val dogNameToIdMap = mutableMapOf<String, String>()
+    private val dogNameToImageUrlMap = mutableMapOf<String, String>()
+    private var selectedDogId: String? = null
+    private var selectedDogImageUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,16 +80,35 @@ class AddReminderBottomSheet(private val selectedDate: LocalDate) : BottomSheetD
     }
 
     private fun setupDogSelector() {
-        val dogs = listOf("Chubbie") // Replace with actual dog list from ViewModel later
-        val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, dogs)
-        binding.dogSelectorDropdown.setAdapter(adapter)
+        val user = auth.currentUser ?: return
 
-        binding.dogSelectorDropdown.setOnItemClickListener { _, _, _, _ ->
-            selectedDogImageResId = R.drawable.img_chubbie // Replace dynamically later
-        }
-    }
+        db.collection("users").document(user.uid).collection("dogs")
+            .get()
+            .addOnSuccessListener { result ->
+                val dogNames = mutableListOf<String>()
+                for (doc in result) {
+                    val dogName = doc.getString("name") ?: continue
+                    val dogId = doc.id
+                    val imageUrl = doc.getString("imageUrl") ?: ""
 
-    private fun setupTimePicker() {
+                    dogNames.add(dogName)
+                    dogNameToIdMap[dogName] = dogId
+                    dogNameToImageUrlMap[dogName] = imageUrl
+                }
+
+                val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, dogNames)
+                binding.dogSelectorDropdown.setAdapter(adapter)
+
+                binding.dogSelectorDropdown.setOnItemClickListener { _, _, position, _ ->
+                    val selectedName = dogNames[position]
+                    selectedDogId = dogNameToIdMap[selectedName]
+                    selectedDogImageUrl = dogNameToImageUrlMap[selectedName]
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to load dogs", Toast.LENGTH_SHORT).show()
+            }
+    }    private fun setupTimePicker() {
         binding.timeText.setOnClickListener {
             val now = LocalTime.now()
             val timePicker = TimePickerDialog(requireContext(),
@@ -95,31 +123,65 @@ class AddReminderBottomSheet(private val selectedDate: LocalDate) : BottomSheetD
     }
 
     private fun saveReminder() {
+        val user = auth.currentUser ?: return
         val type = selectedAppointmentType
-        if (type.isNullOrBlank()) {
-            Toast.makeText(requireContext(), "Please select appointment type", Toast.LENGTH_SHORT).show()
+        val dogId = selectedDogId
+        val imageUrl = selectedDogImageUrl
+
+        if (type.isNullOrBlank() || dogId == null) {
+            Toast.makeText(requireContext(), "Please select both appointment type and dog", Toast.LENGTH_SHORT).show()
             return
+        }
+
+        val finalImageUrl = if (imageUrl.isNullOrBlank()) {
+            "android.resource://${requireContext().packageName}/${R.drawable.missing_img_dog}"
+        } else {
+            imageUrl
         }
 
         val dateTime = LocalDateTime.of(
             selectedDate,
-            selectedTime ?: LocalTime.of(9, 0) // Default time if none selected
+            selectedTime ?: LocalTime.of(9, 0)
         )
 
-        val reminder = Reminder(
-            title = type,
-            date = dateTime,
-            imageResId = selectedDogImageResId
+
+
+        val selectedDogName = binding.dogSelectorDropdown.text.toString()
+
+        val data = hashMapOf(
+            "title" to selectedAppointmentType,
+            "date" to dateTime.toString(),
+            "dogId" to dogId,
+            "dogName" to selectedDogName,
+            "imagePath" to finalImageUrl
         )
 
-        // Add the new reminder to ViewModel
-        viewModel.addReminder(reminder)
 
-        // Dismiss the bottom sheet
-        dismiss()
+
+
+        db.collection("users").document(user.uid)
+            .collection("dogs").document(dogId)
+            .collection("reminders")
+            .add(data)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Reminder saved!", Toast.LENGTH_SHORT).show()
+
+                val reminder = Reminder(
+                    title = selectedAppointmentType ?: "",
+                    date = dateTime,
+                    dogId = dogId,
+                    dogName = selectedDogName,
+                    imagePath = finalImageUrl
+                )
+                viewModel.addReminder(reminder)
+
+                dismiss()
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to save reminder", Toast.LENGTH_SHORT).show()
+            }
     }
-
-    override fun onDestroyView() {
+override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
