@@ -190,6 +190,8 @@ class HomeFragment : Fragment() {
                                 val title = doc.getString("title") ?: continue
                                 val dateStr = doc.getString("date") ?: continue
                                 val imagePath = doc.getString("imagePath") ?: "android.resource://${requireContext().packageName}/${R.drawable.missing_img_dog}"
+                                val dogName = doc.getString("dogName") ?: "Unknown"
+                                val notes = doc.getString("notes") ?: ""
 
                                 val dateTime = try {
                                     LocalDateTime.parse(dateStr)
@@ -198,8 +200,15 @@ class HomeFragment : Fragment() {
                                 }
 
                                 if (dateTime.isAfter(start.minusSeconds(1)) && dateTime.isBefore(end.plusSeconds(1))) {
-                                    reminders.add(Reminder(title, dateTime, imagePath))
-
+                                    val reminder = Reminder(
+                                        title = title,
+                                        date = dateTime,
+                                        dogId = dogId,
+                                        dogName = dogName,
+                                        imagePath = imagePath,
+                                        notes = notes
+                                    )
+                                    reminders.add(reminder)
                                 }
                             }
 

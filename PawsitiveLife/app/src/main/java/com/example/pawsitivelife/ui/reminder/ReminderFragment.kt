@@ -13,6 +13,7 @@ import com.example.pawsitivelife.R
 import com.example.pawsitivelife.adapter.ReminderAdapter
 import com.example.pawsitivelife.databinding.FragmentAppointmentsBinding
 import com.example.pawsitivelife.ui.viewmodel.ReminderViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.WeekDay
@@ -36,6 +37,9 @@ class ReminderFragment : Fragment() {
     private val today = LocalDate.now()
     private var selectedDate: LocalDate? = null
 
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,6 +52,9 @@ class ReminderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        reminderViewModel.setSelectedDate(today, userId)
+
         reminderAdapter = ReminderAdapter()
         binding.itemReminders.apply {
             adapter = reminderAdapter
@@ -55,7 +62,7 @@ class ReminderFragment : Fragment() {
         }
 
         selectedDate = today
-        reminderViewModel.setSelectedDate(today)
+        reminderViewModel.setSelectedDate(today, userId)
         updateTodayLabel(today)
 
         setupMonthCalendar()
@@ -106,8 +113,10 @@ class ReminderFragment : Fragment() {
     }
 
     private fun updateRemindersForDate(date: LocalDate) {
-        reminderViewModel.setSelectedDate(date)
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        reminderViewModel.setSelectedDate(date, userId)
     }
+
 
     private fun setupMonthCalendar() {
         val currentMonth = YearMonth.now()
