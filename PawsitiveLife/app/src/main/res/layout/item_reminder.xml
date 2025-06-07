@@ -14,7 +14,7 @@
         android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:gravity="top">
 
         <!-- Reminder Time -->
         <TextView
@@ -24,7 +24,8 @@
             android:text="09:00"
             android:textColor="@color/malibu_500"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_gravity="top" />
 
         <!-- Reminder text info -->
         <LinearLayout
@@ -35,6 +36,7 @@
             android:paddingStart="12dp"
             android:paddingEnd="12dp">
 
+            <!-- Title -->
             <TextView
                 android:id="@+id/reminder_title"
                 android:layout_width="wrap_content"
@@ -44,6 +46,17 @@
                 android:textStyle="bold"
                 android:textColor="@color/black" />
 
+            <!-- Date (shown below title) -->
+            <TextView
+                android:id="@+id/reminder_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025-06-07"
+                android:textSize="14sp"
+                android:textColor="@color/malibu_700"
+                android:paddingTop="2dp" />
+
+            <!-- Notes -->
             <TextView
                 android:id="@+id/reminder_notes"
                 android:layout_width="wrap_content"
@@ -54,16 +67,17 @@
                 android:paddingTop="4dp"
                 android:maxLines="3"
                 android:ellipsize="end" />
-
         </LinearLayout>
 
-        <!-- Dog Image replaces icon -->
+        <!-- Dog Image -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/reminder_image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:scaleType="centerCrop"
             android:src="@drawable/img_chubbie"
-            app:shapeAppearanceOverlay="@style/NormalCorners" />
+            app:shapeAppearanceOverlay="@style/Circular"
+            android:layout_margin="2dp"
+            android:elevation="4dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
