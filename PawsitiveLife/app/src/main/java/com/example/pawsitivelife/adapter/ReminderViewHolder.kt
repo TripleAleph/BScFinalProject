@@ -18,6 +18,9 @@ class ReminderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val formatter = DateTimeFormatter.ofPattern("HH:mm")
 
+    private val notes: TextView = itemView.findViewById(R.id.reminder_notes)
+
+
     fun bind(reminder: Reminder) {
         title.text = reminder.title
         time.text = reminder.date.format(formatter)
@@ -32,6 +35,8 @@ class ReminderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         } else {
             image.setImageResource(R.drawable.missing_img_dog)
         }
+
+        notes.text = reminder.notes ?: ""
     }
 
 

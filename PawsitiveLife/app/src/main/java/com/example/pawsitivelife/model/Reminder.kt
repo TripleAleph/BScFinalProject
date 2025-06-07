@@ -7,5 +7,7 @@ data class Reminder(
     val date: LocalDateTime = LocalDateTime.now(),
     val dogId: String = "",
     val dogName: String = "",
-    val imagePath: String? = null
+    val imagePath: String? = null,
+    val notes: String? = null
+
 )

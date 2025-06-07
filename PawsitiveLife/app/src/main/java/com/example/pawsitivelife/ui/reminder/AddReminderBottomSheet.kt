@@ -144,19 +144,18 @@ class AddReminderBottomSheet(private val selectedDate: LocalDate) : BottomSheetD
             selectedTime ?: LocalTime.of(9, 0)
         )
 
-
-
         val selectedDogName = binding.dogSelectorDropdown.text.toString()
+
+        val notesText = binding.notesText.text.toString().take(100)
 
         val data = hashMapOf(
             "title" to selectedAppointmentType,
             "date" to dateTime.toString(),
             "dogId" to dogId,
             "dogName" to selectedDogName,
-            "imagePath" to finalImageUrl
+            "imagePath" to finalImageUrl,
+            "notes" to notesText
         )
-
-
 
 
         db.collection("users").document(user.uid)
@@ -171,7 +170,8 @@ class AddReminderBottomSheet(private val selectedDate: LocalDate) : BottomSheetD
                     date = dateTime,
                     dogId = dogId,
                     dogName = selectedDogName,
-                    imagePath = finalImageUrl
+                    imagePath = finalImageUrl,
+                    notes = notesText
                 )
                 viewModel.addReminder(reminder)
 
