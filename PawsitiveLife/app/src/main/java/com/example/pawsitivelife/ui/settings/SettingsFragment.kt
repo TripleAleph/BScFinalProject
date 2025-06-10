@@ -1,5 +1,7 @@
 package com.example.pawsitivelife.ui.settings
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +27,31 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Load saved preference for dark mode from SharedPreferences
+        val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val isDarkMode = sharedPref.getBoolean("dark_mode", false)
+
+// Set the switch state based on the saved value
+        binding.darkThemeSwitch.isChecked = isDarkMode
+
+
+        // Set listener for dark mode switch
+        binding.darkThemeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            // Save the selected mode (true = dark mode, false = light mode) in SharedPreferences
+            val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
+            with(sharedPref.edit()) {
+                putBoolean("dark_mode", isChecked)  // Save the new value
+                apply() // Apply the change asynchronously
+            }
+
+            // Apply the theme immediately based on the new selection
+            AppCompatDelegate.setDefaultNightMode(
+                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            )
+        }
+
+
+
         // Navigate to profile screen (implement later if needed)
         binding.profileRow.setOnClickListener {
             // findNavController().navigate(R.id.action_settings_to_profileFragment)
@@ -49,10 +76,15 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_SettingsFragment_to_FeedbackFragment)
         }
 
-        // Navigate to terms of service screen (implement later if needed)
         binding.termsRow.setOnClickListener {
-            // findNavController().navigate(R.id.action_settings_to_termsFragment)
+             findNavController().navigate(R.id.action_SettingsFragment_to_TermsFragment)
         }
+
+        binding.notificationsRow.setOnClickListener {
+            findNavController().navigate(R.id.action_SettingsFragment_to_NotificationsFragment)
+        }
+
+
 
         // Handle logout logic
         binding.logoutRow.setOnClickListener {

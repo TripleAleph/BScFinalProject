@@ -1,5 +1,7 @@
 package com.example.pawsitivelife
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val sharedPref= getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val isDarkMode = sharedPref.getBoolean("dark_mode", false)
+
+        // Apply the saved theme mode
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        )
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
