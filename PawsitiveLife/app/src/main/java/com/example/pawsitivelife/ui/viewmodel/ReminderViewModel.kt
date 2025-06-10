@@ -142,4 +142,9 @@ class ReminderViewModel : ViewModel() {
             }
     }
 
+    fun cancelPendingDelete(reminderId: String) {
+        // Placeholder in case you want to implement cancellation logic later
+    }
+
+
 }

@@ -34,4 +34,24 @@ class ReminderAdapter(
         return reminders[position]
     }
 
+
+    fun removeAt(position: Int) {
+        val mutableList = reminders.toMutableList()
+        if (position in reminders.indices) {
+            mutableList.removeAt(position)
+            submitList(mutableList)
+        }
+    }
+
+    fun insertAt(position: Int, reminder: Reminder) {
+        val mutableList = reminders.toMutableList()
+        mutableList.add(position.coerceIn(0, mutableList.size), reminder)
+        submitList(mutableList)
+    }
+
+
+
+
+
+
 }

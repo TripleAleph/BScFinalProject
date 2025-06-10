@@ -1,5 +1,6 @@
 package com.example.pawsitivelife.ui
 
+import android.app.AlertDialog
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -145,7 +146,74 @@ class DogProfileFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_dogProfileFragment_to_editDogProfileFragment, bundle)
         }
+
+        // Delete Profile button click listener
+        binding.dogProfileBTNDeleteProfile.setOnClickListener {
+            showDeleteConfirmationDialog()
+        }
+
     }
+
+    // Confirmation dialog for deleting profile
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete Profile")
+            .setMessage("Are you sure you want to delete this dog profile? All related data will be permanently removed.")
+            .setPositiveButton("Delete") { _, _ ->
+                deleteDogProfile()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    // Function to delete dog document from Firestore
+    private fun deleteDogProfile() {
+        val user = auth.currentUser ?: return
+        val dogRef = db.collection("users").document(user.uid).collection("dogs").document(dogId)
+
+        //  All subcollections under the dog document
+        val subcollections = listOf(
+            "weights",
+            "walks",
+            "medication",
+            "feeding",
+            "training",
+            "notes",
+            "fixed_walk_times",
+            "walk_log",
+            "fixed_feed_times",
+            "feed_log",
+            "reminders"
+        )
+
+        // Prepare deletion tasks for each subcollection
+        val deletionTasks = subcollections.map { sub ->
+            dogRef.collection(sub).get().continueWithTask { snapshotTask ->
+                val batch = db.batch()
+                snapshotTask.result?.documents?.forEach { doc ->
+                    batch.delete(doc.reference)
+                }
+                batch.commit()
+            }
+        }
+
+        // After subcollections are deleted, delete the main dog document
+        com.google.android.gms.tasks.Tasks.whenAllComplete(deletionTasks)
+            .addOnSuccessListener {
+                dogRef.delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(requireContext(), "Dog profile deleted successfully 🐶", Toast.LENGTH_SHORT).show()
+                        findNavController().popBackStack()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(requireContext(), "Failed to delete dog profile.", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to delete dog-related data.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 
     private fun setupActivityCareTracker() {
         val activityCareItems = listOf(

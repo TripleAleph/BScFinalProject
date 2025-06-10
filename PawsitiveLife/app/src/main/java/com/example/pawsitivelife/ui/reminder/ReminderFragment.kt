@@ -1,7 +1,6 @@
 package com.example.pawsitivelife.ui.reminder
 
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Bundle
@@ -31,6 +30,8 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.graphics.toColorInt
 
 
 class ReminderFragment : Fragment() {
@@ -81,10 +82,34 @@ class ReminderFragment : Fragment() {
                 ): Boolean = false
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val position = viewHolder.adapterPosition
+                    val position = viewHolder.bindingAdapterPosition
                     val reminder = reminderAdapter.getReminderAt(position)
-                    reminderViewModel.deleteReminder(reminder.dogId, reminder.reminderId ?: "")
+
+                    viewHolder.itemView.animate()
+                        .alpha(0f)
+                        .scaleX(0.9f)
+                        .scaleY(0.9f)
+                        .setDuration(250)
+                        .withEndAction {
+                            reminderAdapter.removeAt(position)
+
+                            Snackbar.make(binding.root, "Reminder deleted", Snackbar.LENGTH_LONG)
+                                .setAction("Undo") {
+                                    reminderAdapter.insertAt(position, reminder)
+                                    reminderViewModel.cancelPendingDelete(reminder.reminderId)
+                                }
+                                .addCallback(object : Snackbar.Callback() {
+                                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                        if (event != DISMISS_EVENT_ACTION) {
+                                            reminderViewModel.deleteReminder(reminder.dogId, reminder.reminderId)
+                                        }
+                                    }
+                                })
+                                .show()
+                        }
+                        .start()
                 }
+
 
                 override fun onChildDraw(
                     c: Canvas,
@@ -98,8 +123,8 @@ class ReminderFragment : Fragment() {
                     val itemView = viewHolder.itemView
 
                     // Draw soft red background with rounded corners
-                    val cornerRadius = 32f // ⬅️ Added: roundness of corners
-                    val backgroundColor = Color.parseColor("#FFCDD2")
+                    val cornerRadius = 32f
+                    val backgroundColor = "#FFCDD2".toColorInt()
                     val backgroundPaint = Paint().apply {
                         color = backgroundColor
                         isAntiAlias = true
