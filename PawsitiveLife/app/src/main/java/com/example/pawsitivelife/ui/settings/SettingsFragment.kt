@@ -1,6 +1,7 @@
 package com.example.pawsitivelife.ui.settings
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +10,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.pawsitivelife.R
+import com.example.pawsitivelife.SignInActivity
 import com.example.pawsitivelife.databinding.FragmentSettingsBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class SettingsFragment : Fragment() {
 
@@ -88,10 +91,13 @@ class SettingsFragment : Fragment() {
 
         // Handle logout logic
         binding.logoutRow.setOnClickListener {
-            // Clear user session, go back to login screen, etc.
-            // Example:
-            // FirebaseAuth.getInstance().signOut()
-            // findNavController().navigate(R.id.action_global_loginFragment)
+            // Sign out from Firebase
+            FirebaseAuth.getInstance().signOut()
+
+            // Navigate to SignInActivity and clear the back stack
+            val intent = Intent(requireContext(), SignInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
 
         // Show app version dynamically
