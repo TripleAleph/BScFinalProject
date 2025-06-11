@@ -7,16 +7,19 @@ import android.text.TextWatcher
 import android.text.Editable
 import android.widget.RatingBar
 import android.widget.Toast
-
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.navigation.fragment.findNavController
 import com.example.pawsitivelife.R
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -64,26 +67,54 @@ class FeedbackFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-    }
+        // Find the send button in the layout
+        val sendButton = view.findViewById<Button>(R.id.sendButton)
 
+        // Set click listener for the button
+        sendButton.setOnClickListener {
+            // Get the selected rating from the RatingBar
+            val rating = ratingBar.rating
 
+            // Get the comment text and remove leading/trailing spaces
+            val comment = commentInput.text.toString().trim()
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FeedbackFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic fun newInstance(param1: String, param2: String) =
-                FeedbackFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
+            // If no rating was selected, show an error message and stop
+            if (rating == 0f) {
+                Toast.makeText(requireContext(), "Please rate your experience before sending.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            // Get the current user ID
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+            // If no user is logged in, show an error
+            if (userId == null) {
+                Toast.makeText(requireContext(), "You must be logged in to send feedback.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Create a feedback object as a map
+            val feedbackData = hashMapOf(
+                "userId" to userId,
+                "rating" to rating,
+                "comment" to comment,
+                "timestamp" to com.google.firebase.Timestamp.now()
+            )
+
+            // Save the feedback to Firestore under "feedbacks" collection
+            FirebaseFirestore.getInstance().collection("feedbacks")
+                .add(feedbackData)
+                .addOnSuccessListener {
+                    // Show success message
+                    Toast.makeText(requireContext(), "Feedback sent successfully!", Toast.LENGTH_SHORT).show()
+
+                    // Go back to the previous screen (SettingsFragment)
+                    findNavController().navigateUp()
                 }
+
+                .addOnFailureListener { e ->
+                    Toast.makeText(requireContext(), "Failed to send feedback: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+        }
     }
+
 }

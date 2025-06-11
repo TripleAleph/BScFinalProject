@@ -53,13 +53,6 @@ class SettingsFragment : Fragment() {
             )
         }
 
-
-
-        // Navigate to profile screen (implement later if needed)
-        binding.profileRow.setOnClickListener {
-            // findNavController().navigate(R.id.action_settings_to_profileFragment)
-        }
-
         // Navigate to notifications screen (implement later if needed)
         binding.notificationsRow.setOnClickListener {
             // findNavController().navigate(R.id.action_settings_to_notificationsFragment)
