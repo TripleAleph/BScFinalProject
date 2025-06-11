@@ -34,7 +34,7 @@ class SettingsFragment : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
         val isDarkMode = sharedPref.getBoolean("dark_mode", false)
 
-// Set the switch state based on the saved value
+        // Set the switch state based on the saved value
         binding.darkThemeSwitch.isChecked = isDarkMode
 
 
@@ -60,11 +60,7 @@ class SettingsFragment : Fragment() {
 
         // Handle dark theme switch toggle
         binding.darkThemeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            // Handle dark mode preference (e.g., using SharedPreferences)
-            // Example:
-            // AppCompatDelegate.setDefaultNightMode(
-            //     if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-            // )
+
         }
 
         // Navigate to feedback screen

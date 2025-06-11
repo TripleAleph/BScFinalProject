@@ -20,6 +20,7 @@ import com.example.pawsitivelife.databinding.FragmentNotificationsBinding
 
 class NotificationsFragment : Fragment() {
 
+    // ViewBinding object to access UI elements
     private var _binding: FragmentNotificationsBinding? = null
     private val binding get() = _binding!!
 
@@ -27,6 +28,7 @@ class NotificationsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Inflate the layout for this fragment using ViewBinding
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,7 +36,7 @@ class NotificationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Step 1: Create notification channel (Android 8+)
+        // Create a notification channel (required for Android 8+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Reminders"
             val descriptionText = "Channel for dog care reminders"
@@ -47,19 +49,20 @@ class NotificationsFragment : Fragment() {
                 description = descriptionText
             }
 
+            // Register the channel with the system
             val notificationManager = requireContext()
                 .getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
 
-        // Step 2: Ask for POST_NOTIFICATIONS permission if needed (Android 13+)
+        // Ask for POST_NOTIFICATIONS permission if needed
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val permission = android.Manifest.permission.POST_NOTIFICATIONS
             val hasPermission = ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
 
             if (!hasPermission) {
                 if (shouldShowRequestPermissionRationale(permission)) {
-                    // Case 1: we can still ask
+                    // Case 1: User previously denied, but we can still ask again
                     requestPermissions(arrayOf(permission), 1001)
                 } else {
                     // Case 2: denied and can't ask → show dialog to open settings
@@ -78,20 +81,21 @@ class NotificationsFragment : Fragment() {
             }
         }
 
-        // Step 3: Load saved switch state
+        // Load previously saved switch state from SharedPreferences
         val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
         val isEnabled = sharedPref.getBoolean("reminders_enabled", false)
         binding.remindersSwitch.isChecked = isEnabled
 
-        // Step 4: Switch toggle logic
+        // Set listener for switch toggle
         binding.remindersSwitch.setOnCheckedChangeListener { _, isChecked ->
-            // Save new switch state
+            // Save new switch state in SharedPreferences
             with(sharedPref.edit()) {
                 putBoolean("reminders_enabled", isChecked)
                 apply()
             }
 
             if (isChecked) {
+                // Build notification to inform user that reminders are enabled
                 val builder = NotificationCompat.Builder(requireContext(), "reminders_channel_id")
                     .setSmallIcon(R.drawable.ic_launcher_foreground)
                     .setContentTitle("🐶 Dog Care Reminders Enabled!")
@@ -116,6 +120,7 @@ class NotificationsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Clear the binding when the view is destroyed to avoid memory leaks
         _binding = null
     }
 }
