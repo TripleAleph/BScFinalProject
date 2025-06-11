@@ -215,14 +215,14 @@ class DogParkFragment : Fragment(), OnMapReadyCallback {
     private fun addDogsToVet() {
         val vetClientsLayout = binding.layoutDogClientsAvatars
         val dogsAtVet = listOf(
-            Dog("Raichu", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Charlie", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Lola", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Luna", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Rain", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Boaz", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Mila", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Benny", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false)
+            Dog("Raichu", "Mixed", "Male","2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(),"", isMine = false),
+            Dog("Charlie", "Mixed", "Male", "2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(),"", isMine = false),
+            Dog("Lola","Mixed","Male" ,"2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(),"", isMine = false),
+            Dog("Luna", "Mixed","Male" ,"2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(),"", isMine = false),
+            Dog("Rain", "Mixed", "Male","2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(),"", isMine = false),
+            Dog("Boaz", "Mixed","Male" ,"2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(),"", isMine = false),
+            Dog("Mila", "Mixed","Male" ,"2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(),"", isMine = false),
+            Dog("Benny", "Mixed", "Male","2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(),"", isMine = false)
         )
         addDogViewsToLayout(dogsAtVet, vetClientsLayout)
     }
@@ -230,11 +230,11 @@ class DogParkFragment : Fragment(), OnMapReadyCallback {
     private fun addDogsToStoreShop() {
         val petStoreClientsLayout = binding.layoutDogStoreClientsAvatars
         val dogsAtPetStore = listOf(
-            Dog("Raichu", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Luna", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Lola", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Mila", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false),
-            Dog("Benny", "Mixed", "2020-01-01", "Brown", true, true, R.drawable.paw_logo, isMine = false)
+            Dog("Raichu", "Mixed", "Male", "2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(),"", isMine = false),
+            Dog("Luna", "Mixed","Male", "2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(), "", isMine = false),
+            Dog("Lola", "Mixed","Male", "2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(), "", isMine = false),
+            Dog("Mila", "Mixed","Male", "2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(), "", isMine = false),
+            Dog("Benny", "Mixed","Male", "2020-01-01", "Brown", true, true, R.drawable.paw_logo.toString(), "", isMine = false)
         )
         addDogViewsToLayout(dogsAtPetStore, petStoreClientsLayout)
     }
