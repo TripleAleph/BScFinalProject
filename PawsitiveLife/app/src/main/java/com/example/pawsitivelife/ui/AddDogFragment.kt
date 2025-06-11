@@ -143,6 +143,7 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
         val neutered = binding.addDogSWTSterilization.isChecked
         val microchipped = binding.addDogSWTMicrochipped.isChecked
 
+
         if (name.isEmpty() || breed.isEmpty() || gender.isEmpty() || selectedBirthDate.isEmpty()) {
             Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()
             return

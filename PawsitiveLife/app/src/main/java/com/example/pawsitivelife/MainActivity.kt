@@ -2,11 +2,13 @@ package com.example.pawsitivelife
 
 import android.R.color.black
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.pawsitivelife.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.libraries.places.api.Places
@@ -23,7 +25,9 @@ class MainActivity : AppCompatActivity() {
 
         //  Initialize Google Places SDK
         if (!Places.isInitialized()) {
-            Places.initialize(applicationContext, "AIzaSyDw7ADJlUmfTff1hEA0ZYWcJpX22RjSArw", Locale.getDefault())
+            val apiKey = getString(R.string.google_maps_key)
+            Places.initialize(applicationContext, apiKey, Locale.getDefault())
+
         }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -47,6 +51,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.dogParkFragment
             )
         )
+
+        // Setup action bar for back navigation logic only (we hide the view later)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         val navView: BottomNavigationView = binding.navView
