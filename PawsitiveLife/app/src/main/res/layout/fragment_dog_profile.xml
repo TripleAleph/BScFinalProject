@@ -260,38 +260,52 @@
             app:layout_constraintTop_toBottomOf="@id/profile_LBL_trackerTitle" />
 
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/dogProfile_BTN_editProfile"
+        <LinearLayout
+            android:id="@+id/dogProfile_BTN_buttonsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp"
+            android:paddingBottom="18dp"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:paddingBottom="32dp"
+            android:paddingHorizontal="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile_LST_quickActions">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/dogProfile_IMG_editIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/edit_24px"
-                app:tint="#e7740f" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/dogProfile_LBL_editText"
-                android:layout_width="wrap_content"
+            <!-- Edit Profile Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/dogProfile_BTN_editProfile"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="edit_profile"
-                android:textColor="#e7740f"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:icon="@drawable/edit_24px"
+                android:iconTint="@color/white"
+                android:text="Edit Profile"
+                android:textColor="@color/white"
+                app:iconGravity="textStart"
+                app:cornerRadius="24dp"
+                app:backgroundTint="@color/sunglow_500" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <!-- Delete Profile Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/dogProfile_BTN_deleteProfile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:icon="@drawable/outline_delete_24"
+                android:iconTint="@color/white"
+                android:text="Delete Profile"
+                android:textColor="@color/white"
+                app:iconGravity="textStart"
+                app:cornerRadius="24dp"
+                app:backgroundTint="@color/french_rose_500" />
+
+        </LinearLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

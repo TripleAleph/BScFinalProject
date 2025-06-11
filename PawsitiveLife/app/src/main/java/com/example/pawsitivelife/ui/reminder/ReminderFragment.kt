@@ -1,5 +1,8 @@
 package com.example.pawsitivelife.ui.reminder
 
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +16,7 @@ import com.example.pawsitivelife.R
 import com.example.pawsitivelife.adapter.ReminderAdapter
 import com.example.pawsitivelife.databinding.FragmentAppointmentsBinding
 import com.example.pawsitivelife.ui.viewmodel.ReminderViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.WeekDay
@@ -23,6 +27,12 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.util.Locale
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.graphics.toColorInt
+
 
 class ReminderFragment : Fragment() {
 
@@ -34,6 +44,7 @@ class ReminderFragment : Fragment() {
 
     private val today = LocalDate.now()
     private var selectedDate: LocalDate? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,14 +58,120 @@ class ReminderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        val argsDate = arguments?.getString("selectedDate")?.let { LocalDate.parse(it) }
+        val dateToUse = argsDate ?: today
+
+        selectedDate = dateToUse
+        reminderViewModel.setSelectedDate(today, userId)
+        updateTodayLabel(dateToUse)
+
         reminderAdapter = ReminderAdapter()
         binding.itemReminders.apply {
             adapter = reminderAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        selectedDate = today
-        reminderViewModel.setSelectedDate(today)
+        val itemTouchHelper =
+            ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean = false
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.bindingAdapterPosition
+                    val reminder = reminderAdapter.getReminderAt(position)
+
+                    viewHolder.itemView.animate()
+                        .alpha(0f)
+                        .scaleX(0.9f)
+                        .scaleY(0.9f)
+                        .setDuration(250)
+                        .withEndAction {
+                            reminderAdapter.removeAt(position)
+
+                            Snackbar.make(binding.root, "Reminder deleted", Snackbar.LENGTH_LONG)
+                                .setAction("Undo") {
+                                    reminderAdapter.insertAt(position, reminder)
+                                    reminderViewModel.cancelPendingDelete(reminder.reminderId)
+                                }
+                                .addCallback(object : Snackbar.Callback() {
+                                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                        if (event != DISMISS_EVENT_ACTION) {
+                                            reminderViewModel.deleteReminder(reminder.dogId, reminder.reminderId)
+                                        }
+                                    }
+                                })
+                                .show()
+                        }
+                        .start()
+                }
+
+
+                override fun onChildDraw(
+                    c: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
+                ) {
+                    val itemView = viewHolder.itemView
+
+                    // Draw soft red background with rounded corners
+                    val cornerRadius = 32f
+                    val backgroundColor = "#FFCDD2".toColorInt()
+                    val backgroundPaint = Paint().apply {
+                        color = backgroundColor
+                        isAntiAlias = true
+                    }
+                    val rectF = RectF(
+                        itemView.right + dX, itemView.top.toFloat(),
+                        itemView.right.toFloat(), itemView.bottom.toFloat()
+                    )
+                    c.drawRoundRect(
+                        rectF,
+                        cornerRadius,
+                        cornerRadius,
+                        backgroundPaint
+                    ) // ⬅️ Changed: use drawRoundRect
+
+                    // Draw delete icon
+                    val icon =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete) ?: return
+                    val iconSize = 64
+                    val iconMargin = 32
+                    val iconTop = itemView.top + (itemView.height - iconSize) / 2
+                    val iconLeft = itemView.right - iconMargin - iconSize
+                    val iconRight = itemView.right - iconMargin
+                    val iconBottom = iconTop + iconSize
+
+                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+                    icon.draw(c)
+
+                    super.onChildDraw(
+                        c,
+                        recyclerView,
+                        viewHolder,
+                        dX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+                }
+            })
+
+        itemTouchHelper.attachToRecyclerView(binding.itemReminders)
+
+
+        selectedDate = dateToUse
+        reminderViewModel.setSelectedDate(dateToUse, userId)
+        updateTodayLabel(dateToUse)
+
 
         setupMonthCalendar()
         setupWeekCalendar()
@@ -68,7 +185,7 @@ class ReminderFragment : Fragment() {
         reminderViewModel.reminders.observe(viewLifecycleOwner) { reminders ->
             reminderAdapter.submitList(reminders)
             binding.emptyMessage.visibility = if (reminders.isEmpty()) View.VISIBLE else View.GONE
-            
+
             if (reminders.isNotEmpty()) {
                 binding.itemReminders.post {
                     binding.itemReminders.smoothScrollToPosition(reminders.size - 1)
@@ -104,8 +221,10 @@ class ReminderFragment : Fragment() {
     }
 
     private fun updateRemindersForDate(date: LocalDate) {
-        reminderViewModel.setSelectedDate(date)
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        reminderViewModel.setSelectedDate(date, userId)
     }
+
 
     private fun setupMonthCalendar() {
         val currentMonth = YearMonth.now()
@@ -138,15 +257,28 @@ class ReminderFragment : Fragment() {
                 when {
                     day.date == today && selectedDate == today -> {
                         textView.setBackgroundResource(R.drawable.bg_today_day)
-                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.white
+                            )
+                        )
                     }
+
                     day.date == today -> {
                         textView.background = null
-                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.french_rose_600))
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.french_rose_600
+                            )
+                        )
                     }
+
                     day.date == selectedDate -> {
                         textView.setBackgroundResource(R.drawable.bg_selected_day)
                     }
+
                     else -> {
                         textView.background = null
                     }
@@ -157,6 +289,7 @@ class ReminderFragment : Fragment() {
                         selectedDate = if (selectedDate == day.date) null else day.date
                         binding.monthCalendarView.notifyCalendarChanged()
                         binding.weekCalendarView.notifyCalendarChanged()
+                        updateTodayLabel(day.date)
                         updateRemindersForDate(day.date)
                     }
                 }
@@ -185,15 +318,28 @@ class ReminderFragment : Fragment() {
                 when {
                     day.date == today && selectedDate == today -> {
                         textView.setBackgroundResource(R.drawable.bg_today_day)
-                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.white
+                            )
+                        )
                     }
+
                     day.date == today -> {
                         textView.background = null
-                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.french_rose_600))
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.french_rose_600
+                            )
+                        )
                     }
+
                     day.date == selectedDate -> {
                         textView.setBackgroundResource(R.drawable.bg_selected_day)
                     }
+
                     else -> {
                         textView.background = null
                     }
@@ -204,6 +350,7 @@ class ReminderFragment : Fragment() {
                     binding.weekCalendarView.notifyCalendarChanged()
                     binding.monthCalendarView.notifyCalendarChanged()
                     updateRemindersForDate(day.date)
+                    updateTodayLabel(day.date)
                     updateMonthTitle(YearMonth.from(day.date))
                 }
             }
@@ -218,6 +365,12 @@ class ReminderFragment : Fragment() {
     private fun updateMonthTitle(yearMonth: YearMonth) {
         val formatter = DateTimeFormatter.ofPattern("MMMM, yyyy")
         binding.titleCalendar.text = yearMonth.format(formatter)
+    }
+
+    private fun updateTodayLabel(date: LocalDate) {
+        val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMM", Locale.getDefault())
+        val formattedDate = date.format(formatter)
+        binding.todayLabel.text = formattedDate
     }
 
     override fun onDestroyView() {
