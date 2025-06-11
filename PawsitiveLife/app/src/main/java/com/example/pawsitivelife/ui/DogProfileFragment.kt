@@ -220,8 +220,8 @@ class DogProfileFragment : Fragment() {
             ActivityCareItem(R.drawable.dog_walking, "Walk"),
             ActivityCareItem(R.drawable.ic_food, "Feed"),
             ActivityCareItem(R.drawable.ic_weight, "Weight"),
-            ActivityCareItem(R.drawable.ic_pills, "Medicine"),
-            ActivityCareItem(R.drawable.ic_training, "Training")
+           // ActivityCareItem(R.drawable.ic_pills, "Medicine"),
+           // ActivityCareItem(R.drawable.ic_training, "Training")
         )
 
         val activityCareAdapter = ActivityCareAdapter(activityCareItems) { item ->
@@ -231,10 +231,11 @@ class DogProfileFragment : Fragment() {
 
             when (item.title) {
                 "Walk" -> findNavController().navigate(R.id.action_dogProfileFragment_to_walksFragment, bundle)
-                "Medicine" -> findNavController().navigate(R.id.action_dogProfileFragment_to_medicationFragment, bundle)
                 "Feed" -> findNavController().navigate(R.id.action_dogProfileFragment_to_feedingFragment, bundle)
-                "Training" -> findNavController().navigate(R.id.action_dogProfileFragment_to_trainingFragment, bundle)
                 "Weight" -> findNavController().navigate(R.id.action_dogProfileFragment_to_weightFragment, bundle)
+               // "Training" -> findNavController().navigate(R.id.action_dogProfileFragment_to_trainingFragment, bundle)
+               // "Medicine" -> findNavController().navigate(R.id.action_dogProfileFragment_to_medicationFragment, bundle)
+
             }
         }
 
