@@ -219,9 +219,9 @@ class DogProfileFragment : Fragment() {
         val activityCareItems = listOf(
             ActivityCareItem(R.drawable.dog_walking, "Walk"),
             ActivityCareItem(R.drawable.ic_food, "Feed"),
+            ActivityCareItem(R.drawable.ic_weight, "Weight"),
             ActivityCareItem(R.drawable.ic_pills, "Medicine"),
-            ActivityCareItem(R.drawable.ic_training, "Training"),
-            ActivityCareItem(R.drawable.ic_weight, "Weight")
+            ActivityCareItem(R.drawable.ic_training, "Training")
         )
 
         val activityCareAdapter = ActivityCareAdapter(activityCareItems) { item ->

@@ -14,7 +14,7 @@
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:contentDescription="App Icon"
-        android:src="@drawable/paw_logo" />
+        android:src="@drawable/replae_logo" />
 
     <!-- Title -->
     <TextView
