@@ -1,5 +1,7 @@
 package com.example.pawsitivelife
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import android.R.color.black
 import android.os.Bundle
 import android.view.View
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //  Setup custom toolbar
+        // Setup custom toolbar
         setSupportActionBar(binding.toolbar)
 
         //  Get the NavHostFragment and NavController

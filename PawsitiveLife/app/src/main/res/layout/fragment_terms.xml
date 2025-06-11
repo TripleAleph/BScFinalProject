@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/termsScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/termsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Terms of Service"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Main terms text -->
+
+        <!-- Email explanation -->
+        <TextView
+            android:id="@+id/termsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="6dp"
+            android:text="1. Acceptance of Terms\n\nBy using PAWsitive Life, you agree to these Terms of Service. If you do not agree, please do not use the app.\n\n
+2. Use of the App\n\nThis app is intended for dog owners who wish to improve the wellbeing of their pets. You agree not to misuse the app or provide false information.\n\n
+3. Data and Privacy\n\nWe collect non-personal data to improve our services. For more information, refer to our Privacy Policy.\n\n
+4. Modifications to the App\n\nWe may update the app from time to time to improve functionality or fix issues. We are not liable for any inconvenience caused.\n\n
+5. Limitation of Liability\n\nWe are not responsible for any harm or loss resulting from use of this app. The content is for informational purposes only.\n\n
+6. Changes to These Terms\n\nThese terms may be updated from time to time. We will notify you of significant changes.\n\n"
+            android:textColor="#444444"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/emailExplanationText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="For any questions, please contact us at:"
+            android:textSize="16sp"
+            android:textColor="#444444"
+            android:layout_marginTop="24dp"
+            android:lineSpacingExtra="6dp" />
+
+        <!-- Clickable email address -->
+        <TextView
+            android:id="@+id/emailTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="pawsitivelife.team@gmail.com"
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+</ScrollView>

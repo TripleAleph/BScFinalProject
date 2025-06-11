@@ -1,5 +1,8 @@
 package com.example.pawsitivelife.ui.settings
 
+import android.content.Context
+import android.content.Intent
+import androidx.appcompat.app.AppCompatDelegate
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +10,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.pawsitivelife.R
+import com.example.pawsitivelife.SignInActivity
 import com.example.pawsitivelife.databinding.FragmentSettingsBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class SettingsFragment : Fragment() {
 
@@ -25,9 +30,27 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Navigate to profile screen (implement later if needed)
-        binding.profileRow.setOnClickListener {
-            // findNavController().navigate(R.id.action_settings_to_profileFragment)
+        // Load saved preference for dark mode from SharedPreferences
+        val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val isDarkMode = sharedPref.getBoolean("dark_mode", false)
+
+        // Set the switch state based on the saved value
+        binding.darkThemeSwitch.isChecked = isDarkMode
+
+
+        // Set listener for dark mode switch
+        binding.darkThemeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            // Save the selected mode (true = dark mode, false = light mode) in SharedPreferences
+            val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
+            with(sharedPref.edit()) {
+                putBoolean("dark_mode", isChecked)  // Save the new value
+                apply() // Apply the change asynchronously
+            }
+
+            // Apply the theme immediately based on the new selection
+            AppCompatDelegate.setDefaultNightMode(
+                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            )
         }
 
         // Navigate to notifications screen (implement later if needed)
@@ -37,11 +60,7 @@ class SettingsFragment : Fragment() {
 
         // Handle dark theme switch toggle
         binding.darkThemeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            // Handle dark mode preference (e.g., using SharedPreferences)
-            // Example:
-            // AppCompatDelegate.setDefaultNightMode(
-            //     if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-            // )
+
         }
 
         // Navigate to feedback screen
@@ -49,17 +68,25 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_SettingsFragment_to_FeedbackFragment)
         }
 
-        // Navigate to terms of service screen (implement later if needed)
         binding.termsRow.setOnClickListener {
-            // findNavController().navigate(R.id.action_settings_to_termsFragment)
+             findNavController().navigate(R.id.action_SettingsFragment_to_TermsFragment)
         }
+
+        binding.notificationsRow.setOnClickListener {
+            findNavController().navigate(R.id.action_SettingsFragment_to_NotificationsFragment)
+        }
+
+
 
         // Handle logout logic
         binding.logoutRow.setOnClickListener {
-            // Clear user session, go back to login screen, etc.
-            // Example:
-            // FirebaseAuth.getInstance().signOut()
-            // findNavController().navigate(R.id.action_global_loginFragment)
+            // Sign out from Firebase
+            FirebaseAuth.getInstance().signOut()
+
+            // Navigate to SignInActivity and clear the back stack
+            val intent = Intent(requireContext(), SignInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
 
         // Show app version dynamically
