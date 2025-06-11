@@ -183,13 +183,15 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                     Dog(
                         name = document.getString("name") ?: "",
                         breed = document.getString("breed") ?: "",
-                        dateOfBirth = document.getString("dateOfBirth") ?: "-",
                         gender = document.getString("gender") ?: "",
+                        dateOfBirth = document.getString("dateOfBirth") ?: "-",
                         color = document.getString("color") ?: "",
                         neutered = document.getBoolean("neutered") ?: false,
-                        microchipped = document.getBoolean("microchipped") ?: false,
+                        hasMicrochip = document.getBoolean("hasMicrochip") ?: false,
                         imageUrl = document.getString("imageUrl") ?: "",
-                        dogId = document.id // ← Add document ID as dogId
+                        dogId = document.id, // ← Add document ID as dogId
+                        imageResId = 0,
+                        isMine = false
                     )
                 }
                 showDogs(dogList)
@@ -218,7 +220,7 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                     putString("breed", dog.breed)
                     putString("color", dog.color)
                     putBoolean("neutered", dog.neutered)
-                    putBoolean("microchipped", dog.microchipped)
+                    putBoolean("microchipped", dog.hasMicrochip)
                 }
                 findNavController().navigate(R.id.action_navigation_home_to_dogProfileFragment, bundle)
             },
@@ -248,7 +250,7 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                         val birth = document.getString("dateOfBirth") ?: "-"
                         val color = document.getString("color") ?: "-"
                         val neutered = document.getBoolean("neutered") ?: false
-                        val microchipped = document.getBoolean("microchipped") ?: false
+                        val hasMicrochip = document.getBoolean("hasMicrochip") ?: false
                         val imageUrl = document.getString("imageUrl") ?: ""
                         val dogId = document.id
 
@@ -262,7 +264,7 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                                 - Date of Birth: $birth
                                 - Color: $color
                                 - Neutered: $neutered
-                                - Microchipped: $microchipped
+                                - Microchipped: $hasMicrochip
                                 - Image URL: $imageUrl
                             """.trimIndent()
                         )

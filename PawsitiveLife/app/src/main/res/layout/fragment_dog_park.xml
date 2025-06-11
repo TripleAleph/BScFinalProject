@@ -5,6 +5,16 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
+    <!-- 🗺️ Google Map Fragment (Live) -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/dogPark_MAP_fragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_margin="12dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- 🔽 Scrollable content below map -->
         <ScrollView
             android:layout_width="match_parent"
@@ -18,15 +28,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- 🗺️ Google Map Fragment (Live) -->
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/dogPark_MAP_fragment"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_margin="12dp"
-                android:layout_marginBottom="0dp"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- ____________________ DOG PARK ____________________ -->
             <!-- Header - My Dog Park -->
@@ -155,7 +156,7 @@
                     android:scrollbars="none">
 
                     <LinearLayout
-                        android:id="@+id/layout_dog_avatars"
+                        android:id="@+id/layoutDogAvatars"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" />
@@ -295,7 +296,7 @@
                     android:scrollbars="none">
 
                     <LinearLayout
-                        android:id="@+id/layout_dog_clients_avatars"
+                        android:id="@+id/layoutDogClientsAvatars"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" />
@@ -436,10 +437,12 @@
                     android:scrollbars="none">
 
                     <LinearLayout
-                        android:id="@+id/layout_dog_store_clients_avatars"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/layoutDogStoreClientsAvatars"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" />
+                        android:orientation="horizontal"
+                        android:padding="8dp"
+                        android:gravity="center_vertical"/>
                 </HorizontalScrollView>
 
                 <LinearLayout

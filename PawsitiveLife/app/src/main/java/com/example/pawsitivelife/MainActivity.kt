@@ -23,7 +23,9 @@ class MainActivity : AppCompatActivity() {
 
         // ✅ Initialize Google Places SDK
         if (!Places.isInitialized()) {
-            Places.initialize(applicationContext, "AIzaSyDw7ADJlUmfTff1hEA0ZYWcJpX22RjSArw", Locale.getDefault())
+            val apiKey = getString(R.string.google_maps_key)
+            Places.initialize(applicationContext, apiKey, Locale.getDefault())
+
         }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -61,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         // Connect bottom nav with navigation controller
         navView.setupWithNavController(navController)
 
-        binding.toolbar.navigationIcon?.setTint(getColor(black))
+        binding.toolbar.navigationIcon?.setTint(getColor(R.color.black))
 
     }
 
