@@ -23,8 +23,6 @@ import com.example.pawsitivelife.databinding.FragmentAddDogBinding
 
 import com.example.pawsitivelife.ui.mydogs.Dog
 import com.google.gson.Gson
-import android.content.Context
-import android.widget.Toast
 
 
 import com.google.firebase.auth.FirebaseAuth
@@ -125,10 +123,13 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
             // Get user input from form fields
             val name = binding.addDogEDTName.text.toString()
             val breed = binding.addDogAutoComp.text.toString()
+            val gender = ""
             val dateOfBirth = "2023-09-01" // Static for now – can be replaced with date picker input
             val color = "Brown" // Static for now – you can add a color field to the form
             val isNeutered = binding.addDogSWTSterilization.isChecked
-            val isMicrochipped = false // Default value – can be updated if checkbox or field is added
+            val hasMicrochip = false // Default value – can be updated if checkbox or field is added
+            val imageUrl = ""
+            val dogId = ""
             val imageResId = R.drawable.ic_dog // Replace with real image if available
             val isItMine = false
 
@@ -136,10 +137,13 @@ class AddDogFragment : Fragment(R.layout.fragment_add_dog) {
             val dog = Dog(
                 name = name,
                 breed = breed,
+                gender = gender,
                 dateOfBirth = dateOfBirth,
                 color = color,
                 neutered = isNeutered,
-                microchipped = isMicrochipped,
+                hasMicrochip = hasMicrochip,
+                imageUrl = imageUrl,
+                dogId = dogId,
                 imageResId = imageResId,
                 isMine = isItMine
             )
