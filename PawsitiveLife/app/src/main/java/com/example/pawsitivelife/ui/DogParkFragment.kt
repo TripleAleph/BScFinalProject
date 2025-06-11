@@ -470,9 +470,12 @@ class DogParkFragment : Fragment(), OnMapReadyCallback {
             val myDogsAtVet = allDogs.filter { dog -> dog.name in userDogNames }
 
             val fixedDogs = when (selectedVetName) {
-                "Gedera Vet Clinic" -> listOf(Dog("Max", "Bulldog", "Male", "2020-01-01", "Brown", true, true, "","", R.drawable.paw_logo,false))
-                "Tel Aviv Vet Center" -> listOf(Dog("Luna", "Husky", "Female", "2021-03-03", "Grey", true, true, "", "", R.drawable.paw_logo, false))
-                "Jerusalem Vet" -> listOf(Dog("Coco", "Shih Tzu", "Female", "2018-07-15", "White", false, true, "","", R.drawable.paw_logo, false))
+                "Gedera Vet Clinic" -> listOf(Dog("Max", "Bulldog", "Male", "2020-01-01", "Brown", true, true,
+                    R.drawable.paw_logo.toString(),"",false))
+                "Tel Aviv Vet Center" -> listOf(Dog("Luna", "Husky", "Female", "2021-03-03", "Grey", true, true,
+                    R.drawable.paw_logo.toString(), "", false))
+                "Jerusalem Vet" -> listOf(Dog("Coco", "Shih Tzu", "Female", "2018-07-15", "White", false, true,
+                    R.drawable.paw_logo.toString(),"" , false))
                 else -> emptyList()
             }
 
@@ -533,8 +536,8 @@ class DogParkFragment : Fragment(), OnMapReadyCallback {
             val myDogsAtStore = allDogs.filter { it.name in userDogNames }
 
             val fixedDogs = when (selectedStoreName) {
-                "Pet Planet Gedera" -> listOf(Dog("Bella", "Poodle", "Female", "2019-06-15", "White", false, true, "", "", R.drawable.paw_logo, false))
-                "HaTzanua Store TA" -> listOf(Dog("Rex", "Labrador", "Male", "2018-11-10", "Yellow", true, false, "", "", R.drawable.paw_logo, false))
+                "Pet Planet Gedera" -> listOf(Dog("Bella", "Poodle", "Female", "2019-06-15", "White", false, true, R.drawable.paw_logo.toString(), "", false))
+                "HaTzanua Store TA" -> listOf(Dog("Rex", "Labrador", "Male", "2018-11-10", "Yellow", true, false, R.drawable.paw_logo.toString(), "", false))
                 else -> emptyList()
             }
 

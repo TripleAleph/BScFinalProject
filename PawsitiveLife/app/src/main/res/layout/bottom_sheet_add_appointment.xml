@@ -14,11 +14,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
             android:text="Add New Appointment"
-            android:textSize="24sp"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:layout_marginBottom="24dp"/>
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <!-- Appointment Type -->
         <com.google.android.material.textfield.TextInputLayout
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,9 +75,9 @@
                 android:id="@+id/selectedDateText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
                 android:clickable="false"
-                android:textColor="@color/black"/>
+                android:focusable="false"
+                android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,12 +96,13 @@
                 android:id="@+id/timeText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
                 android:clickable="true"
-                android:textColor="@color/black"/>
+                android:focusable="false"
+                android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Notes -->
         <!-- Notes -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/notesLayout"
@@ -111,29 +112,32 @@
             android:layout_marginBottom="24dp"
             android:hint="Notes (Optional)"
             app:boxStrokeColor="@color/french_rose_600"
-            app:hintTextColor="@color/french_rose_600">
+            app:hintTextColor="@color/french_rose_600"
+            app:counterEnabled="true"
+        app:counterMaxLength="100"
+        app:helperText="Up to 100 characters">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/notesText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:minLines="2"
-                android:textColor="@color/black"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/notesText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:maxLength="100"
+        android:textColor="@color/black"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Save Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/malibu_500"
+            android:padding="16dp"
             android:text="Save Appointment"
             android:textAllCaps="false"
             android:textSize="16sp"
-            android:padding="16dp"
-            android:backgroundTint="@color/malibu_500"
-            app:cornerRadius="24dp"/>
+            app:cornerRadius="24dp" />
 
     </LinearLayout>
 </ScrollView>

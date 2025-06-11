@@ -1,0 +1,5 @@
+<!-- res/drawable/bg_calendar_default.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/alto_200" />
+    <corners android:radius="50dp" />
+</shape>

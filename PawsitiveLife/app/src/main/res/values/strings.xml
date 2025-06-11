@@ -128,4 +128,10 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
+
+    <string name="feeds_title">Daily Feeding Log</string>
+    <string name="fixed_feeds_title">Fixed Feeding Times</string>
+    <string name="no_fixed_feeds_message">You haven\'t set any fixed feeding times yet.</string>
+
 </resources>

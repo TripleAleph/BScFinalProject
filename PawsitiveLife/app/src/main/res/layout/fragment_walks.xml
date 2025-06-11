@@ -1,24 +1,81 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white"
+    android:padding="16dp">
 
-    <!-- רשימת ההליכות -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/walks_recycler_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp" />
+        android:layout_height="wrap_content">
 
-    <!-- כפתור להוספת הליכה חדשה -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_walk_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="add new walk"
-        app:srcCompat="@drawable/ic_add"
-        app:tint="@android:color/white" />
+        <LinearLayout
+            android:id="@+id/walks_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <!-- Selected Date Title -->
+            <TextView
+                android:id="@+id/walks_title_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Friday, June 7, 2025"
+                android:textSize="18sp"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textColor="@color/black"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="8dp" />
+
+
+            <!-- Weekly Calendar -->
+            <com.kizitonwose.calendar.view.WeekCalendarView
+                android:id="@+id/weekCalendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cv_dayViewResource="@layout/walk_item_calendar_day" />
+
+            <!-- Fixed Times Title -->
+            <TextView
+                android:id="@+id/walks_lbl_fixed_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fixed Walk Times"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Fixed Walk Times Container -->
+            <LinearLayout
+                android:id="@+id/fixedWalksContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Walk Log Title -->
+            <TextView
+                android:id="@+id/walks_lbl_log_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daily Walk Log"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Walk Log RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/walksRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="72dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

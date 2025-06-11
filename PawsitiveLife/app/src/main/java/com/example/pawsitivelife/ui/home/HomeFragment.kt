@@ -1,5 +1,7 @@
 package com.example.pawsitivelife.ui.home
 
+import com.example.pawsitivelife.ui.home.DogCardAdapter
+import com.example.pawsitivelife.ui.home.FilterBottomSheetFragment
 import com.example.pawsitivelife.model.Article
 import com.example.pawsitivelife.api.CohereService
 import com.example.pawsitivelife.dataDogs.ArticleRepository
@@ -13,10 +15,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pawsitivelife.R
+import com.example.pawsitivelife.adapter.ReminderAdapter
 import com.example.pawsitivelife.databinding.FragmentHomeBinding
+import com.example.pawsitivelife.model.Reminder
 import com.example.pawsitivelife.ui.mydogs.Dog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDateTime
 
 class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
 
@@ -29,6 +34,8 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private var classificationDone = false
+    private lateinit var reminderAdapter: ReminderAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -39,13 +46,18 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         loadDogsFromFirestore()
         logAllDogsOfCurrentUser()
+        setupRemindersRecyclerView()
+        loadUpcomingRemindersFromFirestore()
 
         binding.homeBTNFilterArticles.setOnClickListener {
             if (!classificationDone) {
-                Toast.makeText(requireContext(), "Please wait, loading articles...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Please wait, loading articles...",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
@@ -109,6 +121,7 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
 //        showFilteredArticles(filteredArticles)
 //    }
 
+
     override fun onFiltersApplied(selectedTags: List<String>, selectedAges: List<String>) {
         currentSelectedTags = selectedTags.map { it.lowercase() }
         currentSelectedAges = selectedAges.map { it.lowercase() }
@@ -116,6 +129,22 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
         val combined = (currentSelectedTags + currentSelectedAges).distinct()
         val filteredArticles = filterArticles(combined)
         showFilteredArticles(filteredArticles)
+    }
+
+    private fun setupRemindersRecyclerView() {
+        reminderAdapter = ReminderAdapter(
+            onReminderClick = { reminder ->
+                val bundle = Bundle().apply {
+                    putString("selectedDate", reminder.date.toLocalDate().toString())
+                }
+                findNavController().navigate(
+                    R.id.action_navigation_home_to_navigation_appointments,
+                    bundle
+                )
+            }
+        )
+        binding.homeLSTReminders.layoutManager = LinearLayoutManager(requireContext())
+        binding.homeLSTReminders.adapter = reminderAdapter
     }
 
 
@@ -183,15 +212,14 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                     Dog(
                         name = document.getString("name") ?: "",
                         breed = document.getString("breed") ?: "",
-                        gender = document.getString("gender") ?: "",
                         dateOfBirth = document.getString("dateOfBirth") ?: "-",
+                        gender = document.getString("gender") ?: "",
                         color = document.getString("color") ?: "",
                         neutered = document.getBoolean("neutered") ?: false,
-                        hasMicrochip = document.getBoolean("hasMicrochip") ?: false,
+                        microchipped = document.getBoolean("microchipped") ?: false,
                         imageUrl = document.getString("imageUrl") ?: "",
-                        dogId = document.id, // ← Add document ID as dogId
-                        imageResId = 0,
-                        isMine = false
+                        dogId = document.id,
+                        isMine = document.getBoolean("isMine") ?: false
                     )
                 }
                 showDogs(dogList)
@@ -220,9 +248,13 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                     putString("breed", dog.breed)
                     putString("color", dog.color)
                     putBoolean("neutered", dog.neutered)
-                    putBoolean("microchipped", dog.hasMicrochip)
+                    putBoolean("microchipped", dog.microchipped)
+                    putBoolean("isMine", dog.isMine)
                 }
-                findNavController().navigate(R.id.action_navigation_home_to_dogProfileFragment, bundle)
+                findNavController().navigate(
+                    R.id.action_navigation_home_to_dogProfileFragment,
+                    bundle
+                )
             },
             onAddDogClick = {
                 findNavController().navigate(R.id.action_navigation_home_to_addDogFragment)
@@ -250,7 +282,7 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                         val birth = document.getString("dateOfBirth") ?: "-"
                         val color = document.getString("color") ?: "-"
                         val neutered = document.getBoolean("neutered") ?: false
-                        val hasMicrochip = document.getBoolean("hasMicrochip") ?: false
+                        val microchipped = document.getBoolean("microchipped") ?: false
                         val imageUrl = document.getString("imageUrl") ?: ""
                         val dogId = document.id
 
@@ -264,7 +296,7 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                                 - Date of Birth: $birth
                                 - Color: $color
                                 - Neutered: $neutered
-                                - Microchipped: $hasMicrochip
+                                - Microchipped: $microchipped
                                 - Image URL: $imageUrl
                             """.trimIndent()
                         )
@@ -275,6 +307,96 @@ class HomeFragment : Fragment(), FilterBottomSheetFragment.FilterListener {
                 Log.e("DogLogger", "Failed to fetch dogs", it)
             }
     }
+
+    private fun loadUpcomingRemindersFromFirestore() {
+        val user = auth.currentUser ?: return
+        val start = LocalDateTime.now()
+        val end = start.plusDays(7)
+        val reminders = mutableListOf<Reminder>()
+
+        db.collection("users").document(user.uid).collection("dogs")
+            .get()
+            .addOnSuccessListener { dogs ->
+                val dogIds = dogs.map { it.id }
+                var pending = dogIds.size
+
+                if (pending == 0) {
+                    showNoRemindersMessage()
+                    return@addOnSuccessListener
+                }
+
+                dogIds.forEach { dogId ->
+                    db.collection("users").document(user.uid)
+                        .collection("dogs").document(dogId)
+                        .collection("reminders")
+                        .get()
+                        .addOnSuccessListener { snapshot ->
+                            for (doc in snapshot) {
+                                val title = doc.getString("title") ?: continue
+                                val dateStr = doc.getString("date") ?: continue
+                                val imagePath = doc.getString("imagePath")
+                                    ?: "android.resource://${requireContext().packageName}/${R.drawable.missing_img_dog}"
+                                val dogName = doc.getString("dogName") ?: "Unknown"
+                                val notes = doc.getString("notes") ?: ""
+
+                                val dateTime = try {
+                                    LocalDateTime.parse(dateStr)
+                                } catch (e: Exception) {
+                                    continue
+                                }
+
+                                if (dateTime.isAfter(start.minusSeconds(1)) && dateTime.isBefore(
+                                        end.plusSeconds(
+                                            1
+                                        )
+                                    )
+                                ) {
+                                    val reminder = Reminder(
+                                        title = title,
+                                        date = dateTime,
+                                        dogId = dogId,
+                                        dogName = dogName,
+                                        imagePath = imagePath,
+                                        notes = notes
+                                    )
+                                    reminders.add(reminder)
+                                }
+                            }
+
+                            pending--
+                            if (pending == 0) {
+                                showReminders(reminders)
+                            }
+                        }
+                        .addOnFailureListener {
+                            pending--
+                            if (pending == 0) {
+                                showReminders(reminders)
+                            }
+                        }
+                }
+            }
+    }
+
+    // 🔄 חדש
+    private fun showReminders(reminders: List<Reminder>) {
+        if (reminders.isEmpty()) {
+            showNoRemindersMessage()
+        } else {
+            reminderAdapter.submitList(reminders.sortedBy { it.date })
+
+            binding.homeCARDRemindersContainer.visibility = View.VISIBLE
+            binding.homeLSTReminders.visibility = View.VISIBLE
+            binding.homeLBLEmptyReminders.visibility = View.GONE
+        }
+    }
+
+    private fun showNoRemindersMessage() {
+        binding.homeCARDRemindersContainer.visibility = View.VISIBLE
+        binding.homeLSTReminders.visibility = View.GONE
+        binding.homeLBLEmptyReminders.visibility = View.VISIBLE
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
