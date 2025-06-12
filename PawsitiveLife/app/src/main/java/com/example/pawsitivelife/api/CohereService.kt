@@ -15,7 +15,7 @@ object CohereService {
     private val mainHandler = Handler(Looper.getMainLooper()) // Used to post to UI thread
 
     fun classifyArticleAge(articleContent: String, onResult: (String?) -> Unit) {
-        val prompt = """
+        val prompt = """git
               Classify the following article for dogs into the relevant age groups.
               Possible groups:
               - Puppies (up to 6 months)
