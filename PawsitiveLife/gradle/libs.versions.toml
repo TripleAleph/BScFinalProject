@@ -1,7 +1,5 @@
 [versions]
 agp = "8.9.2"
-android = "11.0.0"
-firebaseStorageKtx = "21.0.2"
 glide = "4.16.0"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
@@ -20,6 +18,7 @@ circleimageview = "3.1.0"
 recyclerview = "1.3.2"
 kizitonwose-calendar = "2.0.3"
 retrofitVersion = "2.9.0"
+places = "4.3.1"
 
 
 
@@ -44,6 +43,7 @@ androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview"
 calendarview = { group = "com.kizitonwose.calendar", name = "view", version.ref = "kizitonwose-calendar" }
 retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 squareup-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
+places = { group = "com.google.android.libraries.places", name = "places", version.ref = "places" }
 
 
 [plugins]
