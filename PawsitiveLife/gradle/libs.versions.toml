@@ -20,6 +20,10 @@ kizitonwose-calendar = "2.0.3"
 retrofitVersion = "2.9.0"
 places = "4.3.1"
 
+android = "10.16.0"
+firebaseStorageKtx = "20.3.0"
+
+
 
 
 [libraries]
