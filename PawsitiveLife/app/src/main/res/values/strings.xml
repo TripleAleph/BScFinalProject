@@ -29,7 +29,7 @@
     <string name="tip_image">Tip Image</string>
     <string name="add_tip_icon">Add Tip</string>
     <string name="nearby_dog_parks">Nearby Dog Parks</string>
-    <string name="what_s_coming_up">What’s Coming Up</string>
+    <string name="what_s_coming_up">What\'s Coming Up</string>
     <string name="healthy_dog_happy_life">Healthy Dog, Happy Life</string>
     <string name="select_a_dog">Select a dog</string>
     <string name="select_a_dog_title">Select a dog</string>
@@ -74,16 +74,16 @@
     <string name="article3_reading_time">1-2 minutes</string>
 
     <string name="article4_topic">Feeding Your Dog, Puppies</string>
-    <string name="article4_name">Your Puppy’s Diet &amp; Nutritional Needs</string>
+    <string name="article4_name">Your Puppy\'s Diet and Nutritional Needs</string>
     <string name="article4_reading_time">2-4 minutes</string>
 
-    <string name="article5_name">What’s Causing My Puppy’s Upset Stomach?</string>
+    <string name="article5_name">What\'s Causing My Puppy\'s Upset Stomach?</string>
     <string name="article5_reading_time">2-4 minutes</string>
 
     <string name="article6_name">Why Do Dogs Have Itchy Ears?</string>
     <string name="article6_reading_time">1-2 minutes</string>
 
-    <string name="article7_name">Puppy Training: How &amp; When Train a Puppy</string>
+    <string name="article7_name">Puppy Training: How and When Train a Puppy</string>
     <string name="article7_reading_time">2-4 minutes</string>
 
     <string name="article8_name">How Often to Feed a Puppy?</string>
@@ -133,5 +133,6 @@
     <string name="feeds_title">Daily Feeding Log</string>
     <string name="fixed_feeds_title">Fixed Feeding Times</string>
     <string name="no_fixed_feeds_message">You haven\'t set any fixed feeding times yet.</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiZGFub25vMjIwIiwiYSI6ImNtYnNub3RvbjBvOGwya3NmcDFyZ3RreGMifQ.ghGSONCRdQf9K4Cxphmf_A</string>
 
 </resources>

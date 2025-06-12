@@ -8,7 +8,7 @@ data class Dog(
     val color: String = "",
     val neutered: Boolean = false,
     val microchipped: Boolean = false,
-    val imageUrl: String,
-    val dogId: String = "",
-    val isMine: Boolean
+    val imageUrl: String = "",
+    val dogId: String = "",         // new: Firestore doc ID
+    val isMine: Boolean = false
 )

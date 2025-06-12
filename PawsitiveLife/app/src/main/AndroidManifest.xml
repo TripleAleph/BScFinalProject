@@ -30,6 +30,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
 
+        <meta-data
+            android:name="com.mapbox.maps.token"
+            android:value="pk.eyJ1IjoiZGFub25vMjIwIiwiYSI6ImNtYnNub3RvbjBvOGwya3NmcDFyZ3RreGMifQ.ghGSONCRdQf9K4Cxphmf_A" />
 
         <activity
             android:name=".SignInActivity"

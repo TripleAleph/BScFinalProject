@@ -5,15 +5,15 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <!-- 🗺️ Google Map Fragment (Live) -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/dogPark_MAP_fragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <!-- 🗺️ Mapbox MapView (Live) -->
+    <com.mapbox.maps.MapView
+        android:id="@+id/dogPark_MAP_view"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_margin="12dp"
         android:layout_marginBottom="0dp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:mapbox_styleUri="mapbox://styles/mapbox/streets-v12" />
+
 
     <!-- 🔽 Scrollable content below map -->
         <ScrollView
@@ -101,20 +101,6 @@
                                 android:layout_marginTop="2dp" />
                         </LinearLayout>
                     </LinearLayout>
-
-                    <Button
-                        android:id="@+id/dogPark_BTN_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Change"
-                        android:textAllCaps="false"
-                        android:textSize="12sp"
-                        android:padding="8dp"
-                        android:backgroundTint="#B3E5FC"
-                        android:textColor="@color/alto_800"
-                        android:layout_marginEnd="12dp"
-                        android:layout_gravity="center_vertical"/>
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -138,16 +124,6 @@
                     android:textColor="#141414"
                     android:layout_marginBottom="8dp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerDogsInPark"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="horizontal"/>
-
-
                 <!-- Dog avatars list -->
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -162,11 +138,16 @@
                         android:orientation="horizontal" />
                 </HorizontalScrollView>
 
-                <LinearLayout
+                <Button
+                    android:id="@+id/btn_search_nearby"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end">
-                </LinearLayout>
+                    android:text="Search Nearby Parks"
+                    android:textAllCaps="false"
+                    android:backgroundTint="#B3E5FC"
+                    android:textColor="@color/alto_800"
+                    app:cornerRadius="16dp"
+                    android:layout_marginBottom="8dp"/>
 
                 <Button
                     android:id="@+id/btn_im_coming"

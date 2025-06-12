@@ -10,7 +10,7 @@ import java.io.IOException
 
 object CohereService {
 
-    private const val API_KEY = "jML1cAhTmdPnpJkpZal1FtAeIjLKAEqm9WRnHJBa"
+    private const val API_KEY = "B2yoHjSTcy2jETz3OoUCZrdMblAvPb17IO6B4wmK"
     private const val ENDPOINT = "https://api.cohere.ai/v1/chat"
     private val mainHandler = Handler(Looper.getMainLooper()) // Used to post to UI thread
 

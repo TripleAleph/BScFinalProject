@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -106,7 +105,8 @@ dependencies {
     implementation(libs.retrofit2.retrofit)
     implementation(libs.squareup.converter.gson)
 
-    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+    implementation(libs.firebase.storage.ktx)
 
+    implementation(libs.android)
 
 }
