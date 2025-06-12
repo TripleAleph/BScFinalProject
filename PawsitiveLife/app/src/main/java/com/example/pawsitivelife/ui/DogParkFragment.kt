@@ -423,7 +423,7 @@ class DogParkFragment : Fragment() {
 
         db.collection("users")
             .document(userId)
-            .collection("pet_store")
+            .collection("favorite_petstore")
             .document("selected")
             .get()
             .addOnSuccessListener { doc ->
