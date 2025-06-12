@@ -71,10 +71,19 @@ class DogParkFragment : Fragment() {
             pointAnnotationManager = mapView.annotations.createPointAnnotationManager()
             enableUserLocation()
         }
+        binding.dogVetBTNEdit.setOnClickListener {
+            showVetSelectionDialog()
+        }
 
+        binding.dogPetStoreBTNEdit.setOnClickListener {
+            showPetStoreSelectionDialog()
+        }
         binding.btnSearchNearby.setOnClickListener { searchNearbyParks() }
         binding.btnImComing.setOnClickListener { announceArrival() }
         loadCurrentParkDogs()
+        loadSelectedVet()
+        loadSelectedPetStore()
+
     }
 
     private fun enableUserLocation() {
@@ -283,6 +292,154 @@ class DogParkFragment : Fragment() {
             binding.layoutDogAvatars.addView(container)
         }
     }
+
+    private fun showVetSelectionDialog() {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("vets")
+            .get()
+            .addOnSuccessListener { result ->
+                val vets = result.documents.mapNotNull { doc ->
+                    val name = doc.getString("name") ?: return@mapNotNull null
+                    val address = doc.getString("address") ?: ""
+                    val vetId = doc.id
+                    Triple(name, address, vetId)
+                }
+
+                if (vets.isEmpty()) {
+                    Toast.makeText(requireContext(), "No vets found.", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
+                }
+
+                val vetNames = vets.map { "${it.first} - ${it.second}" }.toTypedArray()
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Choose Your Vet")
+                    .setItems(vetNames) { _, which ->
+                        val selectedVet = vets[which]
+                        binding.dogVetTXTVetName.text = selectedVet.first
+                        binding.dogVetTXTVetAddress.text = selectedVet.second
+
+                        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@setItems
+                        val vetData = mapOf(
+                            "vetId" to selectedVet.third,
+                            "name" to selectedVet.first,
+                            "address" to selectedVet.second,
+                            "timestamp" to System.currentTimeMillis()
+                        )
+
+                        db.collection("users")
+                            .document(userId)
+                            .collection("favorite_vet")
+                            .document("selected")
+                            .set(vetData)
+
+                        Toast.makeText(requireContext(), "Vet selected: ${selectedVet.first}", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to load vets: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+    }
+
+    private fun showPetStoreSelectionDialog() {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("petstores")
+            .get()
+            .addOnSuccessListener { result ->
+                val stores = result.documents.mapNotNull { doc ->
+                    val name = doc.getString("name") ?: return@mapNotNull null
+                    val address = doc.getString("address") ?: ""
+                    val storeId = doc.id
+                    Triple(name, address, storeId)
+                }
+
+                if (stores.isEmpty()) {
+                    Toast.makeText(requireContext(), "No pet stores found.", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
+                }
+
+                val storeNames = stores.map { "${it.first} - ${it.second}" }.toTypedArray()
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Choose Your Pet Store")
+                    .setItems(storeNames) { _, which ->
+                        val selectedStore = stores[which]
+                        binding.dogPetStoreTXTPetStoreName.text = selectedStore.first
+                        binding.dogPetStoreTXTPetStoreAddress.text = selectedStore.second
+
+                        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@setItems
+                        val storeData = mapOf(
+                            "storeId" to selectedStore.third,
+                            "name" to selectedStore.first,
+                            "address" to selectedStore.second,
+                            "timestamp" to System.currentTimeMillis()
+                        )
+
+                        db.collection("users")
+                            .document(userId)
+                            .collection("favorite_petstore")
+                            .document("selected")
+                            .set(storeData)
+
+                        Toast.makeText(requireContext(), "Pet store selected: ${selectedStore.first}", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to load pet stores: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+    }
+
+    private fun loadSelectedVet() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("users")
+            .document(userId)
+            .collection("favorite_vet")
+            .document("selected")
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    val name = doc.getString("name") ?: ""
+                    val address = doc.getString("address") ?: ""
+                    binding.dogVetTXTVetName.text = name
+                    binding.dogVetTXTVetAddress.text = address
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to load vet info.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun loadSelectedPetStore() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("users")
+            .document(userId)
+            .collection("pet_store")
+            .document("selected")
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    val name = doc.getString("name") ?: ""
+                    val address = doc.getString("address") ?: ""
+                    binding.dogPetStoreTXTPetStoreName.text = name
+                    binding.dogPetStoreTXTPetStoreAddress.text = address
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to load pet store info.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
 
 
     override fun onStart() {
