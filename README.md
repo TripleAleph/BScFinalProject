@@ -7,7 +7,7 @@ An intelligent Android app for dog owners, offering a personalized, location-awa
 ## 🎓 Final Project – B.Sc. in Computer Science  
 **Institution:** Afeka College of Engineering  
 **Team Members:** Or Avichzer Elmalih, Noa Danon, Mark Tsirlin  
-**Project Supervisor:** Dr. Sharon Yalov-Handzel
+**Project Supervisor:** Dr. Sharon Yalov-Handzel 
 **Semester:** Fall 2024 – Spring 2025 
 
 ---
