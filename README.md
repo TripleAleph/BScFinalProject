@@ -1,118 +1,188 @@
 # 🐾 PAWsitive Life
 
-A smart Android app for dog owners, combining personalized health content, location-based services, and social features to enhance the everyday experience of raising a dog.
+An intelligent Android app for dog owners, offering a personalized, location-aware, and user-friendly experience to help manage and improve dog care through reminders, maps, and AI-generated content.
 
 ---
 
 ## 🎓 Final Project – B.Sc. in Computer Science  
 **Institution:** Afeka College of Engineering  
-**Team Members:** Or Avichzer Elmalih, Noa Danon, Mark Tsirlin.  
-**Semester:** Fall 2024
+**Team Members:** Or Avichzer Elmalih, Noa Danon, Mark Tsirlin  
+**Semester:** Fall 2024 – Spring 2025  
 
 ---
 
-> ⚠️ **Note:** This project is currently under active development.  
-> The code and features in this repository are not final and may change frequently.
+> ⚠️ **Note:** This is a final-year academic project. Features are stable but may not yet be production-grade.
 
 ---
 
 ## 📱 Overview
 
-**PAWsitive Life** empowers dog owners with intelligent, real-time tools to manage their pet's health and social life.  
-It combines modern mobile technologies with AI and geolocation services to offer:
+**PAWsitive Life** was developed to simplify dog ownership by centralizing essential care tasks and offering:
 
-- Tailored articles based on breed, age, and health data
-- Smart reminders for vaccines and treatments
-- Nearby dog parks and vets via GPS
-- Social features like dog friend circles and group purchases *(planned)*
+- 🐶 Rich dog profile management  
+- ⏰ Smart reminders for vet visits and care tasks  
+- 🗺️ Real-time map with nearby dog parks, vets, and pet stores  
+- 🧠 AI-personalized articles based on breed, age, and health  
+- 👥 Community features: “I’m Coming” park check-ins, vet/store assignments
+
+---
+
+## 🧠 Motivation
+
+Dog care is complex and fragmented – owners often use several disconnected apps for tracking health, locating parks, or finding relevant tips.  
+**PAWsitive Life** unifies all of these into one intuitive, AI-powered app to improve both the pet’s wellbeing and the owner’s experience.
+
+---
+
+## 🧱 Core Features
+
+| Module                  | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| Dog Profile             | Add/edit/delete detailed profiles (breed, age, health, behavior, notes)    |
+| Reminder System         | Push notifications + calendar view for vaccines, grooming, vet visits      |
+| Map ("MAPuppy")         | Shows dog parks, vets, pet stores near user using **Mapbox API**           |
+| Vet & Pet Store Assign  | Link dogs to a vet/store, view and call them directly from the app          |
+| Article Recommendation  | AI filters articles based on dog's age/stage via **Cohere NLP**            |
+| Social Feature          | "I'm Coming!" check-in + view which dogs are at the park in real time      |
 
 ---
 
 ## 🔧 Tech Stack
 
-| Layer     | Technologies                            |
-|-----------|------------------------------------------|
-| Frontend  | Kotlin, Android Studio, XML UI Layout    |
-| Backend   | Firebase Realtime DB + Firebase Auth     |
-| APIs      | OpenAI API, Google Maps API              |
-| Tools     | Git, GitHub, Gradle, Lint, Logcat        |
+| Layer          | Technologies                                               |
+|----------------|------------------------------------------------------------|
+| Frontend       | Kotlin, Android SDK, XML layouts, Jetpack Navigation       |
+| UI Libraries   | Material Components, Glide, CalendarView                   |
+| Backend        | Firebase Firestore, Firebase Auth                          |
+| Location       | Mapbox SDK, GPS, Haversine formula                         |
+| AI Integration | Cohere NLP API, Dog CEO API                                |
+| Build & Tools  | Gradle, GitHub, Android Studio, Logcat                     |
+| Testing        | JUnit, AndroidX Test, Espresso, Manual Functional Testing  |
 
 ---
 
-## 🧱 Architecture
+## 🏗️ Architecture
 
-The app follows the **MVC (Model-View-Controller)** pattern:
+**MVVM (Model–View–ViewModel)** design pattern for better separation of concerns and testability.
 
-- **Model:** Dog profiles, reminders, articles
-- **View:** Android interface (XML layouts)
-- **Controller:** Data flow, API interactions, Firebase communication
+### Key Components
 
----
-
-## 📦 Key Components
-
-- `User` – Registers and manages dogs and settings  
-- `Dog` – Stores detailed dog profiles  
-- `Reminder` – Handles health/vaccine alerts  
-- `Article` – Represents AI-generated personalized content  
-- `DogPark` – Interfaces with Google Maps for nearby parks  
-- `AI Service` – Analyzes dog data and fetches tailored content  
-- `API Gateway` – Mediates between mobile app and external services
+- `Dog`, `Reminder`, `Vet`, `DogPark`, `Article`, etc. – Kotlin data classes
+- `Repositories` – Abstracted data access from Firebase or static APIs
+- `Adapters` – RecyclerView adapters for dynamic lists (dogs, vets, parks, etc.)
+- `ViewModels` – Manage data lifecycle, used across fragments
+- `Fragments` – UI screens for each functional unit (DogProfile, Mapuppy, etc.)
 
 ---
 
-## 🧪 Testing
+## 📌 Use Cases
 
-- Unit tests with **JUnit**
-- Manual functional testing during development
-- Optional crash monitoring via **Firebase Crashlytics**
+- ✅ **Create Dog Profiles:** Add demographic + medical details  
+- 📆 **Reminders:** Get alerts for upcoming treatments  
+- 🗺️ **Map Integration:** View favorite park, nearby services, live check-ins  
+- 🧠 **AI Articles:** Custom reading by dog’s age (puppy, adult, senior)  
+- 📞 **Contact Vets/Stores:** In-app call functionality from profile page  
+- 🐕 **Social Features:** Know who’s at the park, send “I’m coming!” status  
 
 ---
 
-## 📅 Development Timeline
+## 🧪 Testing Strategy
+
+Testing guided by formal **STP** and executed via structured **STD**, covering:
+
+- ✅ Functional tests: Dog management, reminders, map, articles
+- 🧪 Unit tests: Data validation, alarm logic
+- 🔁 Integration tests: Firebase, Mapbox, Cohere AI
+- 📱 Manual testing on physical devices and emulators
+
+> Full test case list: See `PAWsitive Life - STD.docx`  
+
+---
+
+## 🧪 Example Test Cases
+
+- Add/Edit/Delete a dog profile and see live updates
+- Set and trigger a vaccine reminder
+- Assign vet/store and initiate in-app call
+- Display dogs at a park after pressing “I’m Coming!”
+- Filter article feed by age tags (puppy/adult/senior)
+
+---
+
+## 📂 Folder Structure (Simplified)
+
+📦app/
+┣ 📂ui/
+┃ ┣ 📄DogProfileFragment.kt
+┃ ┣ 📄MapuppyFragment.kt
+┃ ┗ ...
+┣ 📂model/
+┃ ┣ 📄Dog.kt
+┃ ┣ 📄Reminder.kt
+┣ 📂data/
+┃ ┣ 📄DogRepository.kt
+┃ ┣ 📄DogApi.kt (Dog CEO API)
+┣ 📂viewmodel/
+┃ ┣ 📄DogViewModel.kt
+┣ 📂adapter/
+┃ ┣ 📄DogAdapter.kt
+┗ 📄MainActivity.kt
+
+---
+
+## 📖 Research Foundations
+
+PAWsitive Life draws on literature across:
+
+- 🐕 Canine health, psychology & behavior
+- 🤝 Human–dog communication
+- 🧠 Mobile UX for pet-tech platforms
+- 📚 Sources: Miklósi et al. (2004), Horowitz (2010), Humane Society (2024), Cohere Docs (2025), etc.
+
+> See: `/docs/literature_review.pdf`
+
+---
+
+## 🚀 Development Timeline
 
 | Week | Milestone                                      |
 |------|------------------------------------------------|
-| 1–2  | Setup environment, link Firebase/Auth          |
-| 3–4  | Develop backend + integrate OpenAI API         |
-| 5–6  | Build UI, implement Google Maps integration    |
-| 7    | Debug, optimize, test                          |
-| 8    | Package APK, write docs, deliver presentation  |
+| 1–2  | Project setup, Firebase integration            |
+| 3–4  | Backend logic + OpenAI & Dog CEO integration   |
+| 5–6  | Fragments, UI layouts, Mapbox, Feed/Walk logs  |
+| 7    | Testing, debugging, documentation              |
+| 8    | Final packaging, APK, user guide, presentation |
 
 ---
 
-## 💡 Use Cases
+## 📘 User Guide
 
-- **Dog profile creation:** Add dog name, age, chip ID, vet info, etc.  
-- **Health tracking:** Set vaccine dates, receive reminders  
-- **Nearby locations:** Find parks/vets using GPS and Maps API  
-- **Smart content:** Get custom tips and articles based on your dog  
-- **Social features (planned):** Friend circles, group buys, dog chat  
+A full visual guide (`UserGuide.pdf`) includes instructions for:
 
----
+- Dog profile creation and editing  
+- Reminder setup and calendar use  
+- Navigating maps and using “I’m Coming!”  
+- Filtering articles and reading AI-based content  
+- Calling a vet or pet store directly  
 
-## 📖 Sources & Research
-
-The app's content logic is supported by academic literature and behavioral studies on:
-
-- Canine health and development  
-- Human-dog interaction  
-- Causes and prevention of dog abandonment  
-- The impact of walks and socialization  
-
-> See `/docs/literature_review.pdf` for detailed references (if included in repo)
+> 📄 See: `PAWsitive Life - UserGuide.pdf`
 
 ---
 
 ## 📜 License
 
-This project is developed for academic purposes only and is not licensed for commercial distribution.
+This application was developed solely for academic purposes as a capstone project.  
+Not licensed for commercial distribution.
 
 ---
 
-## 🙋 Contact
+## 🙋 Contact Us
 
-For questions or collaboration:  
-📧 oravi528@gmail.com
-📧 noadanon220@gmail.com
-📧 mark20013009@gmail.com
+Have questions or want to collaborate?
+
+- 📧 Or Avichzer Elmalih – oravi528@gmail.com  
+- 📧 Noa Danon – noadanon220@gmail.com  
+- 📧 Mark Tsirlin – mark20013009@gmail.com
+
+---
+
