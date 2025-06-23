@@ -9,6 +9,7 @@ An intelligent Android app for dog owners, offering a personalized, location-awa
 **Team Members:** Or Avichzer Elmalih, Noa Danon, Mark Tsirlin  
 **Project Supervisor:** Dr. Sharon Yalov-Handzel
 **Semester:** Fall 2024 – Spring 2025 
+
 ---
 
 > ⚠️ **Note:** This is a final-year academic project. Features are stable but may not yet be production-grade.
